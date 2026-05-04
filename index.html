@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>لوحة القيادة المؤسسية - جمعية تراؤف</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <style>
@@ -206,20 +207,20 @@
     </div>
     
     <nav class="nav-list">
-      <div class="nav-item active" onclick="showTab('summary')">🖥️ لوحة التحكم</div>
-      <div class="nav-item" onclick="showTab('map')">🗺️ خريطة الأداء</div>
-      <div class="nav-item" onclick="showTab('strategic')">🎯 الأداء الاستراتيجي</div>
-      <div class="nav-item" onclick="showTab('operational')">⚙️ الأداء التشغيلي</div>
-      <div class="nav-item" onclick="showTab('hrperf')">👥 الأداء الوظيفي</div>
-      <div class="nav-item" onclick="showTab('risks')">⚠️ أداء المخاطر</div>
-      <div class="nav-item" onclick="showTab('financial')">💰 الأداء المالي</div>
-      <div class="nav-item" onclick="showTab('governance')">🏛️ أداء الحوكمة</div>
-      <div class="nav-item" onclick="showTab('excellence')">🏆 التميز المؤسسي</div>
-      <div class="nav-item" onclick="showTab('predictions')">🔮 التنبؤات والذكاء</div>
-      <div class="nav-item" onclick="showTab('integration')">🔗 القراءة التكاملية</div>
-      <div class="nav-item" onclick="showTab('decisions')">📋 القرارات</div>
-      <div class="nav-item" onclick="showTab('datasources')">🗄️ البيانات</div>
-      <div class="nav-item" onclick="showTab('attachments')">📎 المرفقات</div>
+      <div class="nav-item active" onclick="showTab('summary')"><i class="fa-solid fa-gauge-high"></i> لوحة التحكم</div>
+      <div class="nav-item" onclick="showTab('map')"><i class="fa-solid fa-map-location-dot"></i> خريطة الأداء</div>
+      <div class="nav-item" onclick="showTab('strategic')"><i class="fa-solid fa-bullseye"></i> الأداء الاستراتيجي</div>
+      <div class="nav-item" onclick="showTab('operational')"><i class="fa-solid fa-gears"></i> الأداء التشغيلي</div>
+      <div class="nav-item" onclick="showTab('hrperf')"><i class="fa-solid fa-users-gear"></i> الأداء الوظيفي</div>
+      <div class="nav-item" onclick="showTab('risks')"><i class="fa-solid fa-triangle-exclamation"></i> أداء المخاطر</div>
+      <div class="nav-item" onclick="showTab('financial')"><i class="fa-solid fa-money-bill-trend-up"></i> الأداء المالي</div>
+      <div class="nav-item" onclick="showTab('governance')"><i class="fa-solid fa-building-columns"></i> أداء الحوكمة</div>
+      <div class="nav-item" onclick="showTab('excellence')"><i class="fa-solid fa-award"></i> التميز المؤسسي</div>
+      <div class="nav-item" onclick="showTab('predictions')"><i class="fa-solid fa-wand-magic-sparkles"></i> التنبؤات والذكاء</div>
+      <div class="nav-item" onclick="showTab('integration')"><i class="fa-solid fa-link"></i> القراءة التكاملية</div>
+      <div class="nav-item" onclick="showTab('decisions')"><i class="fa-solid fa-clipboard-check"></i> القرارات</div>
+      <div class="nav-item" onclick="showTab('datasources')"><i class="fa-solid fa-database"></i> البيانات</div>
+      <div class="nav-item" onclick="showTab('attachments')"><i class="fa-solid fa-paperclip"></i> المرفقات</div>
     </nav>
     
     <div style="padding: 24px; border-top: 1px solid var(--border)">
