@@ -206,7 +206,7 @@
     </div>
     
     <nav class="nav-list">
-      <div class="nav-item active" onclick="showTab('summary')">📊 الملخص التنفيذي</div>
+      <div class="nav-item active" onclick="showTab('summary')">🖥️ لوحة التحكم</div>
       <div class="nav-item" onclick="showTab('map')">🗺️ خريطة الأداء</div>
       <div class="nav-item" onclick="showTab('strategic')">🎯 الأداء الاستراتيجي</div>
       <div class="nav-item" onclick="showTab('operational')">⚙️ الأداء التشغيلي</div>
@@ -245,48 +245,67 @@
 
     <div class="content-area">
       
-      <!-- PAGE: SUMMARY -->
+      <!-- PAGE: SUMMARY (Now DASHBOARD) -->
       <div id="page-summary" class="page active">
-        <div class="section-title">الملخص التنفيذي للأداء</div>
-        <div class="section-subtitle">نظرة شاملة على مؤشرات الأداء الاستراتيجية والتشغيلية للربع الأول 2026</div>
+        <div class="section-title">لوحة التحكم الرئيسية</div>
+        <div class="section-subtitle">الرصد اللحظي للأداء والتحليلات التنبؤية بالذكاء الاصطناعي (AI Insights)</div>
         
         <div class="grid grid-4">
-          <div class="glass-card">
-            <div class="stat-label">الأداء الاستراتيجي العام</div>
+          <div class="glass-card" style="border-right: 4px solid var(--primary)">
+            <div class="stat-label">الأداء الاستراتيجي (حالي)</div>
             <div class="stat-value">90.1%</div>
-            <div class="stat-trend trend-up">▲ 2.5% عن الربع السابق</div>
-            <div class="prog-container"><div class="prog-bar"><div class="prog-fill" style="width: 90.1%"></div></div></div>
+            <div class="stat-trend trend-up">▲ 2.5% نمو</div>
+          </div>
+          <div class="glass-card" style="border-right: 4px solid var(--accent)">
+            <div class="stat-label">الأداء المتوقع (Q2)</div>
+            <div class="stat-value">91.8%</div>
+            <div class="stat-trend trend-up" style="color:var(--accent)">★ توقع إيجابي (AI)</div>
+          </div>
+          <div class="glass-card" style="border-right: 4px solid #3b82f6">
+            <div class="stat-label">كفاءة الموارد المتوقعة</div>
+            <div class="stat-value">94.5%</div>
+            <div class="stat-trend" style="color:#3b82f6">⚙️ تحسين تلقائي</div>
+          </div>
+          <div class="glass-card" style="border-right: 4px solid #f59e0b">
+            <div class="stat-label">مؤشر الاستدامة التنبؤي</div>
+            <div class="stat-value">88.2%</div>
+            <div class="stat-trend" style="color:#f59e0b">⚖️ استقرار مستقبلي</div>
+          </div>
+        </div>
+
+        <div class="grid grid-3">
+          <div class="glass-card">
+            <div class="chart-title">مسار الأداء التنبؤي (AI Forecast)</div>
+            <div style="height: 300px"><canvas id="summaryPredictionChart"></canvas></div>
           </div>
           <div class="glass-card">
-            <div class="stat-label">الأداء التشغيلي (المبادرات)</div>
-            <div class="stat-value">83.6%</div>
-            <div class="stat-trend trend-up">▲ 1.8% نمو مستقر</div>
-            <div class="prog-container"><div class="prog-bar"><div class="prog-fill" style="width: 83.6%"></div></div></div>
+            <div class="chart-title">توزيع القوى العاملة (تنبؤ Q3)</div>
+            <div style="height: 300px"><canvas id="hrForecastChart"></canvas></div>
           </div>
           <div class="glass-card">
-            <div class="stat-label">الأداء المالي (إنجاز الموارد)</div>
-            <div class="stat-value">99.9%</div>
-            <div class="stat-trend trend-up">▲ 5.2% أداء استثنائي</div>
-            <div class="prog-container"><div class="prog-bar"><div class="prog-fill" style="width: 99.9%"></div></div></div>
-          </div>
-          <div class="glass-card">
-            <div class="stat-label">مؤشر المخاطر (مستوى الأمان)</div>
-            <div class="stat-value">84.1%</div>
-            <div class="stat-trend">🟢 ضمن النطاق الآمن</div>
-            <div class="prog-container"><div class="prog-bar"><div class="prog-fill" style="width: 84.1%"></div></div></div>
+            <div class="chart-title">رادار الفرص والمخاطر الذكي</div>
+            <div style="height: 300px"><canvas id="radarAIChart"></canvas></div>
           </div>
         </div>
 
         <div class="grid grid-2">
           <div class="glass-card">
-            <div class="chart-title">تطور الأداء الاستراتيجي (2023 - 2026)</div>
-            <div style="height: 300px"><canvas id="historicalChart"></canvas></div>
+            <div class="chart-title">أداء الإدارات (الواقع vs التوقع)</div>
+            <div style="height: 350px"><canvas id="deptForecastChart"></canvas></div>
           </div>
           <div class="glass-card">
-            <div class="chart-title">توزيع الأهداف والمؤشرات (حسب الحالة)</div>
-            <div style="display: flex; gap: 20px; height: 300px">
-              <div style="flex: 1"><canvas id="goalsDistChart"></canvas></div>
-              <div style="flex: 1"><canvas id="kpiDistChart"></canvas></div>
+            <div class="chart-title">توصيات الذكاء الاصطناعي العاجلة</div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr><th>التوصية</th><th>الأولوية</th><th>العائد المتوقع</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>تحويل ميزانية التسويق للربع الثالث</td><td><span class="badge badge-success">عالية</span></td><td>+12% نمو</td></tr>
+                  <tr><td>أتمتة عمليات رعاية الأيتام الأساسية</td><td><span class="badge badge-warning">متوسطة</span></td><td>-15% تكاليف</td></tr>
+                  <tr><td>تفعيل الشراكات الاستراتيجية النوعية</td><td><span class="badge badge-success">عالية</span></td><td>+22% استدامة</td></tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -409,7 +428,52 @@ function sendChat() {
 }
 
 function initCharts() {
-  new Chart(document.getElementById('historicalChart'), {
+  // --- NEW DASHBOARD (SUMMARY) CHARTS ---
+  new Chart(document.getElementById('summaryPredictionChart'), {
+    type:'line',
+    data:{
+      labels:['Q1','Q2','Q3','Q4','Q1 2026','Q2(P)','Q3(P)','Q4(P)'],
+      datasets:[
+        { label:'الفعلي', data:[82, 85, 84, 88, 90.1, null, null, null], borderColor: COLORS.primary, tension:0.4, fill:true, backgroundColor:'rgba(0,137,123,0.1)' },
+        { label:'توقع AI', data:[null, null, null, null, 90.1, 91.8, 92.5, 94.2], borderColor: COLORS.accent, borderDash:[5,5], tension:0.4 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false }
+  });
+
+  new Chart(document.getElementById('hrForecastChart'), {
+    type:'doughnut',
+    data:{ labels:['رعاية','استثمار','إدارة','تطوع'], datasets:[{ data:[45, 20, 15, 20], backgroundColor: [COLORS.primary, COLORS.accent, '#3b82f6', '#f59e0b'] }] },
+    options: { plugins:{legend:{position:'bottom'}}, responsive: true, maintainAspectRatio: false }
+  });
+
+  new Chart(document.getElementById('radarAIChart'), {
+    type:'radar',
+    data:{
+      labels:['الاستدامة','الكفاءة','الابتكار','التحول الرقمي','رضا المستفيد'],
+      datasets:[
+        { label:'الوضع الحالي', data:[85, 70, 65, 90, 88], borderColor: COLORS.primary, backgroundColor: 'rgba(0,137,123,0.2)' },
+        { label:'المستهدف الذكي', data:[95, 85, 80, 95, 95], borderColor: COLORS.accent, backgroundColor: 'rgba(123, 193, 67, 0.2)' }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false }
+  });
+
+  new Chart(document.getElementById('deptForecastChart'), {
+    type:'bar',
+    data:{
+      labels:['الرعاية','المالية','التسويق','التمكين','الاستثمار'],
+      datasets:[
+        { label:'الأداء الحالي', data:[95, 95, 84, 46, 92], backgroundColor: COLORS.primary, borderRadius:5 },
+        { label:'التوقع القادم', data:[97, 98, 88, 55, 95], backgroundColor: COLORS.accent, borderRadius:5 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false }
+  });
+
+  // --- EXISTING CHARTS ---
+  const hCtx = document.getElementById('historicalChart');
+  if(hCtx) new Chart(hCtx, {
     type:'line',
     data:{
       labels:['2023','2024','2025','Q1 2026'],
@@ -418,19 +482,22 @@ function initCharts() {
     options: { plugins: { datalabels: { display: true } }, responsive: true, maintainAspectRatio: false }
   });
 
-  new Chart(document.getElementById('goalsDistChart'), {
+  const gCtx = document.getElementById('goalsDistChart');
+  if(gCtx) new Chart(gCtx, {
     type:'doughnut',
     data:{ labels:['ممتاز','جيد','ضعيف'], datasets:[{ data:[11, 5, 2], backgroundColor: [COLORS.primary, COLORS.accent, '#EF4444'] }] },
     options: { plugins: { legend: { position: 'bottom' } }, responsive: true, maintainAspectRatio: false }
   });
   
-  new Chart(document.getElementById('kpiDistChart'), {
+  const kCtx = document.getElementById('kpiDistChart');
+  if(kCtx) new Chart(kCtx, {
     type:'doughnut',
     data:{ labels:['ممتاز','جيد','ضعيف'], datasets:[{ data:[18, 5, 3], backgroundColor: [COLORS.primary, COLORS.accent, '#EF4444'] }] },
     options: { plugins: { legend: { position: 'bottom' } }, responsive: true, maintainAspectRatio: false }
   });
 
-  new Chart(document.getElementById('dimensionsChart'), {
+  const dCtx = document.getElementById('dimensionsChart');
+  if(dCtx) new Chart(dCtx, {
     type:'bar',
     data:{
       labels:['المستفيدون','أصحاب المصلحة','المالي','العمليات','النمو'],
@@ -439,7 +506,8 @@ function initCharts() {
     options: { scales: { y: { min:0, max:110 } }, responsive: true, maintainAspectRatio: false }
   });
 
-  new Chart(document.getElementById('predictionChart'), {
+  const pCtx = document.getElementById('predictionChart');
+  if(pCtx) new Chart(pCtx, {
     type:'line',
     data:{
       labels:['Q1 2025','Q2 2025','Q3 2025','Q4 2025','Q1 2026','Q2 2026(P)','Q3 2026(P)'],
@@ -449,6 +517,17 @@ function initCharts() {
       ]
     },
     options: { responsive: true, maintainAspectRatio: false }
+  });
+  
+  // Existing map charts if any
+  const mbCtx = document.getElementById('mapBarChart');
+  if(mbCtx) new Chart(mbCtx, {
+    type:'bar',
+    data:{
+      labels:['استراتيجي','تشغيلي','مالي','مخاطر','حوكمة'],
+      datasets:[{ label:'نسبة %', data:[90.1, 83.6, 99.9, 84.1, 97.8], backgroundColor:COLORS.primary, borderRadius:8 }]
+    },
+    options: { scales: { y: { min:0, max:110 } }, responsive: true, maintainAspectRatio: false }
   });
 }
 
