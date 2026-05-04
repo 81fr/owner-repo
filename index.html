@@ -362,16 +362,16 @@
 <!-- CHATBOT -->
 <div class="chat-widget">
   <div class="chat-panel" id="chatPanel">
-    <div class="chat-header">تراؤف الذكي (AI) <span onclick="toggleChat()" style="cursor:pointer">✕</span></div>
+    <div class="chat-header">تراؤف الذكي (AI) <span onclick="toggleChat()" style="cursor:pointer"><i class="fa-solid fa-xmark"></i></span></div>
     <div class="chat-body" id="chatBody">
       <div class="chat-msg bot">مرحباً! كيف يمكنني مساعدتك في تحليل بيانات الربع الأول اليوم؟</div>
     </div>
     <div class="chat-input-area">
       <input type="text" class="chat-input" id="chatInput" placeholder="اسأل عن الأداء أو التوقعات..." onkeypress="if(event.key==='Enter') sendChat()">
-      <button class="btn btn-primary" style="padding:10px" onclick="sendChat()">🚀</button>
+      <button class="btn btn-primary" style="padding:10px" onclick="sendChat()"><i class="fa-solid fa-paper-plane"></i></button>
     </div>
   </div>
-  <button class="chat-trigger" onclick="toggleChat()">💬</button>
+  <button class="chat-trigger" onclick="toggleChat()"><i class="fa-solid fa-comment-dots"></i></button>
 </div>
 
 <script>
