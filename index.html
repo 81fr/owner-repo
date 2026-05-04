@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>لوحة القيادة المؤسسية - جمعية تراؤف</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <style>
@@ -77,13 +77,33 @@
 
   .nav-list { flex: 1; padding: 12px 16px; overflow-y: auto; }
   .nav-item {
-    display: flex; align-items: center; gap: 12px; padding: 12px 16px;
-    border-radius: 16px; color: var(--text-muted); cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); margin-bottom: 4px;
-    font-weight: 600; font-size: 14px;
+    display: flex; align-items: center; gap: 14px; padding: 10px 14px;
+    border-radius: 14px; color: var(--text-muted); cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); margin-bottom: 6px;
+    font-weight: 600; font-size: 13.5px;
   }
   .nav-item:hover { background: rgba(0, 137, 123, 0.05); color: var(--primary); transform: translateX(-4px); }
   .nav-item.active { background: var(--primary); color: white; box-shadow: 0 10px 20px -5px rgba(0,137,123,0.3); }
+
+  /* ICON CONTAINERS */
+  .icon-box {
+    width: 34px; height: 34px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.03); color: var(--text-muted);
+    transition: all 0.3s;
+  }
+  .nav-item:hover .icon-box { background: rgba(255,255,255,0.2); color: inherit; }
+  .nav-item.active .icon-box { background: rgba(255,255,255,0.2); color: white; }
+
+  /* CATEGORY COLORS */
+  .c-dashboard { color: #0ea5e9; background: rgba(14, 165, 233, 0.1); }
+  .c-strategy { color: #ef4444; background: rgba(239, 68, 68, 0.1); }
+  .c-ops { color: #8b5cf6; background: rgba(139, 92, 246, 0.1); }
+  .c-hr { color: #f59e0b; background: rgba(245, 158, 11, 0.1); }
+  .c-finance { color: #10b981; background: rgba(16, 185, 129, 0.1); }
+  .c-risk { color: #ef4444; background: rgba(239, 68, 68, 0.1); }
+  .c-gov { color: #6366f1; background: rgba(99, 102, 241, 0.1); }
+  .c-ai { color: #d946ef; background: rgba(217, 70, 239, 0.1); }
 
   .main-wrapper { flex: 1; margin-right: 280px; display: flex; flex-direction: column; min-height: 100vh; }
   .top-header {
@@ -207,20 +227,62 @@
     </div>
     
     <nav class="nav-list">
-      <div class="nav-item active" onclick="showTab('summary')"><i class="fa-solid fa-gauge-high"></i> لوحة التحكم</div>
-      <div class="nav-item" onclick="showTab('map')"><i class="fa-solid fa-map-location-dot"></i> خريطة الأداء</div>
-      <div class="nav-item" onclick="showTab('strategic')"><i class="fa-solid fa-bullseye"></i> الأداء الاستراتيجي</div>
-      <div class="nav-item" onclick="showTab('operational')"><i class="fa-solid fa-gears"></i> الأداء التشغيلي</div>
-      <div class="nav-item" onclick="showTab('hrperf')"><i class="fa-solid fa-users-gear"></i> الأداء الوظيفي</div>
-      <div class="nav-item" onclick="showTab('risks')"><i class="fa-solid fa-triangle-exclamation"></i> أداء المخاطر</div>
-      <div class="nav-item" onclick="showTab('financial')"><i class="fa-solid fa-money-bill-trend-up"></i> الأداء المالي</div>
-      <div class="nav-item" onclick="showTab('governance')"><i class="fa-solid fa-building-columns"></i> أداء الحوكمة</div>
-      <div class="nav-item" onclick="showTab('excellence')"><i class="fa-solid fa-award"></i> التميز المؤسسي</div>
-      <div class="nav-item" onclick="showTab('predictions')"><i class="fa-solid fa-wand-magic-sparkles"></i> التنبؤات والذكاء</div>
-      <div class="nav-item" onclick="showTab('integration')"><i class="fa-solid fa-link"></i> القراءة التكاملية</div>
-      <div class="nav-item" onclick="showTab('decisions')"><i class="fa-solid fa-clipboard-check"></i> القرارات</div>
-      <div class="nav-item" onclick="showTab('datasources')"><i class="fa-solid fa-database"></i> البيانات</div>
-      <div class="nav-item" onclick="showTab('attachments')"><i class="fa-solid fa-paperclip"></i> المرفقات</div>
+      <div class="nav-item active" onclick="showTab('summary')">
+        <div class="icon-box c-dashboard"><i data-lucide="layout-dashboard" size="18"></i></div>
+        لوحة التحكم
+      </div>
+      <div class="nav-item" onclick="showTab('map')">
+        <div class="icon-box c-ops"><i data-lucide="map" size="18"></i></div>
+        خريطة الأداء
+      </div>
+      <div class="nav-item" onclick="showTab('strategic')">
+        <div class="icon-box c-strategy"><i data-lucide="target" size="18"></i></div>
+        الأداء الاستراتيجي
+      </div>
+      <div class="nav-item" onclick="showTab('operational')">
+        <div class="icon-box c-ops"><i data-lucide="settings" size="18"></i></div>
+        الأداء التشغيلي
+      </div>
+      <div class="nav-item" onclick="showTab('hrperf')">
+        <div class="icon-box c-hr"><i data-lucide="users" size="18"></i></div>
+        الأداء الوظيفي
+      </div>
+      <div class="nav-item" onclick="showTab('risks')">
+        <div class="icon-box c-risk"><i data-lucide="alert-triangle" size="18"></i></div>
+        أداء المخاطر
+      </div>
+      <div class="nav-item" onclick="showTab('financial')">
+        <div class="icon-box c-finance"><i data-lucide="banknote" size="18"></i></div>
+        الأداء المالي
+      </div>
+      <div class="nav-item" onclick="showTab('governance')">
+        <div class="icon-box c-gov"><i data-lucide="landmark" size="18"></i></div>
+        أداء الحوكمة
+      </div>
+      <div class="nav-item" onclick="showTab('excellence')">
+        <div class="icon-box c-strategy"><i data-lucide="award" size="18"></i></div>
+        التميز المؤسسي
+      </div>
+      <div class="nav-item" onclick="showTab('predictions')">
+        <div class="icon-box c-ai"><i data-lucide="sparkles" size="18"></i></div>
+        التنبؤات والذكاء
+      </div>
+      <div class="nav-item" onclick="showTab('integration')">
+        <div class="icon-box c-dashboard"><i data-lucide="link-2" size="18"></i></div>
+        القراءة التكاملية
+      </div>
+      <div class="nav-item" onclick="showTab('decisions')">
+        <div class="icon-box c-ops"><i data-lucide="check-square" size="18"></i></div>
+        القرارات
+      </div>
+      <div class="nav-item" onclick="showTab('datasources')">
+        <div class="icon-box c-finance"><i data-lucide="database" size="18"></i></div>
+        البيانات
+      </div>
+      <div class="nav-item" onclick="showTab('attachments')">
+        <div class="icon-box c-dashboard"><i data-lucide="paperclip" size="18"></i></div>
+        المرفقات
+      </div>
     </nav>
     
     <div style="padding: 24px; border-top: 1px solid var(--border)">
@@ -524,16 +586,16 @@
 <!-- CHATBOT -->
 <div class="chat-widget">
   <div class="chat-panel" id="chatPanel">
-    <div class="chat-header">تراؤف الذكي (AI) <span onclick="toggleChat()" style="cursor:pointer"><i class="fa-solid fa-xmark"></i></span></div>
+    <div class="chat-header">تراؤف الذكي (AI) <span onclick="toggleChat()" style="cursor:pointer"><i data-lucide="x" size="18"></i></span></div>
     <div class="chat-body" id="chatBody">
       <div class="chat-msg bot">مرحباً! كيف يمكنني مساعدتك في تحليل بيانات الربع الأول اليوم؟</div>
     </div>
     <div class="chat-input-area">
       <input type="text" class="chat-input" id="chatInput" placeholder="اسأل عن الأداء أو التوقعات..." onkeypress="if(event.key==='Enter') sendChat()">
-      <button class="btn btn-primary" style="padding:10px" onclick="sendChat()"><i class="fa-solid fa-paper-plane"></i></button>
+      <button class="btn btn-primary" style="padding:10px" onclick="sendChat()"><i data-lucide="send" size="18"></i></button>
     </div>
   </div>
-  <button class="chat-trigger" onclick="toggleChat()"><i class="fa-solid fa-comment-dots"></i></button>
+  <button class="chat-trigger" onclick="toggleChat()"><i data-lucide="message-square-more" size="28"></i></button>
 </div>
 
 <script>
@@ -763,6 +825,7 @@ function initCharts() {
 
 document.addEventListener('DOMContentLoaded', () => {
   initCharts();
+  lucide.createIcons();
   if(localStorage.getItem('theme')==='dark') document.documentElement.setAttribute('data-theme','dark');
 });
 </script>
