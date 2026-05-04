@@ -351,9 +351,171 @@
         </div>
       </div>
 
-       <div id="page-map" class="page"><div class="section-title">خريطة الأداء</div><div class="glass-card"><canvas id="mapBarChart" style="height:400px"></canvas></div></div>
-       <div id="page-risks" class="page"><div class="section-title">أداء المخاطر</div><div class="grid grid-2"><div class="glass-card"><canvas id="riskLevelChart" style="height:350px"></canvas></div><div class="glass-card"><canvas id="riskCatChart" style="height:350px"></canvas></div></div></div>
-       <div id="page-financial" class="page"><div class="section-title">الأداء المالي</div><div class="grid grid-2"><div class="glass-card"><canvas id="finCompChart" style="height:350px"></canvas></div><div class="glass-card"><canvas id="finDistChart" style="height:350px"></canvas></div></div></div>
+       <!-- PAGE: MAP -->
+       <div id="page-map" class="page">
+         <div class="section-title">خريطة الأداء</div>
+         <div class="glass-card"><canvas id="mapBarChart" style="height:400px"></canvas></div>
+       </div>
+
+       <!-- PAGE: OPERATIONAL -->
+       <div id="page-operational" class="page">
+         <div class="section-title">الأداء التشغيلي</div>
+         <div class="grid grid-2">
+           <div class="glass-card">
+             <div class="chart-title">إنجاز المبادرات حسب الإدارة</div>
+             <div style="height: 400px"><canvas id="operationalDeptChart"></canvas></div>
+           </div>
+           <div class="glass-card">
+             <div class="chart-title">حالة المبادرات التشغيلية</div>
+             <div style="height: 400px"><canvas id="initiativeStatusChart"></canvas></div>
+           </div>
+         </div>
+       </div>
+
+       <!-- PAGE: HR PERFORMANCE -->
+       <div id="page-hrperf" class="page">
+         <div class="section-title">الأداء الوظيفي</div>
+         <div class="grid grid-3">
+           <div class="glass-card">
+             <div class="stat-label">متوسط التقييم العام</div>
+             <div class="stat-value">94.2%</div>
+           </div>
+           <div class="glass-card">
+             <div class="stat-label">نسبة الرضا الوظيفي</div>
+             <div class="stat-value">88.5%</div>
+           </div>
+           <div class="glass-card">
+             <div class="stat-label">ساعات التدريب المنفذة</div>
+             <div class="stat-value">1,240</div>
+           </div>
+         </div>
+         <div class="glass-card">
+           <div class="chart-title">توزيع تقييمات الموظفين</div>
+           <div style="height: 350px"><canvas id="hrEvalDistChart"></canvas></div>
+         </div>
+       </div>
+
+       <!-- PAGE: RISKS -->
+       <div id="page-risks" class="page">
+         <div class="section-title">أداء المخاطر</div>
+         <div class="grid grid-2">
+           <div class="glass-card">
+             <div class="chart-title">توزيع مستويات المخاطر</div>
+             <div style="height:350px"><canvas id="riskLevelChart"></canvas></div>
+           </div>
+           <div class="glass-card">
+             <div class="chart-title">المخاطر حسب التصنيف</div>
+             <div style="height:350px"><canvas id="riskCatChart"></canvas></div>
+           </div>
+         </div>
+       </div>
+
+       <!-- PAGE: FINANCIAL -->
+       <div id="page-financial" class="page">
+         <div class="section-title">الأداء المالي</div>
+         <div class="grid grid-2">
+           <div class="glass-card">
+             <div class="chart-title">مقارنة المستهدف والفعلي (ريال)</div>
+             <div style="height:350px"><canvas id="finCompChart"></canvas></div>
+           </div>
+           <div class="glass-card">
+             <div class="chart-title">توزيع مصادر الدخل</div>
+             <div style="height:350px"><canvas id="finDistChart"></canvas></div>
+           </div>
+         </div>
+       </div>
+
+       <!-- PAGE: GOVERNANCE -->
+       <div id="page-governance" class="page">
+         <div class="section-title">أداء الحوكمة</div>
+         <div class="glass-card">
+           <div class="chart-title">الالتزام بمعايير الحوكمة (9 معايير)</div>
+           <div style="height: 400px"><canvas id="govChart"></canvas></div>
+         </div>
+       </div>
+
+       <!-- PAGE: EXCELLENCE -->
+       <div id="page-excellence" class="page">
+         <div class="section-title">التميز المؤسسي</div>
+         <div class="grid grid-2">
+           <div class="glass-card">
+             <div class="chart-title">نتائج التقييم الوطني للتميز</div>
+             <div style="height: 400px"><canvas id="excellenceChart"></canvas></div>
+           </div>
+           <div class="glass-card">
+             <div class="chart-title">تحليل الدرجات المحققة</div>
+             <div style="height: 400px"><canvas id="excellencePieChart"></canvas></div>
+           </div>
+         </div>
+       </div>
+
+       <!-- PAGE: INTEGRATION -->
+       <div id="page-integration" class="page">
+         <div class="section-title">القراءة التكاملية للأداء</div>
+         <div class="alert alert-info"><i class="fa-solid fa-circle-info"></i> هذا التبويب يربط بين جميع المحاور لتقديم رؤية شاملة للترابط بين الأداء المالي والتشغيلي والاستراتيجي.</div>
+         <div class="glass-card">
+           <div class="chart-title">مصفوفة الترابط بين الأبعاد</div>
+           <div style="height: 450px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.02); border-radius: 12px">
+             <div class="text-muted">مصفوفة التكامل قيد التحليل الذكي...</div>
+           </div>
+         </div>
+       </div>
+
+       <!-- PAGE: DECISIONS -->
+       <div id="page-decisions" class="page">
+         <div class="section-title">القرارات والتوصيات</div>
+         <div class="table-wrapper">
+           <table class="data-table">
+             <thead>
+               <tr><th>القرار</th><th>الإدارة المسؤولة</th><th>تاريخ التنفيذ</th><th>الحالة</th></tr>
+             </thead>
+             <tbody>
+               <tr><td>إطلاق مبادرة "تراؤف التقني"</td><td>إدارة البحث</td><td>2026-06-15</td><td><span class="badge badge-warning">قيد التنفيذ</span></td></tr>
+               <tr><td>تحديث لائحة الموارد البشرية</td><td>الموارد البشرية</td><td>2026-02-10</td><td><span class="badge badge-success">تم الاعتماد</span></td></tr>
+               <tr><td>توسيع نطاق الاستثمار الوقفى</td><td>إدارة الاستثمار</td><td>2026-08-01</td><td><span class="badge badge-info">قيد الدراسة</span></td></tr>
+             </tbody>
+           </table>
+         </div>
+       </div>
+
+       <!-- PAGE: DATA SOURCES -->
+       <div id="page-datasources" class="page">
+         <div class="section-title">إدارة مصادر البيانات</div>
+         <div class="table-wrapper">
+           <table class="data-table">
+             <thead>
+               <tr><th>المصدر</th><th>نوع الربط</th><th>آخر تحديث</th><th>الحالة</th></tr>
+             </thead>
+             <tbody>
+               <tr><td>نظام ERP المالي</td><td>API لحظي</td><td>منذ 5 دقائق</td><td><span class="badge badge-success">متصل</span></td></tr>
+               <tr><td>نظام إدارة المتطوعين</td><td>قاعدة بيانات</td><td>اليوم 09:00 ص</td><td><span class="badge badge-success">متصل</span></td></tr>
+               <tr><td>بوابة المستفيدين</td><td>API</td><td>منذ ساعة</td><td><span class="badge badge-success">متصل</span></td></tr>
+             </tbody>
+           </table>
+         </div>
+       </div>
+
+       <!-- PAGE: ATTACHMENTS -->
+       <div id="page-attachments" class="page">
+         <div class="section-title">المرفقات والوثائق</div>
+         <div class="grid grid-3">
+           <div class="glass-card" style="text-align: center">
+             <i class="fa-solid fa-file-pdf" style="font-size: 40px; color: #dc2626; margin-bottom: 15px"></i>
+             <div style="font-weight: 700">تقرير الربع الأول 2026</div>
+             <button class="btn btn-outline" style="width: 100%; margin-top: 15px">تحميل PDF</button>
+           </div>
+           <div class="glass-card" style="text-align: center">
+             <i class="fa-solid fa-file-excel" style="font-size: 40px; color: #16a34a; margin-bottom: 15px"></i>
+             <div style="font-weight: 700">بيانات الأداء الخام (Raw Data)</div>
+             <button class="btn btn-outline" style="width: 100%; margin-top: 15px">تحميل Excel</button>
+           </div>
+           <div class="glass-card" style="text-align: center">
+             <i class="fa-solid fa-file-powerpoint" style="font-size: 40px; color: #ea580c; margin-bottom: 15px"></i>
+             <div style="font-weight: 700">العرض التقديمي للمجلس</div>
+             <button class="btn btn-outline" style="width: 100%; margin-top: 15px">تحميل PPT</button>
+           </div>
+         </div>
+       </div>
 
     </div>
   </main>
@@ -472,7 +634,88 @@ function initCharts() {
     options: { responsive: true, maintainAspectRatio: false }
   });
 
-  // --- EXISTING CHARTS ---
+  // --- OPERATIONAL ---
+  new Chart(document.getElementById('operationalDeptChart'), {
+    type:'bar',
+    data:{
+      labels:['المدير العام','الرعاية','المالية','الموارد البشرية','التسويق'],
+      datasets:[{ label:'نسبة الإنجاز %', data:[98, 95, 94, 88, 82], backgroundColor:COLORS.primary, borderRadius:5 }]
+    },
+    options: { responsive: true, maintainAspectRatio: false }
+  });
+
+  new Chart(document.getElementById('initiativeStatusChart'), {
+    type:'doughnut',
+    data:{ labels:['مكتملة','قيد التنفيذ','متأخرة','لم تبدأ'], datasets:[{ data:[12, 25, 3, 5], backgroundColor:[COLORS.primary, COLORS.accent, '#dc2626', '#94a3b8'] }] },
+    options: { plugins:{legend:{position:'bottom'}}, responsive: true, maintainAspectRatio: false }
+  });
+
+  // --- HR ---
+  new Chart(document.getElementById('hrEvalDistChart'), {
+    type:'bar',
+    data:{ labels:['ممتاز','جيد جداً','جيد','مرضي'], datasets:[{ label:'عدد الموظفين', data:[45, 30, 12, 5], backgroundColor:COLORS.primary, borderRadius:5 }] },
+    options: { responsive: true, maintainAspectRatio: false }
+  });
+
+  // --- RISKS ---
+  new Chart(document.getElementById('riskLevelChart'), {
+    type:'doughnut',
+    data:{ labels:['منخفضة','متوسطة','عالية'], datasets:[{ data:[65, 12, 0], backgroundColor:[COLORS.primary, COLORS.accent, '#dc2626'] }] },
+    options: { plugins:{legend:{position:'bottom'}}, responsive: true, maintainAspectRatio: false }
+  });
+
+  new Chart(document.getElementById('riskCatChart'), {
+    type:'bar',
+    data:{ labels:['استراتيجية','مالية','تقنية','قانونية'], datasets:[{ label:'عدد المخاطر', data:[15, 8, 22, 5], backgroundColor:COLORS.primary, borderRadius:5 }] },
+    options: { indexAxis:'y', responsive: true, maintainAspectRatio: false }
+  });
+
+  // --- FINANCIAL ---
+  new Chart(document.getElementById('finCompChart'), {
+    type:'bar',
+    data:{
+      labels:['التبرعات','الاستثمارات','الأوقاف'],
+      datasets:[
+        { label:'المستهدف', data:[21000000, 5000000, 3000000], backgroundColor:'rgba(0,0,0,0.1)' },
+        { label:'الفعلي', data:[23469326, 4800000, 3200000], backgroundColor:COLORS.primary }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false }
+  });
+
+  new Chart(document.getElementById('finDistChart'), {
+    type:'pie',
+    data:{ labels:['تبرعات','استثمار','شراكات'], datasets:[{ data:[75, 15, 10], backgroundColor:[COLORS.primary, COLORS.accent, '#3b82f6'] }] },
+    options: { plugins:{legend:{position:'bottom'}}, responsive: true, maintainAspectRatio: false }
+  });
+
+  // --- GOVERNANCE ---
+  new Chart(document.getElementById('govChart'), {
+    type:'bar',
+    data:{
+      labels:['الشفافية','المساءلة','العدالة','الالتزام','الإفصاح'],
+      datasets:[{ label:'الالتزام %', data:[98, 95, 97, 99, 96], backgroundColor:COLORS.primary, borderRadius:5 }]
+    },
+    options: { scales:{y:{min:90,max:100}}, responsive: true, maintainAspectRatio: false }
+  });
+
+  // --- EXCELLENCE ---
+  new Chart(document.getElementById('excellenceChart'), {
+    type:'radar',
+    data:{
+      labels:['القيادة','التخطيط','الموارد','العمليات','النتائج'],
+      datasets:[{ label:'الدرجة', data:[140, 95, 88, 145, 130], borderColor:COLORS.primary, backgroundColor:'rgba(0,137,123,0.2)' }]
+    },
+    options: { responsive: true, maintainAspectRatio: false }
+  });
+
+  new Chart(document.getElementById('excellencePieChart'), {
+    type:'doughnut',
+    data:{ labels:['المحقق','المتبقي'], datasets:[{ data:[542, 458], backgroundColor:[COLORS.primary, '#f1f5f9'] }] },
+    options: { plugins:{legend:{position:'bottom'}}, responsive: true, maintainAspectRatio: false }
+  });
+
+  // --- EXISTING/OTHER ---
   const hCtx = document.getElementById('historicalChart');
   if(hCtx) new Chart(hCtx, {
     type:'line',
@@ -507,20 +750,6 @@ function initCharts() {
     options: { scales: { y: { min:0, max:110 } }, responsive: true, maintainAspectRatio: false }
   });
 
-  const pCtx = document.getElementById('predictionChart');
-  if(pCtx) new Chart(pCtx, {
-    type:'line',
-    data:{
-      labels:['Q1 2025','Q2 2025','Q3 2025','Q4 2025','Q1 2026','Q2 2026(P)','Q3 2026(P)'],
-      datasets:[
-        { label:'الفعلي', data:[91.3, 87.5, 85.1, 83.8, 90.1, null, null], borderColor: COLORS.primary, pointRadius: 5 },
-        { label:'المتوقع', data:[null, null, null, null, 90.1, 91.2, 92.5], borderColor: COLORS.accent, borderDash: [5,5], pointRadius: 5 }
-      ]
-    },
-    options: { responsive: true, maintainAspectRatio: false }
-  });
-  
-  // Existing map charts if any
   const mbCtx = document.getElementById('mapBarChart');
   if(mbCtx) new Chart(mbCtx, {
     type:'bar',
