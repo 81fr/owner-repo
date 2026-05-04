@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لوحة القيادة المؤسسية - جمعية تراؤف لرعاية الأيتام</title>
+<title>لوحة القيادة المؤسسية - جمعية تراؤف</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
 <style>
@@ -11,2832 +11,451 @@
   
   :root {
     --primary: #00897B;
-    --primary-light: #00B3A4;
+    --primary-dark: #00695C;
     --accent: #7BC143;
-    --accent-light: #95D85F;
-    --bg: #F5F8FA;
-    --card-bg: #ffffff;
-    --text: #2D3436;
-    --text-muted: #636E72;
-    --border: #DFE6E9;
-    --excellent: #16a34a;
-    --excellent-bg: #dcfce7;
-    --good: #d97706;
-    --good-bg: #fef3c7;
-    --weak: #dc2626;
-    --weak-bg: #fee2e2;
-    --pending: #64748b;
-    --pending-bg: #f1f5f9;
-    --shadow: 0 4px 16px rgba(13,33,55,0.1);
-    --shadow-lg: 0 10px 40px rgba(13,33,55,0.18);
-    --radius: 14px;
-    --radius-sm: 8px;
-    --glass: rgba(255,255,255,0.75);
-    --blur: blur(12px);
+    --bg: #F8FAFC;
+    --sidebar-bg: #ffffff;
+    --card-bg: rgba(255, 255, 255, 0.7);
+    --text: #1E293B;
+    --text-muted: #64748B;
+    --border: rgba(226, 232, 240, 0.8);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --radius: 20px;
+    --glass: rgba(255, 255, 255, 0.75);
+    --blur: blur(16px);
   }
+
   [data-theme=dark] {
-    --bg:#0F1923;--card-bg:rgba(15,30,45,.9);--text:#E8F0F2;--text-muted:#8BA4B8;--border:#1A3040;
-    --primary:#00B3A4;--primary-light:#00D4C4;--accent:#7BC143;--accent-light:#95D85F;
-    --shadow:0 4px 16px rgba(0,0,0,.4);--shadow-lg:0 10px 40px rgba(0,0,0,.5);--glass:rgba(15,30,45,.75);
-    --excellent-bg:#052e16;--good-bg:#451a03;--weak-bg:#450a0a;--pending-bg:#1e293b;
+    --bg: #0F172A;
+    --sidebar-bg: #1E293B;
+    --card-bg: rgba(30, 41, 59, 0.75);
+    --text: #F1F5F9;
+    --text-muted: #94A3B8;
+    --border: rgba(51, 65, 85, 0.8);
+    --glass: rgba(30, 41, 59, 0.8);
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin:0; padding:0; box-sizing:border-box; }
   body {
-    font-family: 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif;
-    background: var(--bg); color: var(--text); font-size: 14px; min-height: 100vh;
-    transition: background .4s, color .4s;
-  }
-  ::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:var(--accent);border-radius:9px}::-webkit-scrollbar-track{background:transparent}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes gradMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
-  @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-  .theme-toggle{background:rgba(255,255,255,.15);border:none;color:#fff;width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:18px;transition:all .3s;display:flex;align-items:center;justify-content:center}
-  .theme-toggle:hover{background:var(--accent);transform:scale(1.1)}
-  .print-btn{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.2);color:#fff;padding:6px 16px;border-radius:20px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:500;transition:all .3s;display:flex;align-items:center;gap:6px}
-  .print-btn:hover{background:var(--accent);border-color:var(--accent)}
-
-  /* ===== HEADER ===== */
-  .header {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, #1e4a7a 100%);
-    background-size: 200% 200%; animation: gradMove 8s ease infinite;
-    color: white; padding: 0 24px; display: flex; align-items: center; justify-content: space-between;
-    height: 68px; position: sticky; top: 0; z-index: 100;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3); backdrop-filter: blur(10px);
-  }
-  .header-actions{display:flex;align-items:center;gap:12px}
-  .header-brand { display: flex; align-items: center; gap: 14px; }
-  .header-logo {
-    width: 46px; height: 46px;
-    background: linear-gradient(135deg, var(--accent), var(--accent-light));
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-size: 22px; font-weight: 700; color: white;
-    box-shadow: 0 4px 15px rgba(200,146,42,.4); transition: transform .3s;
-  }
-  .header-logo:hover{transform:rotate(10deg) scale(1.1)}
-  .header-title { font-size: 15px; font-weight: 600; line-height: 1.3; }
-  .header-subtitle { font-size: 11px; opacity: 0.75; margin-top: 2px; }
-  .header-meta { display: flex; align-items: center; gap: 20px; font-size: 12px; opacity: 0.85; }
-  .header-badge {
-    background: var(--accent);
-    color: white;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 600;
-  }
-  .header-prepared { font-size: 11px; opacity: 0.7; text-align: left; }
-
-  /* ===== TABS ===== */
-  .tabs-bar {
-    background: var(--primary);
-    overflow-x: auto;
-    scrollbar-width: none;
-    border-bottom: 3px solid var(--accent);
-    position: sticky;
-    top: 64px;
-    z-index: 90;
-  }
-  .tabs-bar::-webkit-scrollbar { display: none; }
-  .tabs-list {
-    display: flex;
-    min-width: max-content;
-    padding: 0 16px;
-  }
-  .tab-btn {
-    padding: 12px 16px;
-    background: none;
-    border: none;
-    color: rgba(255,255,255,0.65);
-    font-family: inherit;
-    font-size: 13px;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -3px;
-    position: relative;
-  }
-  .tab-btn:hover { color: white; background: rgba(255,255,255,0.08); }
-  .tab-btn.active {
-    color: var(--accent-light);
-    border-bottom-color: var(--accent-light);
-    font-weight: 600;
-    background: rgba(255,255,255,0.05);
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    direction: rtl;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
 
-  /* ===== PAGES ===== */
-  .page { display: none; padding: 28px; max-width: 1440px; margin: 0 auto; }
-  .page.active { display: block; animation: fadeUp .4s ease both; }
-
-  /* ===== FOOTER ===== */
-  .footer {
-    background: var(--primary);
-    color: rgba(255,255,255,0.6);
-    text-align: center;
-    padding: 14px 24px;
-    font-size: 12px;
-    margin-top: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  /* Mesh Background */
+  .mesh-bg {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; opacity: 0.5; pointer-events: none;
+    background: 
+      radial-gradient(at 0% 0%, rgba(0, 137, 123, 0.1) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(123, 193, 67, 0.1) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, rgba(0, 137, 123, 0.05) 0px, transparent 50%);
   }
 
-  /* ===== SECTION TITLES ===== */
-  .section-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 16px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--accent);
+  /* LAYOUT */
+  .app-container { display: flex; min-height: 100vh; }
+  
+  .sidebar {
+    width: 280px; background: var(--sidebar-bg); border-left: 1px solid var(--border);
+    height: 100vh; position: fixed; right: 0; top: 0; display: flex; flex-direction: column;
+    z-index: 1000; transition: transform 0.3s ease; box-shadow: var(--shadow);
+  }
+  .sidebar-header { padding: 32px 24px; }
+  .logo-area { display: flex; align-items: center; gap: 12px; }
+  .logo-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 700; font-size: 20px; box-shadow: 0 8px 16px rgba(0,137,123,0.3);
+  }
+  .logo-text { font-weight: 800; font-size: 22px; color: var(--primary); letter-spacing: -1px; }
+
+  .nav-list { flex: 1; padding: 12px 16px; overflow-y: auto; }
+  .nav-item {
+    display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+    border-radius: 16px; color: var(--text-muted); cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); margin-bottom: 4px;
+    font-weight: 600; font-size: 14px;
+  }
+  .nav-item:hover { background: rgba(0, 137, 123, 0.05); color: var(--primary); transform: translateX(-4px); }
+  .nav-item.active { background: var(--primary); color: white; box-shadow: 0 10px 20px -5px rgba(0,137,123,0.3); }
+
+  .main-wrapper { flex: 1; margin-right: 280px; display: flex; flex-direction: column; min-height: 100vh; }
+  .top-header {
+    height: 80px; padding: 0 40px; display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 900; background: rgba(248, 250, 252, 0.8);
+    backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
+  }
+  [data-theme=dark] .top-header { background: rgba(15, 23, 42, 0.8); }
+
+  .content-area { padding: 40px; flex: 1; max-width: 1600px; margin: 0 auto; width: 100%; }
+
+  /* CARDS & GRIDS */
+  .grid { display: grid; gap: 24px; margin-bottom: 32px; }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+  .glass-card {
+    background: var(--card-bg); backdrop-filter: var(--blur);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 24px; box-shadow: var(--shadow); transition: all 0.3s ease;
+    height: 100%;
+  }
+  .glass-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+
+  .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-value { font-size: 36px; font-weight: 800; color: var(--primary); margin: 8px 0; }
+  .stat-trend { font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+  .trend-up { color: #10B981; }
+
+  .chart-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+  .chart-title::before { content:''; width:4px; height:20px; background:var(--accent); border-radius:10px; }
+
+  /* PROGRESS */
+  .prog-container { margin-top: 16px; }
+  .prog-bar { height: 10px; background: rgba(0,0,0,0.05); border-radius: 6px; overflow: hidden; position: relative; }
+  [data-theme=dark] .prog-bar { background: rgba(255,255,255,0.05); }
+  .prog-fill {
+    height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent));
+    transition: width 1.5s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative;
+  }
+  .prog-fill::after {
+    content:''; position:absolute; top:0; left:0; right:0; bottom:0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmer 2s infinite;
+  }
+  @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+  /* BUTTONS */
+  .btn {
+    padding: 12px 24px; border-radius: 14px; border: none; cursor: pointer;
+    font-family: inherit; font-weight: 700; font-size: 13px; transition: all 0.2s;
     display: flex; align-items: center; gap: 10px;
   }
-  .section-title .icon { font-size: 20px; }
-  .sub-title {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--primary-light);
-    margin: 20px 0 12px;
-    padding-right: 10px;
-    border-right: 3px solid var(--accent);
-  }
+  .btn-primary { background: var(--primary); color: white; box-shadow: 0 8px 20px rgba(0,137,123,0.25); }
+  .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+  .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn-outline:hover { background: rgba(0,0,0,0.02); }
 
-  /* ===== GRID ===== */
-  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
-  .grid-7 { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+  /* TABLES */
+  .table-wrapper { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+  .data-table { width: 100%; border-collapse: collapse; background: var(--card-bg); }
+  .data-table th { padding: 16px; background: rgba(0,137,123,0.05); text-align: right; font-size: 13px; color: var(--primary); border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 16px; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .data-table tr:hover { background: rgba(0,137,123,0.02); }
 
-  @media (max-width: 900px) {
-    .grid-4, .grid-5, .grid-7 { grid-template-columns: repeat(2, 1fr); }
-    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  /* CHATBOT */
+  .chat-widget { position: fixed; bottom: 32px; left: 32px; z-index: 2000; }
+  .chat-trigger {
+    width: 68px; height: 68px; border-radius: 22px; background: var(--primary);
+    color: white; border: none; cursor: pointer; box-shadow: 0 12px 40px rgba(0,137,123,0.35);
+    display: flex; align-items: center; justify-content: center; font-size: 28px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
-
-  /* ===== KPI CARDS ===== */
-  .kpi-card {
-    background: var(--glass); backdrop-filter: var(--blur);
-    border-radius: var(--radius); padding: 20px 18px; box-shadow: var(--shadow);
-    cursor: pointer; transition: all .3s; border: 1.5px solid rgba(255,255,255,.3);
-    position: relative; overflow: hidden;
-  }
-  [data-theme=dark] .kpi-card{border-color:rgba(255,255,255,.08)}
-  .kpi-card::before{content:'';position:absolute;top:0;right:0;width:100%;height:100%;background:linear-gradient(135deg,transparent 60%,rgba(200,146,42,.05));pointer-events:none}
-  .kpi-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
-  .kpi-card.excellent { border-right: 4px solid var(--excellent); }
-  .kpi-card.good { border-right: 4px solid var(--good); }
-  .kpi-card.weak { border-right: 4px solid var(--weak); }
-  .kpi-card.pending { border-right: 4px solid var(--pending); }
+  .chat-trigger:hover { transform: scale(1.1) rotate(5deg); }
   
-  .kpi-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
-  .kpi-value { font-size: 28px; font-weight: 700; line-height: 1; }
-  .kpi-sub { font-size: 11px; color: var(--text-muted); margin-top: 6px; }
-  .kpi-badge {
-    display: inline-block; padding: 3px 10px; border-radius: 20px;
-    font-size: 11px; font-weight: 600; margin-top: 8px;
+  .chat-panel {
+    position: absolute; bottom: 85px; left: 0; width: 380px; height: 550px;
+    background: var(--card-bg); backdrop-filter: blur(25px); border: 1px solid var(--border);
+    border-radius: 24px; box-shadow: var(--shadow-lg); display: none; flex-direction: column;
+    overflow: hidden; animation: slideIn 0.4s ease;
   }
-  .badge-excellent { background: var(--excellent-bg); color: var(--excellent); }
-  .badge-good { background: var(--good-bg); color: var(--good); }
-  .badge-weak { background: var(--weak-bg); color: var(--weak); }
-  .badge-pending { background: var(--pending-bg); color: var(--pending); }
-
-  /* ===== BIG KPI ===== */
-  .big-kpi {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-    color: white;
-    border-radius: var(--radius);
-    padding: 28px 24px;
-    text-align: center;
-    box-shadow: var(--shadow-lg);
-  }
-  .big-kpi-value { font-size: 52px; font-weight: 700; line-height: 1; }
-  .big-kpi-label { font-size: 14px; opacity: 0.85; margin-top: 8px; }
-  .big-kpi-sub { font-size: 12px; opacity: 0.65; margin-top: 6px; }
-
-  /* ===== ANALYSIS PANEL ===== */
-  .analysis-panel {
-    display: none;
-    background: #f8fafc;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 16px;
-    margin-top: 12px;
-    position: relative;
-    animation: slideDown 0.2s ease;
-  }
-  .analysis-panel.open { display: block; }
-  @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
-  .analysis-panel .close-btn {
-    position: absolute; top: 10px; left: 10px;
-    background: var(--weak); color: white; border: none;
-    width: 24px; height: 24px; border-radius: 50%; cursor: pointer; font-size: 12px;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s;
-  }
-  .analysis-panel .close-btn:hover { background: #b91c1c; }
-  .analysis-item { display: flex; gap: 10px; margin-bottom: 8px; font-size: 13px; }
-  .analysis-item .label { color: var(--text-muted); min-width: 120px; font-weight: 500; }
-  .analysis-item .value { color: var(--text); flex: 1; }
-
-  /* ===== CHART CONTAINER ===== */
-  .chart-box {
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    padding: 20px;
-    box-shadow: var(--shadow);
-  }
-  .chart-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: var(--primary); }
-  .chart-wrap { position: relative; height: 260px; }
-  .chart-wrap-sm { position: relative; height: 200px; }
-  .chart-wrap-lg { position: relative; height: 320px; }
-
-  /* ===== TABLE ===== */
-  .data-table {
-    width: 100%; border-collapse: collapse;
-    background: var(--card-bg);
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    font-size: 13px;
-  }
-  .data-table th {
-    background: var(--primary);
-    color: white;
-    padding: 12px 14px;
-    text-align: right;
-    font-weight: 600;
-    font-size: 12px;
-  }
-  .data-table td {
-    padding: 11px 14px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: middle;
-  }
-  .data-table tr:last-child td { border-bottom: none; }
-  .data-table tr:hover td { background: #f8fafd; }
-  .data-table tr.clickable { cursor: pointer; }
-
-  /* ===== STATUS DOTS ===== */
-  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-left: 6px; }
-  .dot-excellent { background: var(--excellent); }
-  .dot-good { background: var(--good); }
-  .dot-weak { background: var(--weak); }
-  .dot-pending { background: var(--pending); }
-
-  /* ===== PROGRESS BAR ===== */
-  .progress-bar-wrap { background: var(--border); border-radius: 8px; height: 10px; overflow: hidden; }
-  .progress-bar-fill { height: 100%; border-radius: 8px; transition: width 1.2s ease; position:relative;overflow:hidden }
-  .progress-bar-fill::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);background-size:200% 100%;animation:shimmer 2s infinite}
-  .fill-excellent { background: linear-gradient(90deg,var(--excellent),#22c55e); }
-  .fill-good { background: linear-gradient(90deg,var(--good),#f59e0b); }
-  .fill-weak { background: linear-gradient(90deg,var(--weak),#ef4444); }
-
-  /* ===== COVER PAGE ===== */
-  .cover-page {
-    min-height: calc(100vh - 130px);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    background: linear-gradient(160deg, var(--primary) 0%, var(--primary-light) 60%, #1e4a7a 100%);
-    border-radius: var(--radius);
-    color: white;
-    text-align: center;
-    padding: 60px 40px;
-    position: relative;
-    overflow: hidden;
-  }
-  .cover-page::before {
-    content: '';
-    position: absolute;
-    top: -40%; right: -20%;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(200,146,42,0.18) 0%, transparent 70%);
-    border-radius: 50%;
-  }
-  .cover-logo {
-    width: 100px; height: 100px;
-    background: var(--accent);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 48px; font-weight: 700;
-    margin: 0 auto 28px;
-    box-shadow: 0 8px 32px rgba(200,146,42,0.4);
-  }
-  .cover-title { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
-  .cover-org { font-size: 20px; opacity: 0.9; margin-bottom: 20px; }
-  .cover-period {
-    background: var(--accent);
-    color: white;
-    padding: 8px 24px;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    display: inline-block;
-  }
-  .cover-desc { font-size: 14px; opacity: 0.75; max-width: 600px; line-height: 1.7; margin-bottom: 32px; }
-  .cover-meta { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; }
-  .cover-meta-item { font-size: 13px; opacity: 0.8; }
-  .cover-meta-item strong { display: block; font-size: 15px; opacity: 1; }
-  .cover-version {
-    position: absolute;
-    top: 20px; left: 20px;
-    background: rgba(255,255,255,0.15);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 11px;
-  }
-
-  /* ===== ALERT BOXES ===== */
-  .alert { border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 8px; font-size: 13px; }
-  .alert-info { background: #eff6ff; border-right: 3px solid #3b82f6; color: #1e40af; }
-  .alert-warn { background: #fffbeb; border-right: 3px solid var(--good); color: #92400e; }
-  .alert-danger { background: var(--weak-bg); border-right: 3px solid var(--weak); color: #991b1b; }
-  .alert-success { background: var(--excellent-bg); border-right: 3px solid var(--excellent); color: #14532d; }
-
-  /* ===== COLOR KEY ===== */
-  .color-key {
-    display: flex; flex-wrap: wrap; gap: 12px;
-    background: var(--card-bg); border-radius: var(--radius-sm);
-    padding: 12px 16px; margin-bottom: 20px;
-    box-shadow: var(--shadow);
-  }
-  .color-key-item { display: flex; align-items: center; gap: 6px; font-size: 12px; }
-  .color-key-dot { width: 14px; height: 14px; border-radius: 4px; }
-
-  /* ===== RISK MAP ===== */
-  .risk-map {
-    display: grid;
-    grid-template-columns: 40px repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr) 40px;
-    gap: 3px;
-    height: 280px;
-    margin-bottom: 12px;
-  }
-  .risk-cell {
-    border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 600;
-    cursor: pointer; transition: opacity 0.2s;
-  }
-  .risk-cell:hover { opacity: 0.85; }
-  .risk-axis { display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text-muted); font-weight: 600; }
-  .risk-axis-v { writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); }
-
-  /* ===== DIMENSION CARD ===== */
-  .dim-card {
-    background: var(--card-bg); border-radius: var(--radius);
-    padding: 20px; box-shadow: var(--shadow);
-    cursor: pointer; transition: all 0.25s;
-    border-top: 4px solid var(--border);
-  }
-  .dim-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
-  .dim-card.excellent { border-top-color: var(--excellent); }
-  .dim-card.good { border-top-color: var(--good); }
-  .dim-card.weak { border-top-color: var(--weak); }
-  .dim-title { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
-  .dim-value { font-size: 32px; font-weight: 700; }
-  .dim-goals { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
-
-  /* ===== GAUGE ===== */
-  .gauge-wrap { position: relative; width: 160px; margin: 0 auto; }
-  .gauge-wrap canvas { display: block; }
-  .gauge-text { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); text-align: center; }
-  .gauge-val { font-size: 24px; font-weight: 700; display: block; }
-  .gauge-lbl { font-size: 11px; color: var(--text-muted); }
-
-  /* ===== INFO CARD ===== */
-  .info-card {
-    background: var(--card-bg); border-radius: var(--radius);
-    padding: 16px; box-shadow: var(--shadow);
-  }
-
-  /* ===== BACK BTN ===== */
-  .back-btn {
-    background: var(--primary); color: white;
-    border: none; border-radius: var(--radius-sm);
-    padding: 8px 18px; font-size: 13px; font-family: inherit;
-    cursor: pointer; margin-bottom: 16px;
-    display: inline-flex; align-items: center; gap: 8px;
-    transition: background 0.2s;
-  }
-  .back-btn:hover { background: var(--accent); }
-
-  /* ===== TOGGLE DETAIL ===== */
-  .toggle-detail { cursor: pointer; }
-  .toggle-detail .toggle-icon { transition: transform 0.2s; display: inline-block; }
-  .toggle-detail.open .toggle-icon { transform: rotate(180deg); }
-
-  /* ===== ROWS ===== */
-  .row { display: flex; gap: 16px; margin-bottom: 16px; }
-  .row > * { flex: 1; }
-  .row .w2 { flex: 2; }
-  .row .w3 { flex: 3; }
-
-  /* ===== TABS CONTENT ===== */
-  .card { background: var(--card-bg); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 16px; }
-  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-  .card-header-title { font-size: 15px; font-weight: 700; color: var(--primary); }
-
-  /* ===== INTEGRATION MATRIX ===== */
-  .integration-row { cursor: pointer; }
-  .integration-detail { display: none; background: #f8fafc; }
-  .integration-detail.open { display: table-row; }
-  .integration-detail td { padding: 12px 14px 16px; }
-
-  /* map/connections visual */
-  .perf-map { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .map-node {
-    background: var(--card-bg); border-radius: var(--radius-sm);
-    padding: 14px; box-shadow: var(--shadow);
-    text-align: center; cursor: pointer; transition: all 0.2s;
-    border: 2px solid transparent;
-  }
-  .map-node:hover { border-color: var(--accent); transform: scale(1.02); }
-  .map-node .node-icon { font-size: 24px; margin-bottom: 6px; }
-  .map-node .node-title { font-size: 12px; font-weight: 600; }
-  .map-node .node-val { font-size: 20px; font-weight: 700; margin-top: 4px; }
-
-  /* ===== PRIORITY BADGES ===== */
-  .priority-high { background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
-  .priority-med { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
-  .priority-low { background: #dcfce7; color: #14532d; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
-
-  .btn-primary {
-    background: var(--accent); color: white; border: none;
-    padding: 8px 18px; border-radius: var(--radius-sm); font-family: inherit;
-    font-size: 13px; cursor: pointer; font-weight: 600; transition: background 0.2s;
-  }
-  .btn-primary:hover { background: #b07a20; }
-
-  .tag {
-    display: inline-block; padding: 3px 8px; border-radius: 10px;
-    font-size: 11px; font-weight: 600;
-  }
-
-  /* Data source status */
-  .status-linked { background: #dcfce7; color: #14532d; }
-  .status-update { background: #fef3c7; color: #92400e; }
-  .status-incomplete { background: #fee2e2; color: #991b1b; }
-  .status-unavail { background: #f1f5f9; color: #475569; }
-
-  .mb-4 { margin-bottom: 16px; }
-  .mb-8 { margin-bottom: 32px; }
-  .mt-4 { margin-top: 16px; }
-  .text-center { text-align: center; }
-  .text-muted { color: var(--text-muted); }
-  .text-small { font-size: 12px; }
-  .font-bold { font-weight: 700; }
-  .flex { display: flex; }
-  .gap-2 { gap: 8px; }
-  .items-center { align-items: center; }
-  .justify-between { justify-content: space-between; }
-
-  /* ===== CHATBOT ===== */
-  .chat-widget {
-    position: fixed; bottom: 30px; left: 30px; z-index: 1000;
-    display: flex; flex-direction: column; align-items: flex-start;
-  }
-  .chat-btn {
-    width: 60px; height: 60px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    color: white; border: none; cursor: pointer;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
-  .chat-btn:hover { transform: scale(1.1) rotate(5deg); }
-  .chat-window {
-    width: 350px; height: 500px; background: var(--card-bg);
-    border-radius: var(--radius); box-shadow: var(--shadow-lg);
-    margin-bottom: 20px; display: none; flex-direction: column;
-    overflow: hidden; border: 1px solid var(--border);
-    backdrop-filter: var(--blur); animation: fadeUp 0.4s ease;
-  }
-  .chat-window.active { display: flex; }
-  .chat-header {
-    background: var(--primary); color: white; padding: 16px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .chat-body { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-  .chat-msg { padding: 10px 14px; border-radius: 18px; max-width: 80%; font-size: 13px; line-height: 1.5; }
-  .chat-msg.bot { background: var(--bg); color: var(--text); align-self: flex-start; border-bottom-right-radius: 4px; }
+  .chat-panel.active { display: flex; }
+  @keyframes slideIn { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
+  
+  .chat-header { background: var(--primary); color: white; padding: 20px; font-weight: 700; display: flex; justify-content: space-between; }
+  .chat-body { flex:1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+  .chat-msg { padding: 12px 16px; border-radius: 18px; max-width: 85%; font-size: 13px; line-height: 1.5; }
+  .chat-msg.bot { background: rgba(0,0,0,0.05); align-self: flex-start; border-bottom-right-radius: 4px; }
+  [data-theme=dark] .chat-msg.bot { background: rgba(255,255,255,0.05); }
   .chat-msg.user { background: var(--primary); color: white; align-self: flex-end; border-bottom-left-radius: 4px; }
-  .chat-input-area { padding: 12px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
-  .chat-input {
-    flex: 1; border: 1px solid var(--border); border-radius: 20px;
-    padding: 8px 16px; font-family: inherit; font-size: 13px; outline: none;
-  }
-  .chat-send {
-    background: var(--primary); color: white; border: none;
-    width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-  }
+  .chat-input-area { padding: 16px; border-top: 1px solid var(--border); display: flex; gap: 10px; }
+  .chat-input { flex:1; padding: 10px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg); font-family: inherit; outline: none; }
 
-  /* ===== PREDICTIONS ===== */
-  .prediction-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; }
-  .insight-card {
-    background: var(--glass); border-radius: var(--radius); padding: 20px;
-    border-right: 4px solid var(--accent); position: relative;
-  }
-  .insight-title { font-weight: 700; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  /* PAGES */
+  .page { display: none; }
+  .page.active { display: block; animation: fadeUp 0.6s ease; }
+  @keyframes fadeUp { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform: translateY(0); } }
 
-  @media print {
-    .tabs-bar, .back-btn, .header-actions, .theme-toggle, .print-btn, .chat-widget { display: none !important; }
-    .page { display: block !important; page-break-after: always; }
-    .header { position: relative; }
+  /* ALERTS */
+  .alert { padding: 20px; border-radius: 16px; margin-bottom: 24px; display: flex; align-items: center; gap: 15px; font-weight: 600; font-size: 13px; }
+  .alert-info { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.2); }
+
+  @media (max-width: 1200px) {
+    .sidebar { transform: translateX(100%); }
+    .main-wrapper { margin-right: 0; }
   }
-  @media(max-width:640px){
-    .grid-2,.grid-3,.grid-4,.grid-5{grid-template-columns:1fr}
-    .header{flex-direction:column;height:auto;padding:12px 16px;gap:8px}
-    .page{padding:16px}
-    .chat-window { width: calc(100vw - 40px); left: 20px; bottom: 80px; }
-  }
-  [data-theme=dark] .section-title{color:var(--accent-light)}
-  [data-theme=dark] .sub-title{color:var(--accent-light)}
-  [data-theme=dark] .chart-title{color:var(--accent-light)}
-  [data-theme=dark] .alert-info{color:#93c5fd}[data-theme=dark] .alert-warn{color:#fcd34d}[data-theme=dark] .alert-danger{color:#fca5a5}[data-theme=dark] .alert-success{color:#86efac}
 </style>
 </head>
 <body>
+<div class="mesh-bg"></div>
 
-<!-- HEADER -->
-<header class="header">
-  <div class="header-brand">
-    <div class="header-logo" style="background:linear-gradient(135deg,#00B3A4,#7BC143);font-size:14px;letter-spacing:1px">تراؤف</div>
-    <div>
-      <div class="header-title">لوحة القيادة المؤسسية — جمعية تراؤف لرعاية الأيتام</div>
-      <div class="header-subtitle">الربع الأول من عام 2026م | الأداء الاستراتيجي والتشغيلي والمالي والمخاطر</div>
+<div class="app-container">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-area">
+        <div class="logo-icon">ت</div>
+        <div class="logo-text">تراؤف</div>
+      </div>
     </div>
-  </div>
-  <div class="header-actions">
-    <div style="text-align:left">
-      <div style="font-size:11px;opacity:.7">الجهة المعدة</div>
-      <div style="font-size:13px;font-weight:600">إدارة مركز قياس الأداء</div>
+    
+    <nav class="nav-list">
+      <div class="nav-item active" onclick="showTab('summary')">📊 الملخص التنفيذي</div>
+      <div class="nav-item" onclick="showTab('map')">🗺️ خريطة الأداء</div>
+      <div class="nav-item" onclick="showTab('strategic')">🎯 الأداء الاستراتيجي</div>
+      <div class="nav-item" onclick="showTab('operational')">⚙️ الأداء التشغيلي</div>
+      <div class="nav-item" onclick="showTab('hrperf')">👥 الأداء الوظيفي</div>
+      <div class="nav-item" onclick="showTab('risks')">⚠️ أداء المخاطر</div>
+      <div class="nav-item" onclick="showTab('financial')">💰 الأداء المالي</div>
+      <div class="nav-item" onclick="showTab('governance')">🏛️ أداء الحوكمة</div>
+      <div class="nav-item" onclick="showTab('excellence')">🏆 التميز المؤسسي</div>
+      <div class="nav-item" onclick="showTab('predictions')">🔮 التنبؤات والذكاء</div>
+      <div class="nav-item" onclick="showTab('integration')">🔗 القراءة التكاملية</div>
+      <div class="nav-item" onclick="showTab('decisions')">📋 القرارات</div>
+      <div class="nav-item" onclick="showTab('datasources')">🗄️ البيانات</div>
+      <div class="nav-item" onclick="showTab('attachments')">📎 المرفقات</div>
+    </nav>
+    
+    <div style="padding: 24px; border-top: 1px solid var(--border)">
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px">الجهة المعدة</div>
+      <div style="font-size: 13px; font-weight: 700">مركز قياس الأداء</div>
     </div>
-    <span class="header-badge">Q1 2026</span>
-    <button class="theme-toggle" onclick="toggleTheme()" title="الوضع الداكن">🌙</button>
-    <button class="print-btn" onclick="window.print()">🖨️ طباعة</button>
-  </div>
-</header>
+  </aside>
 
-<!-- TABS -->
-<nav class="tabs-bar">
-  <div class="tabs-list">
-    <button class="tab-btn active" onclick="showTab('summary')">📊 الملخص التنفيذي</button>
-    <button class="tab-btn" onclick="showTab('map')">🗺️ خريطة الأداء</button>
-    <button class="tab-btn" onclick="showTab('strategic')">🎯 الأداء الاستراتيجي</button>
-    <button class="tab-btn" onclick="showTab('operational')">⚙️ الأداء التشغيلي</button>
-    <button class="tab-btn" onclick="showTab('hrperf')">👥 الأداء الوظيفي</button>
-    <button class="tab-btn" onclick="showTab('risks')">⚠️ أداء المخاطر</button>
-    <button class="tab-btn" onclick="showTab('financial')">💰 الأداء المالي</button>
-    <button class="tab-btn" onclick="showTab('governance')">🏛️ أداء الحوكمة</button>
-    <button class="tab-btn" onclick="showTab('excellence')">🏆 التميز المؤسسي</button>
-    <button class="tab-btn" onclick="showTab('predictions')">🔮 التنبؤات</button>
-    <button class="tab-btn" onclick="showTab('integration')">🔗 القراءة التكاملية</button>
-    <button class="tab-btn" onclick="showTab('decisions')">📋 القرارات والتوصيات</button>
-    <button class="tab-btn" onclick="showTab('datasources')">🗄️ مصادر البيانات</button>
-    <button class="tab-btn" onclick="showTab('attachments')">📎 المرفقات</button>
-  </div>
-</nav>
+  <!-- MAIN WRAPPER -->
+  <main class="main-wrapper">
+    <header class="top-header">
+      <div>
+        <div style="font-size: 12px; color: var(--text-muted); font-weight: 600">لوحة القيادة المؤسسية v4.0</div>
+        <div style="font-weight: 800; font-size: 20px">أهلاً بك، إدارة مركز القياس</div>
+      </div>
+      
+      <div style="display: flex; gap: 12px; align-items: center">
+        <div style="background: rgba(123, 193, 67, 0.1); color: var(--accent); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 800">نشط: الربع الأول 2026</div>
+        <button class="btn btn-outline" onclick="toggleTheme()">🌙</button>
+        <button class="btn btn-primary" onclick="window.print()">🖨️ تصدير التقرير</button>
+      </div>
+    </header>
 
+    <div class="content-area">
+      
+      <!-- PAGE: SUMMARY -->
+      <div id="page-summary" class="page active">
+        <div class="section-title">الملخص التنفيذي للأداء</div>
+        <div class="section-subtitle">نظرة شاملة على مؤشرات الأداء الاستراتيجية والتشغيلية للربع الأول 2026</div>
+        
+        <div class="grid grid-4">
+          <div class="glass-card">
+            <div class="stat-label">الأداء الاستراتيجي العام</div>
+            <div class="stat-value">90.1%</div>
+            <div class="stat-trend trend-up">▲ 2.5% عن الربع السابق</div>
+            <div class="prog-container"><div class="prog-bar"><div class="prog-fill" style="width: 90.1%"></div></div></div>
+          </div>
+          <div class="glass-card">
+            <div class="stat-label">الأداء التشغيلي (المبادرات)</div>
+            <div class="stat-value">83.6%</div>
+            <div class="stat-trend trend-up">▲ 1.8% نمو مستقر</div>
+            <div class="prog-container"><div class="prog-bar"><div class="prog-fill" style="width: 83.6%"></div></div></div>
+          </div>
+          <div class="glass-card">
+            <div class="stat-label">الأداء المالي (إنجاز الموارد)</div>
+            <div class="stat-value">99.9%</div>
+            <div class="stat-trend trend-up">▲ 5.2% أداء استثنائي</div>
+            <div class="prog-container"><div class="prog-bar"><div class="prog-fill" style="width: 99.9%"></div></div></div>
+          </div>
+          <div class="glass-card">
+            <div class="stat-label">مؤشر المخاطر (مستوى الأمان)</div>
+            <div class="stat-value">84.1%</div>
+            <div class="stat-trend">🟢 ضمن النطاق الآمن</div>
+            <div class="prog-container"><div class="prog-bar"><div class="prog-fill" style="width: 84.1%"></div></div></div>
+          </div>
+        </div>
 
-<!-- ================================================================ -->
-<!-- PAGE: EXECUTIVE SUMMARY -->
-<!-- ================================================================ -->
-<div id="page-summary" class="page active">
-  <div class="section-title"><span class="icon">📊</span> الملخص التنفيذي — الربع الأول 2026م</div>
-  <div class="text-small text-muted mb-4" style="margin-bottom:12px">إدارة مركز قياس الأداء | جمعية تراؤف لرعاية الأيتام بمحافظة حفر الباطن</div>
-
-  <!-- Color Key -->
-  <div class="color-key">
-    <strong style="font-size:12px">مفتاح الألوان المعتمد:</strong>
-    <div class="color-key-item"><div class="color-key-dot" style="background:var(--excellent)"></div><span>ممتاز (90%-100%)</span></div>
-    <div class="color-key-item"><div class="color-key-dot" style="background:var(--good)"></div><span>جيد (70%-89%)</span></div>
-    <div class="color-key-item"><div class="color-key-dot" style="background:var(--weak)"></div><span>ضعيف (أقل من 70%)</span></div>
-    <div class="color-key-item"><div class="color-key-dot" style="background:var(--pending)"></div><span>لم يحن دورية القياس</span></div>
-  </div>
-
-  <!-- Overall Indicator -->
-  <div class="row mb-4">
-    <div class="big-kpi" style="flex:1.5;text-align:center">
-      <div class="big-kpi-value" style="color:var(--accent-light)">90.1%</div>
-      <div class="big-kpi-label">مؤشر الأداء الاستراتيجي العام</div>
-      <div class="big-kpi-sub">26 هدفاً استراتيجياً | 49 مؤشراً | الربع الأول 2026م</div>
-      <div style="margin-top:10px"><span class="badge-excellent kpi-badge">✓ ممتاز</span></div>
-    </div>
-    <div style="flex:3">
-      <div class="grid-3" style="gap:12px">
-        <div class="kpi-card excellent" onclick="toggleAnalysis('sum-strat')">
-          <div class="kpi-label">الأداء الاستراتيجي</div>
-          <div class="kpi-value" style="color:var(--excellent)">90.1%</div>
-          <span class="kpi-badge badge-excellent">ممتاز</span>
-          <div class="kpi-sub">26 هدف | 49 مؤشر</div>
-          <div class="analysis-panel" id="sum-strat">
-            <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('sum-strat')">✕</button>
-            <div class="analysis-item"><span class="label">نتيجة الأداء:</span><span class="value">90.1% — ممتاز، ارتفاع من 83.8% في الربع الرابع 2025</span></div>
-            <div class="analysis-item"><span class="label">الأبعاد الممتازة:</span><span class="value">4 أبعاد: أصحاب المصلحة (100%)، المالي (99.9%)، التعلم والنمو (93.9%)، العمليات (93.7%)</span></div>
-            <div class="analysis-item"><span class="label">البعد الأدنى:</span><span class="value">المستفيدون (81.3%) — يحتاج تطوير</span></div>
+        <div class="grid grid-2">
+          <div class="glass-card">
+            <div class="chart-title">تطور الأداء الاستراتيجي (2023 - 2026)</div>
+            <div style="height: 300px"><canvas id="historicalChart"></canvas></div>
           </div>
-        </div>
-        <div class="kpi-card good" onclick="toggleAnalysis('sum-ops')">
-          <div class="kpi-label">الأداء التشغيلي</div>
-          <div class="kpi-value" style="color:var(--good)">83.6%</div>
-          <span class="kpi-badge badge-good">جيد</span>
-          <div class="kpi-sub">14 إدارة | 86.8% مبادرات</div>
-          <div class="analysis-panel" id="sum-ops">
-            <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('sum-ops')">✕</button>
-            <div class="analysis-item"><span class="label">أداء المبادرات:</span><span class="value">86.8% (جيد)</span></div>
-            <div class="analysis-item"><span class="label">أداء الوثائق:</span><span class="value">80.4% (جيد) — 114 وثيقة</span></div>
-            <div class="analysis-item"><span class="label">أقل إدارة أداءً:</span><span class="value">التمكين الاقتصادي (46.9%)</span></div>
-            <div class="analysis-item"><span class="label">أعلى إدارة أداءً:</span><span class="value">مكتب المدير العام (98.1%)</span></div>
-          </div>
-        </div>
-        <div class="kpi-card pending" onclick="toggleAnalysis('sum-func')">
-          <div class="kpi-label">الأداء الوظيفي</div>
-          <div class="kpi-value" style="color:var(--pending)">—</div>
-          <span class="kpi-badge badge-pending">غير متاح</span>
-          <div class="kpi-sub">تقرير مستقل غير مرفق</div>
-          <div class="analysis-panel" id="sum-func">
-            <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('sum-func')">✕</button>
-            <div class="analysis-item"><span class="label">الحالة:</span><span class="value">لم يُرفق تقرير الأداء الوظيفي ضمن مصادر البيانات المتاحة</span></div>
-            <div class="analysis-item"><span class="label">البيانات المطلوبة:</span><span class="value">تقييمات الأداء الفردي، توزيع مستويات الأداء، فجوات القدرات</span></div>
-          </div>
-        </div>
-        <div class="kpi-card good" onclick="toggleAnalysis('sum-risk')">
-          <div class="kpi-label">أداء المخاطر</div>
-          <div class="kpi-value" style="color:var(--good)">82</div>
-          <span class="kpi-badge badge-good">متوسط–منخفض</span>
-          <div class="kpi-sub">0 عالية | 13 متوسطة | 69 منخفضة</div>
-          <div class="analysis-panel" id="sum-risk">
-            <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('sum-risk')">✕</button>
-            <div class="analysis-item"><span class="label">المخاطر العالية:</span><span class="value">صفر — لا توجد مخاطر عالية</span></div>
-            <div class="analysis-item"><span class="label">المخاطر المتوسطة:</span><span class="value">13 مخاطرة (15.9%) — تشمل مالية وتشغيلية وحوكمة</span></div>
-            <div class="analysis-item"><span class="label">المخاطر المنخفضة:</span><span class="value">69 مخاطرة (84.1%)</span></div>
-          </div>
-        </div>
-        <div class="kpi-card excellent" onclick="toggleAnalysis('sum-fin')">
-          <div class="kpi-label">الأداء المالي</div>
-          <div class="kpi-value" style="color:var(--excellent)">99.9%</div>
-          <span class="kpi-badge badge-excellent">ممتاز</span>
-          <div class="kpi-sub">تبرعات: 23.5M ريال</div>
-          <div class="analysis-panel" id="sum-fin">
-            <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('sum-fin')">✕</button>
-            <div class="analysis-item"><span class="label">إجمالي التبرعات:</span><span class="value">23,469,326 ريال (مستهدف: 21,240,892)</span></div>
-            <div class="analysis-item"><span class="label">العائد التطوعي:</span><span class="value">2,450,915 ريال (122.5% من المستهدف)</span></div>
-            <div class="analysis-item"><span class="label">عائد الخدمات:</span><span class="value">3,223,583 ريال (99.2% من المستهدف)</span></div>
-          </div>
-        </div>
-        <div class="kpi-card excellent" onclick="toggleAnalysis('sum-gov')">
-          <div class="kpi-label">أداء الحوكمة</div>
-          <div class="kpi-value" style="color:var(--excellent)">97.8%</div>
-          <span class="kpi-badge badge-excellent">ممتاز</span>
-          <div class="kpi-sub">مستهدف: 99%</div>
-          <div class="analysis-panel" id="sum-gov">
-            <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('sum-gov')">✕</button>
-            <div class="analysis-item"><span class="label">المصدر:</span><span class="value">مؤشر نسبة التزام الجمعية بمعايير الحوكمة — المركز الوطني لتنمية القطاع غير الربحي</span></div>
-            <div class="analysis-item"><span class="label">الفجوة:</span><span class="value">1.2% دون المستهدف — تشير إلى فرصة تحسين محدودة</span></div>
-          </div>
-        </div>
-        <div class="kpi-card excellent" onclick="toggleAnalysis('sum-exc')">
-          <div class="kpi-label">التميز المؤسسي</div>
-          <div class="kpi-value" style="color:var(--excellent)">542</div>
-          <span class="kpi-badge badge-excellent">ممتاز</span>
-          <div class="kpi-sub">درجة من 1000 | مستهدف 500</div>
-          <div class="analysis-panel" id="sum-exc">
-            <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('sum-exc')">✕</button>
-            <div class="analysis-item"><span class="label">الدرجة المحققة:</span><span class="value">542 من 1000 (مستهدف 500)</span></div>
-            <div class="analysis-item"><span class="label">أعلى معيار:</span><span class="value">إدارة العمليات والمنتجات (86/150)</span></div>
-            <div class="analysis-item"><span class="label">فرصة التحسين:</span><span class="value">القيادة الإدارية (66/150)</span></div>
+          <div class="glass-card">
+            <div class="chart-title">توزيع الأهداف والمؤشرات (حسب الحالة)</div>
+            <div style="display: flex; gap: 20px; height: 300px">
+              <div style="flex: 1"><canvas id="goalsDistChart"></canvas></div>
+              <div style="flex: 1"><canvas id="kpiDistChart"></canvas></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Executive Messages -->
-  <div class="sub-title">أهم الرسائل التنفيذية لمجلس الإدارة</div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
-    <div class="alert alert-success">✅ <strong>تميز مالي:</strong> تجاوزت التبرعات المستهدف بنسبة 10.5%، والعائد التطوعي بنسبة 22.5%، مما يعكس ثقة الداعمين واستدامة قوية.</div>
-    <div class="alert alert-success">✅ <strong>التزام بالرؤية:</strong> تحقق 100% في الإسهام بمستهدفات رؤية 2030 (32 مبادرة كاملة).</div>
-    <div class="alert alert-warn">⚠️ <strong>فجوة تأهيل سوق العمل:</strong> أداء 46.4% لهدف "تأهيل الأبناء لسوق العمل" يُشكّل الانحراف الاستراتيجي الأبرز.</div>
-    <div class="alert alert-warn">⚠️ <strong>ضعف التمكين الاقتصادي:</strong> أداء إدارة التمكين الاقتصادي (46.9%) يستدعي تدخلاً تنفيذياً عاجلاً.</div>
-    <div class="alert alert-info">📈 <strong>مسار تعافٍ:</strong> ارتفع الأداء الاستراتيجي من 83.8% في الربع الرابع 2025 إلى 90.1% في الربع الأول 2026.</div>
-  </div>
-
-  <!-- Top 5 Deviations -->
-  <div class="grid-2" style="gap:16px">
-    <div>
-      <div class="sub-title">أبرز 5 انحرافات جوهرية</div>
-      <div class="info-card">
-        <table class="data-table" style="box-shadow:none">
-          <thead><tr><th>#</th><th>المؤشر</th><th>المتحقق</th><th>الحالة</th></tr></thead>
-          <tbody>
-            <tr><td>1</td><td>تأهيل الأبناء لسوق العمل</td><td>46.4%</td><td><span class="kpi-badge badge-weak">ضعيف</span></td></tr>
-            <tr><td>2</td><td>بناء القدرات القيادية (البنين)</td><td>50%</td><td><span class="kpi-badge badge-weak">ضعيف</span></td></tr>
-            <tr><td>3</td><td>إدارة التمكين الاقتصادي</td><td>46.9%</td><td><span class="kpi-badge badge-weak">ضعيف</span></td></tr>
-            <tr><td>4</td><td>مركز البحث والابتكار</td><td>58.3%</td><td><span class="kpi-badge badge-weak">ضعيف</span></td></tr>
-            <tr><td>5</td><td>مرات الظهور الإعلامي</td><td>55%</td><td><span class="kpi-badge badge-weak">ضعيف</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div>
-      <div class="sub-title">أبرز 5 توصيات لمجلس الإدارة</div>
-      <div class="info-card">
-        <table class="data-table" style="box-shadow:none">
-          <thead><tr><th>#</th><th>التوصية</th><th>الأولوية</th></tr></thead>
-          <tbody>
-            <tr><td>1</td><td>توجيه إدارة التمكين الاقتصادي بمراجعة خطة التنفيذ</td><td><span class="priority-high">عالية</span></td></tr>
-            <tr><td>2</td><td>اعتماد آلية بديلة لتنويع مسارات سوق العمل</td><td><span class="priority-high">عالية</span></td></tr>
-            <tr><td>3</td><td>متابعة تطوير إجراءات قياس شهادات المستفيدين</td><td><span class="priority-med">متوسطة</span></td></tr>
-            <tr><td>4</td><td>تعزيز جاذبية برامج القيادة للبنين</td><td><span class="priority-med">متوسطة</span></td></tr>
-            <tr><td>5</td><td>وضع خطة طوارئ للمخاطر المالية المتوسطة الثلاث</td><td><span class="priority-high">عالية</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ================================================================ -->
-<!-- PAGE: PERFORMANCE MAP -->
-<!-- ================================================================ -->
-<div id="page-map" class="page">
-  <div class="section-title"><span class="icon">🗺️</span> خريطة الأداء المؤسسي — الترابط بين المحاور</div>
-  <div class="text-small text-muted mb-4">إدارة مركز قياس الأداء | توضح هذه الصفحة كيف يؤثر كل محور على الآخر وأين تقع نقاط الضغط المؤسسي</div>
-
-  <div class="perf-map mb-4" style="margin-bottom:16px">
-    <div class="map-node excellent" onclick="showTab('strategic')">
-      <div class="node-icon">🎯</div>
-      <div class="node-title">الأداء الاستراتيجي</div>
-      <div class="node-val" style="color:var(--excellent)">90.1%</div>
-      <div class="text-small text-muted">5 أبعاد | 26 هدف</div>
-    </div>
-    <div class="map-node good" onclick="showTab('operational')">
-      <div class="node-icon">⚙️</div>
-      <div class="node-title">الأداء التشغيلي</div>
-      <div class="node-val" style="color:var(--good)">83.6%</div>
-      <div class="text-small text-muted">14 إدارة | 114 وثيقة</div>
-    </div>
-    <div class="map-node pending" onclick="showTab('hrperf')">
-      <div class="node-icon">👥</div>
-      <div class="node-title">الأداء الوظيفي</div>
-      <div class="node-val" style="color:var(--pending)">—</div>
-      <div class="text-small text-muted">بيانات غير مكتملة</div>
-    </div>
-    <div class="map-node excellent" onclick="showTab('financial')">
-      <div class="node-icon">💰</div>
-      <div class="node-title">الأداء المالي</div>
-      <div class="node-val" style="color:var(--excellent)">99.9%</div>
-      <div class="text-small text-muted">تجاوز المستهدف</div>
-    </div>
-    <div class="map-node good" onclick="showTab('risks')">
-      <div class="node-icon">⚠️</div>
-      <div class="node-title">أداء المخاطر</div>
-      <div class="node-val" style="color:var(--good)">82</div>
-      <div class="text-small text-muted">0 عالية | 13 متوسطة</div>
-    </div>
-    <div class="map-node excellent" onclick="showTab('governance')">
-      <div class="node-icon">🏛️</div>
-      <div class="node-title">أداء الحوكمة</div>
-      <div class="node-val" style="color:var(--excellent)">97.8%</div>
-      <div class="text-small text-muted">التزام بالمعايير</div>
-    </div>
-    <div class="map-node excellent" onclick="showTab('excellence')">
-      <div class="node-icon">🏆</div>
-      <div class="node-title">التميز المؤسسي</div>
-      <div class="node-val" style="color:var(--excellent)">542/1000</div>
-      <div class="text-small text-muted">جائزة الملك عبدالعزيز</div>
-    </div>
-    <div class="map-node excellent" style="background:linear-gradient(135deg,var(--primary),var(--primary-light));color:white">
-      <div class="node-icon">📊</div>
-      <div class="node-title" style="color:white">الأداء المؤسسي الكلي</div>
-      <div class="node-val" style="color:var(--accent-light)">90.1%</div>
-      <div class="text-small" style="color:rgba(255,255,255,0.7)">ممتاز — Q1 2026</div>
-    </div>
-    <div class="map-node good" onclick="showTab('decisions')">
-      <div class="node-icon">📋</div>
-      <div class="node-title">القرارات والتوصيات</div>
-      <div class="node-val" style="color:var(--good)">12</div>
-      <div class="text-small text-muted">توصية وقرار</div>
-    </div>
-  </div>
-
-  <div class="sub-title">نقاط الضغط المؤسسي وأولويات الربع القادم</div>
-  <table class="data-table mb-4">
-    <thead>
-      <tr><th>المحور</th><th>الأثر على المحاور الأخرى</th><th>نقطة الضغط</th><th>من يحتاج قراراً؟</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>الأداء التشغيلي</td><td>يُضعف الاستراتيجي في بعد المستفيدين</td><td>إدارة التمكين الاقتصادي (46.9%)</td><td><span class="priority-high">مجلس الإدارة</span></td></tr>
-      <tr><td>الأداء المالي</td><td>يدعم الاستراتيجي لكن مخاطر استدامة قائمة</td><td>3 مخاطر مالية متوسطة</td><td><span class="priority-med">الإدارة التنفيذية</span></td></tr>
-      <tr><td>الحوكمة</td><td>ضعف الإفصاح يؤثر على السمعة والمخاطر</td><td>التأخر في الإفصاح (خطر متوسط)</td><td><span class="priority-med">الإدارة التنفيذية</span></td></tr>
-      <tr><td>التميز المؤسسي</td><td>يؤثر على نضج المنهجيات والممارسات</td><td>القيادة الإدارية (66/150)</td><td><span class="priority-low">متابعة تنفيذية</span></td></tr>
-    </tbody>
-  </table>
-
-  <!-- Methodological Note -->
-  <div class="alert alert-info" style="margin-bottom:16px">
-    📐 <strong>ملاحظة منهجية:</strong> كل محور يُقرأ بمقياسه الخاص — لا يمكن مقارنة نسبة الإنجاز الاستراتيجي (%) بدرجة التميز أو بعدد المخاطر في رسم واحد مشترك.
-  </div>
-
-  <!-- Axis Status Grid -->
-  <div class="sub-title">حالة المحاور — كل مقياس بأساسه الصحيح</div>
-  <div class="card mb-4">
-    <table class="data-table" style="box-shadow:none">
-      <thead>
-        <tr>
-          <th>المحور</th>
-          <th>القيمة الفعلية</th>
-          <th>أساس القياس</th>
-          <th>طريقة القراءة</th>
-          <th>الحالة</th>
-          <th>الشريط</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>🎯 الأداء الاستراتيجي</td>
-          <td><strong>90.1%</strong></td>
-          <td>نسبة إنجاز الأهداف</td>
-          <td>مقارنة بالمستهدف 100%</td>
-          <td><span class="kpi-badge badge-excellent">ممتاز</span></td>
-          <td style="width:200px"><div class="progress-bar-wrap"><div class="progress-bar-fill fill-excellent" style="width:90.1%"></div></div></td>
-        </tr>
-        <tr>
-          <td>⚙️ الأداء التشغيلي</td>
-          <td><strong>83.6%</strong></td>
-          <td>نسبة إنجاز المبادرات والوثائق</td>
-          <td>مقارنة بالمستهدف 100%</td>
-          <td><span class="kpi-badge badge-good">جيد</span></td>
-          <td><div class="progress-bar-wrap"><div class="progress-bar-fill fill-good" style="width:83.6%"></div></div></td>
-        </tr>
-        <tr>
-          <td>💰 الأداء المالي</td>
-          <td><strong>99.9%</strong></td>
-          <td>نسبة إنجاز المؤشرات المالية</td>
-          <td>مقارنة بالمستهدف 100%</td>
-          <td><span class="kpi-badge badge-excellent">ممتاز</span></td>
-          <td><div class="progress-bar-wrap"><div class="progress-bar-fill fill-excellent" style="width:99.9%"></div></div></td>
-        </tr>
-        <tr>
-          <td>⚠️ أداء المخاطر</td>
-          <td><strong>84.1%</strong></td>
-          <td>نسبة المخاطر المنخفضة (69 من 82)</td>
-          <td>كلما ارتفعت النسبة كان أفضل — لا توجد مخاطر عالية</td>
-          <td><span class="kpi-badge badge-good">جيد</span></td>
-          <td><div class="progress-bar-wrap"><div class="progress-bar-fill fill-good" style="width:84.1%"></div></div></td>
-        </tr>
-        <tr>
-          <td>🏛️ أداء الحوكمة</td>
-          <td><strong>97.8%</strong></td>
-          <td>نسبة الالتزام بمعايير الحوكمة</td>
-          <td>مقارنة بمستهدف 99%</td>
-          <td><span class="kpi-badge badge-excellent">ممتاز</span></td>
-          <td><div class="progress-bar-wrap"><div class="progress-bar-fill fill-excellent" style="width:97.8%"></div></div></td>
-        </tr>
-        <tr>
-          <td>🏆 التميز المؤسسي</td>
-          <td><strong>542 / 1000</strong></td>
-          <td>درجة التقييم الذاتي (مستهدف 500)</td>
-          <td>108.4% من المستهدف — تجاوز المستهدف بـ 42 درجة</td>
-          <td><span class="kpi-badge badge-excellent">فوق المستهدف</span></td>
-          <td><div class="progress-bar-wrap"><div class="progress-bar-fill fill-excellent" style="width:54.2%"></div></div><div class="text-small text-muted" style="margin-top:2px">54.2% من الدرجة القصوى</div></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Two charts: correct ones -->
-  <div class="row">
-    <div class="chart-box w2">
-      <div class="chart-title">مستوى الأداء للمحاور ذات المقياس الموحّد (نسبة %)</div>
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px">⚠️ يشمل فقط المحاور التي تُقاس بالنسبة المئوية — التميز يُعرض بمقياسه المستقل</div>
-      <div class="chart-wrap"><canvas id="mapBarChart"></canvas></div>
-    </div>
-    <div class="chart-box">
-      <div class="chart-title">درجة التميز المؤسسي (مقياس مستقل من 1000)</div>
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px">⚠️ لا تُقارَن بنسب المحاور الأخرى — تُقرأ نسبةً من المستهدف (500)</div>
-      <div class="chart-wrap"><canvas id="mapExcellenceChart"></canvas></div>
-    </div>
-  </div>
-</div>
-
-<!-- ================================================================ -->
-<!-- PAGE: STRATEGIC PERFORMANCE -->
-<!-- ================================================================ -->
-<div id="page-strategic" class="page">
-  <button class="back-btn" onclick="showTab('summary')">← العودة للملخص</button>
-  <div class="section-title"><span class="icon">🎯</span> الأداء الاستراتيجي — الربع الأول 2026م</div>
-  <div class="text-small text-muted mb-4">المصدر: تقرير الأداء الاستراتيجي للربع الأول 2026م | إدارة مركز قياس الأداء</div>
-
-  <div class="color-key">
-    <strong style="font-size:12px">مفتاح الألوان:</strong>
-    <div class="color-key-item"><div class="color-key-dot" style="background:var(--excellent)"></div><span>ممتاز 90%-100%</span></div>
-    <div class="color-key-item"><div class="color-key-dot" style="background:var(--good)"></div><span>جيد 70%-89%</span></div>
-    <div class="color-key-item"><div class="color-key-dot" style="background:var(--weak)"></div><span>ضعيف أقل من 70%</span></div>
-    <div class="color-key-item"><div class="color-key-dot" style="background:var(--pending)"></div><span>لم يحن دورية القياس</span></div>
-  </div>
-
-  <!-- Overall + Dimensions -->
-  <div class="row mb-4">
-    <div class="big-kpi" style="flex:1">
-      <div class="big-kpi-value" style="color:var(--accent-light)">90.1%</div>
-      <div class="big-kpi-label">الأداء الاستراتيجي العام</div>
-      <div class="big-kpi-sub">11 ممتاز | 5 جيد | 2 ضعيف | 8 لم يحن</div>
-    </div>
-    <div style="flex:4">
-      <div class="grid-5">
-        <div class="dim-card good" onclick="toggleAnalysis('dim-1')">
-          <div class="dim-title">المستفيدون</div>
-          <div class="dim-value" style="color:var(--good)">81.3%</div>
-          <span class="kpi-badge badge-good">جيد</span>
-          <div class="dim-goals">10 أهداف | 17 مؤشر</div>
-          <div class="analysis-panel" id="dim-1">
-            <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('dim-1')">✕</button>
-            <div class="analysis-item"><span class="label">ممتاز:</span><span class="value">التحصين الفكري (100%)، المهارات الحياتية (97.9%)، تعزيز الأسر (96.3%)</span></div>
-            <div class="analysis-item"><span class="label">ضعيف:</span><span class="value">تأهيل سوق العمل (46.4%)، القدرات القيادية (50%)</span></div>
+      <!-- PAGE: STRATEGIC -->
+      <div id="page-strategic" class="page">
+        <div class="section-title">الأداء الاستراتيجي</div>
+        <div class="grid grid-2">
+          <div class="glass-card">
+            <div class="chart-title">أداء الأبعاد الاستراتيجية</div>
+            <div style="height: 400px"><canvas id="dimensionsChart"></canvas></div>
           </div>
-        </div>
-        <div class="dim-card excellent" onclick="toggleAnalysis('dim-2')">
-          <div class="dim-title">أصحاب المصلحة</div>
-          <div class="dim-value" style="color:var(--excellent)">100%</div>
-          <span class="kpi-badge badge-excellent">ممتاز</span>
-          <div class="dim-goals">هدفان | 5 مؤشرات</div>
-          <div class="analysis-panel" id="dim-2">
-            <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('dim-2')">✕</button>
-            <div class="analysis-item"><span class="label">الإسهام في الرؤية:</span><span class="value">100% — 32 مبادرة متحققة</span></div>
-            <div class="analysis-item"><span class="label">ملاحظة:</span><span class="value">الهدف الثاني لم يحن موعد قياسه</span></div>
-          </div>
-        </div>
-        <div class="dim-card excellent" onclick="toggleAnalysis('dim-3')">
-          <div class="dim-title">المالي</div>
-          <div class="dim-value" style="color:var(--excellent)">99.9%</div>
-          <span class="kpi-badge badge-excellent">ممتاز</span>
-          <div class="dim-goals">هدفان | 5 مؤشرات</div>
-          <div class="analysis-panel" id="dim-3">
-            <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('dim-3')">✕</button>
-            <div class="analysis-item"><span class="label">التبرعات:</span><span class="value">23,469,326 ريال (+10.5% فوق المستهدف)</span></div>
-            <div class="analysis-item"><span class="label">العائد التطوعي:</span><span class="value">2,450,915 ريال (122.5%)</span></div>
-          </div>
-        </div>
-        <div class="dim-card excellent" onclick="toggleAnalysis('dim-4')">
-          <div class="dim-title">العمليات الداخلية</div>
-          <div class="dim-value" style="color:var(--excellent)">93.7%</div>
-          <span class="kpi-badge badge-excellent">ممتاز</span>
-          <div class="dim-goals">6 أهداف | 12 مؤشر</div>
-          <div class="analysis-panel" id="dim-4">
-            <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('dim-4')">✕</button>
-            <div class="analysis-item"><span class="label">ممتاز:</span><span class="value">الابتكار (100%)، المنهجيات (100%)، نمذجة العمل (100%)، الرشاقة التنظيمية (98.3%)</span></div>
-            <div class="analysis-item"><span class="label">جيد:</span><span class="value">إدارة السمعة (76.2%)، الشراكات (88.4%)</span></div>
-          </div>
-        </div>
-        <div class="dim-card excellent" onclick="toggleAnalysis('dim-5')">
-          <div class="dim-title">التعلم والنمو</div>
-          <div class="dim-value" style="color:var(--excellent)">93.9%</div>
-          <span class="kpi-badge badge-excellent">ممتاز</span>
-          <div class="dim-goals">6 أهداف | 10 مؤشرات</div>
-          <div class="analysis-panel" id="dim-5">
-            <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('dim-5')">✕</button>
-            <div class="analysis-item"><span class="label">ممتاز:</span><span class="value">المجتمع الرقمي (100%)، القيم المؤسسية (100%)</span></div>
-            <div class="analysis-item"><span class="label">جيد:</span><span class="value">استثمار المتطوعين (88.4%)</span></div>
-            <div class="analysis-item"><span class="label">لم يحن:</span><span class="value">القدرات التنافسية، الصف الثاني، بيئة العمل</span></div>
+          <div class="glass-card">
+            <div class="chart-title">تحليل الفجوات</div>
+            <div class="alert alert-info">تم تحقيق مستهدفات الربع الأول في 4 أبعاد من أصل 5. البعد الذي يحتاج تركيز هو "المستفيدون" بنسبة 81.3%.</div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- Historical Trend + KPI Distribution -->
-  <div class="row">
-    <div class="chart-box w3">
-      <div class="chart-title">المسار التاريخي للأداء الاستراتيجي (2023 – 2026م)</div>
-      <div class="chart-wrap-lg"><canvas id="historicalChart"></canvas></div>
-    </div>
-    <div class="chart-box">
-      <div class="chart-title">توزيع حالات الأهداف الاستراتيجية</div>
-      <div class="chart-wrap"><canvas id="goalsDistChart"></canvas></div>
-    </div>
-  </div>
-
-  <!-- Strategic Goals Table -->
-  <div class="sub-title">نتائج الأهداف الاستراتيجية — بعد المستفيدين</div>
-  <div class="info-card mb-4">
-    <table class="data-table" style="box-shadow:none">
-      <thead>
-        <tr><th>#</th><th>الهدف الاستراتيجي</th><th>نسبة التحقق</th><th>الحالة</th><th>التحليل والتوصية</th></tr>
-      </thead>
-      <tbody>
-        <tr class="clickable" onclick="toggleRowDetail('d-s2')">
-          <td>س2</td><td>تعزيز قدرات الأيتام علمياً</td>
-          <td><strong>89.5%</strong><div class="progress-bar-wrap mt-1"><div class="progress-bar-fill fill-good" style="width:89.5%"></div></div></td>
-          <td><span class="kpi-badge badge-good">جيد</span></td>
-          <td><span style="font-size:11px;color:var(--text-muted)">اضغط للتفاصيل ▼</span></td>
-        </tr>
-        <tr id="d-s2" class="integration-detail">
-          <td colspan="5">
-            <div class="analysis-item"><span class="label">المؤشرات:</span><span class="value">نسبة المتفوقين: 89.5% (مستهدف 65% | متحقق 58.2%) — البنات 97.4%، البنين 81.5%</span></div>
-            <div class="analysis-item"><span class="label">التوصية:</span><span class="value">تكثيف الزيارات الميدانية للمدارس وتوجيه التدخلات نحو الفئات الأضعف تحصيلاً</span></div>
-          </td>
-        </tr>
-        <tr><td>س3</td><td>تحصين الأيتام فكرياً</td>
-          <td><strong>100%</strong><div class="progress-bar-wrap mt-1"><div class="progress-bar-fill fill-excellent" style="width:100%"></div></div></td>
-          <td><span class="kpi-badge badge-excellent">ممتاز</span></td>
-          <td><span style="font-size:11px">مستهدف 80% — تحقق كامل</span></td>
-        </tr>
-        <tr><td>س4</td><td>تمكين المهارات الحياتية</td>
-          <td><strong>97.9%</strong><div class="progress-bar-wrap mt-1"><div class="progress-bar-fill fill-excellent" style="width:97.9%"></div></div></td>
-          <td><span class="kpi-badge badge-excellent">ممتاز</span></td>
-          <td><span style="font-size:11px">البنات 99.5%، البنين 96.3%</span></td>
-        </tr>
-        <tr class="clickable" onclick="toggleRowDetail('d-s5')">
-          <td>س5</td><td>تأهيل الأبناء لسوق العمل</td>
-          <td><strong>46.4%</strong><div class="progress-bar-wrap mt-1"><div class="progress-bar-fill fill-weak" style="width:46.4%"></div></div></td>
-          <td><span class="kpi-badge badge-weak">ضعيف</span></td>
-          <td><span style="font-size:11px;color:var(--text-muted)">اضغط للتفاصيل ▼</span></td>
-        </tr>
-        <tr id="d-s5" class="integration-detail">
-          <td colspan="5">
-            <div class="analysis-item"><span class="label">السبب:</span><span class="value">ضعف الالتزام بإكمال البرامج، تأثير شهر رمضان على الحضور، قصور فاعلية الاستقطاب</span></div>
-            <div class="analysis-item"><span class="label">الأثر:</span><span class="value">84 مستفيد من 151 مستهدف للتأهيل | 16 مستفيد من 43 مستهدف للتمكين</span></div>
-            <div class="analysis-item"><span class="label">الإجراء:</span><span class="value">تنويع أساليب التدريب، استقطاب فعّال، استكمال الحقائب التدريبية قبل التنفيذ</span></div>
-            <div class="analysis-item"><span class="label">المالك:</span><span class="value">إدارة التمكين الاقتصادي</span></div>
-          </td>
-        </tr>
-        <tr class="clickable" onclick="toggleRowDetail('d-s6')">
-          <td>س6</td><td>بناء القدرات القيادية</td>
-          <td><strong>50%</strong><div class="progress-bar-wrap mt-1"><div class="progress-bar-fill fill-weak" style="width:50%"></div></div></td>
-          <td><span class="kpi-badge badge-weak">ضعيف</span></td>
-          <td><span style="font-size:11px;color:var(--text-muted)">اضغط للتفاصيل ▼</span></td>
-        </tr>
-        <tr id="d-s6" class="integration-detail">
-          <td colspan="5">
-            <div class="analysis-item"><span class="label">السبب:</span><span class="value">نادي البنين: 0% — عزوف المستفيدين وضعف الاستقطاب | نادي البنات: 100%</span></div>
-            <div class="analysis-item"><span class="label">الإجراء:</span><span class="value">رفع فاعلية فريق البناء التربوي، تنويع أساليب البرامج القيادية</span></div>
-          </td>
-        </tr>
-        <tr><td>س9</td><td>التمكين الاقتصادي للأمهات</td>
-          <td><strong>72.5%</strong><div class="progress-bar-wrap mt-1"><div class="progress-bar-fill fill-good" style="width:72.5%"></div></div></td>
-          <td><span class="kpi-badge badge-good">جيد</span></td>
-          <td><span style="font-size:11px">التمكين 100% | التأهيل 45% — فجوة في التكامل</span></td>
-        </tr>
-        <tr><td>س10</td><td>تعزيز أسر الأيتام اجتماعياً وصحياً وسكنياً</td>
-          <td><strong>96.3%</strong><div class="progress-bar-wrap mt-1"><div class="progress-bar-fill fill-excellent" style="width:96.3%"></div></div></td>
-          <td><span class="kpi-badge badge-excellent">ممتاز</span></td>
-          <td><span style="font-size:11px">الاحتياجات الأساسية 96.3%، الصحية 95.6%، السكنية 97%</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Dimensions chart -->
-  <div class="row">
-    <div class="chart-box">
-      <div class="chart-title">أداء الأبعاد الاستراتيجية الخمسة</div>
-      <div class="chart-wrap"><canvas id="dimensionsChart"></canvas></div>
-    </div>
-    <div class="chart-box">
-      <div class="chart-title">توزيع المؤشرات حسب الحالة</div>
-      <div class="chart-wrap"><canvas id="kpiDistChart"></canvas></div>
-    </div>
-  </div>
-</div>
-
-<!-- ================================================================ -->
-<!-- PAGE: OPERATIONAL PERFORMANCE -->
-<!-- ================================================================ -->
-<div id="page-operational" class="page">
-  <button class="back-btn" onclick="showTab('summary')">← العودة للملخص</button>
-  <div class="section-title"><span class="icon">⚙️</span> الأداء التشغيلي — الربع الأول 2026م</div>
-  <div class="text-small text-muted mb-4">المصدر: تقرير الأداء التشغيلي للربع الأول 2026م | إدارة مركز قياس الأداء</div>
-
-  <div class="grid-4 mb-4" style="margin-bottom:16px">
-    <div class="kpi-card good">
-      <div class="kpi-label">الأداء التشغيلي الكلي</div>
-      <div class="kpi-value" style="color:var(--good)">83.6%</div>
-      <span class="kpi-badge badge-good">جيد</span>
-    </div>
-    <div class="kpi-card good">
-      <div class="kpi-label">أداء المبادرات</div>
-      <div class="kpi-value" style="color:var(--good)">86.8%</div>
-      <span class="kpi-badge badge-good">جيد</span>
-    </div>
-    <div class="kpi-card excellent">
-      <div class="kpi-label">أداء الأنشطة</div>
-      <div class="kpi-value" style="color:var(--excellent)">91.3%</div>
-      <span class="kpi-badge badge-excellent">ممتاز</span>
-    </div>
-    <div class="kpi-card good">
-      <div class="kpi-label">أداء مؤشرات الوثائق</div>
-      <div class="kpi-value" style="color:var(--good)">80.4%</div>
-      <span class="kpi-badge badge-good">جيد — 114 وثيقة</span>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="chart-box w2">
-      <div class="chart-title">أداء الإدارات التشغيلية</div>
-      <div class="chart-wrap-lg"><canvas id="deptChart"></canvas></div>
-    </div>
-    <div class="chart-box">
-      <div class="chart-title">توزيع الوثائق حسب الأداء</div>
-      <div class="chart-wrap"><canvas id="docsChart"></canvas></div>
-    </div>
-  </div>
-
-  <div class="sub-title">تفاصيل أداء الإدارات</div>
-  <table class="data-table mb-4">
-    <thead>
-      <tr><th>الإدارة</th><th>الأداء الكلي</th><th>أداء المبادرات</th><th>أداء الوثائق</th><th>الحالة</th><th>ملاحظات</th></tr>
-    </thead>
-    <tbody id="deptTableBody"></tbody>
-  </table>
-
-  <div class="sub-title">أبرز الانحرافات التشغيلية</div>
-  <div class="info-card">
-    <table class="data-table" style="box-shadow:none">
-      <thead><tr><th>الإدارة</th><th>سبب الانحراف</th><th>الأثر</th><th>الإجراء التصحيحي</th><th>المالك</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>إدارة التمكين الاقتصادي (46.9%)</td>
-          <td>ضعف استقطاب المستفيدين، قصور في مسارات التمكين البديلة</td>
-          <td>يؤثر مباشرة على الهدف الاستراتيجي س5</td>
-          <td>مراجعة خطة التنفيذ وتنويع مسارات التمكين</td>
-          <td>المدير التنفيذي</td>
-        </tr>
-        <tr>
-          <td>مركز البحث والابتكار (58.3%)</td>
-          <td>عدم اكتمال خطة البحث التتبعي، ضعف تجاوب الأسر</td>
-          <td>يؤثر على جودة البيانات ومعرفة احتياجات المستفيدين</td>
-          <td>الالتزام بالجدول الزمني وتعزيز وسائل التواصل</td>
-          <td>مركز البحث والابتكار</td>
-        </tr>
-        <tr>
-          <td>نادي البنين (67.1%)</td>
-          <td>عزوف المستفيدين عن البرامج القيادية، ضعف الاستقطاب</td>
-          <td>يؤثر على الهدف الاستراتيجي س6</td>
-          <td>تطوير أساليب برامج القيادة وتعزيز الجاذبية</td>
-          <td>نادي تراؤف للبنين</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ================================================================ -->
-<!-- PAGE: HR PERFORMANCE -->
-<!-- ================================================================ -->
-<div id="page-hrperf" class="page">
-  <button class="back-btn" onclick="showTab('summary')">← العودة للملخص</button>
-  <div class="section-title"><span class="icon">👥</span> الأداء الوظيفي — الربع الأول 2026م</div>
-  <div class="text-small text-muted mb-4">إدارة مركز قياس الأداء | ملاحظة: لا تُعرض أسماء الأفراد في نسخة مجلس الإدارة — القراءة تركز على القدرة المؤسسية</div>
-
-  <div class="alert alert-warn" style="margin-bottom:16px">
-    ⚠️ <strong>ملاحظة جودة البيانات:</strong> لم يُرفق تقرير الأداء الوظيفي المستقل ضمن مصادر البيانات المتاحة. البيانات التالية مستخلصة من مؤشرات بعد التعلم والنمو في التقرير الاستراتيجي.
-  </div>
-
-  <div class="grid-3 mb-4" style="margin-bottom:16px">
-    <div class="kpi-card excellent">
-      <div class="kpi-label">الالتزام بالقيم المؤسسية</div>
-      <div class="kpi-value" style="color:var(--excellent)">100%</div>
-      <span class="kpi-badge badge-excellent">ممتاز</span>
-      <div class="kpi-sub">مستهدف: 100% | متحقق: 100%</div>
-    </div>
-    <div class="kpi-card good">
-      <div class="kpi-label">استثمار المتطوعين</div>
-      <div class="kpi-value" style="color:var(--good)">75.6%</div>
-      <span class="kpi-badge badge-good">جيد</span>
-      <div class="kpi-sub">756 متطوع من 1000 مستهدف</div>
-    </div>
-    <div class="kpi-card excellent">
-      <div class="kpi-label">أتمتة الإجراءات الداخلية</div>
-      <div class="kpi-value" style="color:var(--excellent)">100%</div>
-      <span class="kpi-badge badge-excellent">ممتاز</span>
-      <div class="kpi-sub">مستهدف: 25% | متحقق: 25%</div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="info-card">
-      <div class="sub-title" style="margin-top:0">البيانات المطلوبة لتفعيل هذا التبويب بالكامل</div>
-      <table class="data-table" style="box-shadow:none">
-        <thead><tr><th>#</th><th>البيانات المطلوبة</th><th>مصدرها المتوقع</th><th>الجهة المالكة</th></tr></thead>
-        <tbody>
-          <tr><td>1</td><td>توزيع مستويات أداء الموظفين</td><td>تقرير الأداء الوظيفي الفردي</td><td>إدارة الموارد البشرية</td></tr>
-          <tr><td>2</td><td>فجوات القدرات والتدريب</td><td>خطة التدريب والتطوير</td><td>إدارة الموارد البشرية</td></tr>
-          <tr><td>3</td><td>عدد الموظفين حسب الإدارة</td><td>الهيكل التنظيمي المعتمد</td><td>إدارة الموارد البشرية</td></tr>
-          <tr><td>4</td><td>نتائج تقييم الأداء الفردي</td><td>نظام إدارة الأداء</td><td>إدارة الموارد البشرية</td></tr>
-          <tr><td>5</td><td>نسب الالتزام بالحضور والانضباط</td><td>نظام الحضور والانصراف</td><td>إدارة الموارد البشرية</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="sub-title">الملاحظات المستخلصة من بيانات التعلم والنمو</div>
-  <div class="grid-2">
-    <div class="alert alert-success">✅ <strong>نقطة قوة:</strong> 100% التزام بالقيم المؤسسية يعكس ثقافة تنظيمية متماسكة وبيئة عمل ايجابية.</div>
-    <div class="alert alert-warn">⚠️ <strong>فرصة تحسين:</strong> 756 متطوع من 1000 مستهدف — ضعف التسويق للفرص التطوعية ويؤثر على العائد الاقتصادي.</div>
-    <div class="alert alert-info">📋 <strong>توصية:</strong> رفع تقرير الأداء الوظيفي بشكل مستقل في الربع القادم لإتمام القراءة التكاملية.</div>
-    <div class="alert alert-info">📋 <strong>علاقة الأداء الوظيفي بالتشغيلي:</strong> إدارة التمكين الاقتصادي (46.9%) تتطلب فحص القدرات الوظيفية فيها بشكل مستقل.</div>
-  </div>
-</div>
-
-<!-- ================================================================ -->
-<!-- PAGE: RISKS -->
-<!-- ================================================================ -->
-<div id="page-risks" class="page">
-  <button class="back-btn" onclick="showTab('summary')">← العودة للملخص</button>
-  <div class="section-title"><span class="icon">⚠️</span> أداء المخاطر — 2025م</div>
-  <div class="text-small text-muted mb-4">المصدر: تقرير تقييم المخاطر 2025 | إدارة مركز قياس الأداء</div>
-
-  <div class="grid-4 mb-4" style="margin-bottom:16px">
-    <div class="kpi-card good">
-      <div class="kpi-label">إجمالي المخاطر المسجلة</div>
-      <div class="kpi-value" style="color:var(--primary)">82</div>
-      <span class="kpi-badge badge-good">مُقيَّمة ومحللة</span>
-    </div>
-    <div class="kpi-card excellent">
-      <div class="kpi-label">مخاطر عالية الخطورة</div>
-      <div class="kpi-value" style="color:var(--excellent)">0</div>
-      <span class="kpi-badge badge-excellent">لا توجد</span>
-    </div>
-    <div class="kpi-card good">
-      <div class="kpi-label">مخاطر متوسطة الخطورة</div>
-      <div class="kpi-value" style="color:var(--good)">13</div>
-      <span class="kpi-badge badge-good">15.9%</span>
-    </div>
-    <div class="kpi-card excellent">
-      <div class="kpi-label">مخاطر منخفضة الخطورة</div>
-      <div class="kpi-value" style="color:var(--excellent)">69</div>
-      <span class="kpi-badge badge-excellent">84.1%</span>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="chart-box w2">
-      <div class="chart-title">توزيع المخاطر حسب الفئة</div>
-      <div class="chart-wrap-lg"><canvas id="riskCatChart"></canvas></div>
-    </div>
-    <div class="chart-box">
-      <div class="chart-title">توزيع مستويات الخطورة</div>
-      <div class="chart-wrap"><canvas id="riskLevelChart"></canvas></div>
-    </div>
-  </div>
-
-  <!-- Risk Matrix Summary -->
-  <div class="sub-title">المخاطر المتوسطة الخطورة — تفاصيل وخطط المعالجة</div>
-  <table class="data-table mb-4">
-    <thead>
-      <tr><th>الخطر</th><th>الفئة</th><th>درجة الخطر</th><th>مستوى الاحتمالية</th><th>الأثر</th><th>استراتيجية المعالجة</th><th>الإجراءات الرئيسية</th></tr>
-    </thead>
-    <tbody>
-      <tr class="clickable" onclick="toggleRowDetail('r1')">
-        <td>ضعف القدرة على الاستدامة المالية</td><td>مالية</td><td><span class="priority-high">12</span></td><td>متوسط</td><td>عالي</td><td>خفض</td>
-        <td>اضغط للتفاصيل ▼</td>
-      </tr>
-      <tr id="r1" class="integration-detail"><td colspan="7">
-        <div class="analysis-item"><span class="label">الإجراءات:</span><span class="value">الاستعانة بجهات متخصصة في الاستثمار، البحث عن فرص استثمارية، تخصيص أوقاف مستدامة</span></div>
-        <div class="analysis-item"><span class="label">المؤشرات:</span><span class="value">نسبة العائد على الأوقاف، نسبة تغطية مصروفات الجمعية، عدد مشاريع الاستثمار</span></div>
-      </td></tr>
-      <tr class="clickable" onclick="toggleRowDetail('r2')">
-        <td>ضعف التبرع من الداعمين</td><td>مالية</td><td><span class="priority-med">8</span></td><td>ممكن</td><td>متوسط</td><td>خفض</td>
-        <td>اضغط للتفاصيل ▼</td>
-      </tr>
-      <tr id="r2" class="integration-detail"><td colspan="7">
-        <div class="analysis-item"><span class="label">الإجراءات:</span><span class="value">بناء قواعد بيانات الداعمين، تعزيز الشفافية، ابتكار أساليب جمع التبرعات</span></div>
-      </td></tr>
-      <tr class="clickable" onclick="toggleRowDetail('r3')">
-        <td>ضعف الكفاية المالية</td><td>مالية</td><td><span class="priority-med">8</span></td><td>ممكن</td><td>متوسط</td><td>خفض</td>
-        <td>اضغط للتفاصيل ▼</td>
-      </tr>
-      <tr id="r3" class="integration-detail"><td colspan="7">
-        <div class="analysis-item"><span class="label">الإجراءات:</span><span class="value">ترشيد الإنفاق، إعادة هيكلة الخدمات، التخطيط المالي الفاعل، تعاون مع جهات دعم تشغيلي</span></div>
-      </td></tr>
-      <tr class="clickable" onclick="toggleRowDetail('r4')">
-        <td>التأخر في الإفصاح عن التقارير</td><td>حوكمة</td><td><span class="priority-med">8</span></td><td>ممكن</td><td>متوسط</td><td>خفض</td>
-        <td>اضغط للتفاصيل ▼</td>
-      </tr>
-      <tr id="r4" class="integration-detail"><td colspan="7">
-        <div class="analysis-item"><span class="label">الإجراءات:</span><span class="value">جدول زمني ملزم للإفصاح، تفعيل الرقابة الداخلية، ربط الالتزام بتقييم الأداء</span></div>
-      </td></tr>
-      <tr>
-        <td>مخاطر التشغيل المتوسطة (3)</td><td>تشغيلية</td><td><span class="priority-med">متوسط</span></td><td>متوسط</td><td>متوسط</td><td>خفض</td>
-        <td>خطط معالجة مفعلة</td>
-      </tr>
-      <tr>
-        <td>مخاطر الموارد البشرية المتوسطة (3)</td><td>موارد بشرية</td><td><span class="priority-med">متوسط</span></td><td>متوسط</td><td>متوسط</td><td>خفض</td>
-        <td>خطط معالجة مفعلة</td>
-      </tr>
-      <tr>
-        <td>مخاطر المستفيدين المتوسطة (1)</td><td>مستفيدون</td><td><span class="priority-med">متوسط</span></td><td>محتمل</td><td>متوسط</td><td>خفض</td>
-        <td>خطط معالجة مفعلة</td>
-      </tr>
-      <tr>
-        <td>مخاطر تنظيمية متوسطة (1)</td><td>تنظيمية</td><td><span class="priority-med">متوسط</span></td><td>ممكن</td><td>متوسط</td><td>خفض</td>
-        <td>خطط معالجة مفعلة</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="alert alert-success">✅ <strong>نقطة قوة:</strong> لا توجد أي مخاطر عالية الخطورة في سجل المخاطر — يعكس نضج منظومة إدارة المخاطر لدى الجمعية.</div>
-</div>
-
-<!-- ================================================================ -->
-<!-- PAGE: FINANCIAL PERFORMANCE -->
-<!-- ================================================================ -->
-<div id="page-financial" class="page">
-  <button class="back-btn" onclick="showTab('summary')">← العودة للملخص</button>
-  <div class="section-title"><span class="icon">💰</span> الأداء المالي — الربع الأول 2026م</div>
-  <div class="text-small text-muted mb-4">المصدر: تقرير الأداء الاستراتيجي (البعد المالي) | إدارة مركز قياس الأداء</div>
-
-  <div class="alert alert-warn" style="margin-bottom:16px">
-    ⚠️ <strong>ملاحظة جودة البيانات:</strong> لم يُرفق تقرير الأداء المالي المستقل. البيانات مستخلصة من مؤشرات البعد المالي في التقرير الاستراتيجي.
-  </div>
-
-  <div class="grid-4 mb-4" style="margin-bottom:16px">
-    <div class="kpi-card excellent" onclick="toggleAnalysis('fin-total')">
-      <div class="kpi-label">أداء البعد المالي</div>
-      <div class="kpi-value" style="color:var(--excellent)">99.9%</div>
-      <span class="kpi-badge badge-excellent">ممتاز</span>
-      <div class="kpi-sub">هدفان استراتيجيان</div>
-      <div class="analysis-panel" id="fin-total">
-        <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('fin-total')">✕</button>
-        <div class="analysis-item"><span class="label">المصدر:</span><span class="value">م:2 تحقيق الموارد المالية اللازمة — يستند إلى 3 مؤشرات</span></div>
-        <div class="analysis-item"><span class="label">ملاحظة:</span><span class="value">م:1 الاستدامة المالية — دورية قياس سنوية، لم يحن موعده</span></div>
-      </div>
-    </div>
-    <div class="kpi-card excellent" onclick="toggleAnalysis('fin-donations')">
-      <div class="kpi-label">إجمالي التبرعات</div>
-      <div class="kpi-value" style="color:var(--excellent)">23.5M</div>
-      <span class="kpi-badge badge-excellent">+10.5% فوق المستهدف</span>
-      <div class="kpi-sub">مستهدف: 21.2M ريال</div>
-      <div class="analysis-panel" id="fin-donations">
-        <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('fin-donations')">✕</button>
-        <div class="analysis-item"><span class="label">المستهدف:</span><span class="value">21,240,892 ريال</span></div>
-        <div class="analysis-item"><span class="label">المتحقق:</span><span class="value">23,469,326 ريال</span></div>
-        <div class="analysis-item"><span class="label">السبب:</span><span class="value">وجود مبلغ من منصة إحسان لكفالات الأيتام لم يكن مخططاً له</span></div>
-      </div>
-    </div>
-    <div class="kpi-card excellent" onclick="toggleAnalysis('fin-volunteer')">
-      <div class="kpi-label">العائد الاقتصادي للتطوع</div>
-      <div class="kpi-value" style="color:var(--excellent)">2.45M</div>
-      <span class="kpi-badge badge-excellent">122.5% من المستهدف</span>
-      <div class="kpi-sub">مستهدف: 2M ريال</div>
-      <div class="analysis-panel" id="fin-volunteer">
-        <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('fin-volunteer')">✕</button>
-        <div class="analysis-item"><span class="label">السبب:</span><span class="value">ارتفاع إقبال المتطوعين في رمضان على النشر الإلكتروني، وتوثيق ساعات مبادرة "من أجلهم"</span></div>
-      </div>
-    </div>
-    <div class="kpi-card excellent" onclick="toggleAnalysis('fin-services')">
-      <div class="kpi-label">عائد الخدمات والخصومات</div>
-      <div class="kpi-value" style="color:var(--excellent)">3.22M</div>
-      <span class="kpi-badge badge-excellent">99.2% من المستهدف</span>
-      <div class="kpi-sub">مستهدف: 3.25M ريال</div>
-      <div class="analysis-panel" id="fin-services">
-        <button class="close-btn" onclick="event.stopPropagation();toggleAnalysis('fin-services')">✕</button>
-        <div class="analysis-item"><span class="label">الفجوة:</span><span class="value">26,416 ريال دون المستهدف — فرصة تحسين محدودة</span></div>
-        <div class="analysis-item"><span class="label">التوصية:</span><span class="value">تعزيز الشراكات وتنمية العائد من الخدمات الموردين</span></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="chart-box w2">
-      <div class="chart-title">مقارنة المستهدف والمتحقق في المؤشرات المالية</div>
-      <div class="chart-wrap-lg"><canvas id="finCompChart"></canvas></div>
-    </div>
-    <div class="chart-box">
-      <div class="chart-title">توزيع مصادر الإيرادات</div>
-      <div class="chart-wrap"><canvas id="finDistChart"></canvas></div>
-    </div>
-  </div>
-
-  <div class="sub-title">القراءة التحليلية للأداء المالي</div>
-  <div class="grid-2">
-    <div class="alert alert-success">✅ <strong>استدامة قوية:</strong> تجاوز مؤشرَا التبرعات والعائد التطوعي مستهدفيهما، مما يعزز القدرة على تمويل البرامج في الربع القادم.</div>
-    <div class="alert alert-info">📋 <strong>توصية:</strong> الاستثمار في تعزيز الشراكات وتنويع مصادر الدخل لتقليل الاعتماد على التبرعات الموسمية (رمضان).</div>
-    <div class="alert alert-warn">⚠️ <strong>مخاطر مالية قائمة:</strong> 3 مخاطر مالية متوسطة تشمل ضعف الاستدامة وضعف الكفاية وضعف التبرعات — تحتاج متابعة دورية.</div>
-    <div class="alert alert-info">📊 <strong>بيانات ناقصة:</strong> تقرير الأداء المالي التفصيلي (المصروفات، الموازنة، كفاءة الإنفاق) مطلوب للقراءة الكاملة في الربع القادم.</div>
-  </div>
-</div>
-
-<!-- ================================================================ -->
-<!-- PAGE: GOVERNANCE -->
-<!-- ================================================================ -->
-<div id="page-governance" class="page">
-  <button class="back-btn" onclick="showTab('summary')">← العودة للملخص</button>
-  <div class="section-title"><span class="icon">🏛️</span> أداء الحوكمة — الربع الأول 2026م</div>
-  <div class="text-small text-muted mb-4">إدارة مركز قياس الأداء | المصدر: مؤشر التزام الجمعية بمعايير الحوكمة — المركز الوطني لتنمية القطاع غير الربحي</div>
-
-  <div class="grid-4 mb-4" style="margin-bottom:16px">
-    <div class="kpi-card excellent">
-      <div class="kpi-label">مؤشر الحوكمة العام</div>
-      <div class="kpi-value" style="color:var(--excellent)">98.8%</div>
-      <span class="kpi-badge badge-excellent">ممتاز</span>
-      <div class="kpi-sub">نسبة الأداء للمؤشر</div>
-    </div>
-    <div class="kpi-card excellent">
-      <div class="kpi-label">نسبة الالتزام بمعايير الحوكمة</div>
-      <div class="kpi-value" style="color:var(--excellent)">97.8%</div>
-      <span class="kpi-badge badge-excellent">مستهدف: 99%</span>
-      <div class="kpi-sub">فجوة: 1.2%</div>
-    </div>
-    <div class="kpi-card good">
-      <div class="kpi-label">مخاطر الحوكمة المتوسطة</div>
-      <div class="kpi-value" style="color:var(--good)">1</div>
-      <span class="kpi-badge badge-good">تأخر الإفصاح</span>
-      <div class="kpi-sub">من أصل 7 مخاطر حوكمة</div>
-    </div>
-    <div class="kpi-card pending">
-      <div class="kpi-label">تقرير حوكمة مستقل</div>
-      <div class="kpi-value" style="color:var(--pending)">—</div>
-      <span class="kpi-badge badge-pending">غير مرفق</span>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="chart-box">
-      <div class="chart-title">نسبة الالتزام بمعايير الحوكمة</div>
-      <div class="chart-wrap"><canvas id="govChart"></canvas></div>
-    </div>
-    <div class="info-card" style="flex:2">
-      <div class="sub-title" style="margin-top:0">أبرز الفجوات المعروفة في الحوكمة</div>
-      <table class="data-table" style="box-shadow:none">
-        <thead><tr><th>الفجوة</th><th>المصدر</th><th>الأثر المؤسسي</th><th>الإجراء المقترح</th><th>المالك</th></tr></thead>
-        <tbody>
-          <tr>
-            <td>التأخر في الإفصاح عن التقارير المالية</td>
-            <td>تقرير المخاطر</td>
-            <td>يؤثر على ثقة الداعمين والجهات التنظيمية</td>
-            <td>جدول زمني ملزم للإفصاح + متابعة رقابة داخلية</td>
-            <td>الإدارة المالية</td>
-          </tr>
-          <tr>
-            <td>فجوة 1.2% عن مستهدف معايير الحوكمة</td>
-            <td>التقرير الاستراتيجي</td>
-            <td>عدم بلوغ المستهدف المعتمد</td>
-            <td>تحليل المعايير ذات الفجوة ومعالجتها</td>
-            <td>إدارة الاستراتيجية والتميز</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="sub-title">البيانات المطلوبة لتفعيل التبويب بالكامل</div>
-      <div class="text-small" style="line-height:1.8">
-        <strong>البيانات الناقصة:</strong> تقرير مستقل للحوكمة يشمل: حالة اجتماعات المجلس واللجان، نسبة إغلاق قرارات المجلس السابقة، مستوى اكتمال الوثائق الحاكمة، مستوى الالتزام بمصفوفة الصلاحيات.
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ================================================================ -->
-<!-- PAGE: EXCELLENCE -->
-<!-- ================================================================ -->
-<div id="page-excellence" class="page">
-  <button class="back-btn" onclick="showTab('summary')">← العودة للملخص</button>
-  <div class="section-title"><span class="icon">🏆</span> أداء التميز المؤسسي — الربع الأول 2026م</div>
-  <div class="text-small text-muted mb-4">المصدر: تقرير التقييم الذاتي وفق نموذج التميز الوطني — جائزة الملك عبدالعزيز للجودة | إدارة مركز قياس الأداء</div>
-
-  <div class="grid-4 mb-4" style="margin-bottom:16px">
-    <div class="kpi-card excellent">
-      <div class="kpi-label">درجة التميز المؤسسي</div>
-      <div class="kpi-value" style="color:var(--excellent)">542</div>
-      <span class="kpi-badge badge-excellent">من 1000 درجة</span>
-      <div class="kpi-sub">مستهدف: 500 درجة — تجاوز بـ 42 درجة</div>
-    </div>
-    <div class="kpi-card excellent">
-      <div class="kpi-label">نسبة تحقق المستهدف</div>
-      <div class="kpi-value" style="color:var(--excellent)">100%</div>
-      <span class="kpi-badge badge-excellent">ممتاز</span>
-      <div class="kpi-sub">تجاوز المستهدف بنسبة 8.4%</div>
-    </div>
-    <div class="kpi-card good">
-      <div class="kpi-label">أعلى معيار</div>
-      <div class="kpi-value" style="color:var(--good)">86</div>
-      <span class="kpi-badge badge-good">من 150</span>
-      <div class="kpi-sub">إدارة العمليات والمنتجات</div>
-    </div>
-    <div class="kpi-card good">
-      <div class="kpi-label">أدنى معيار</div>
-      <div class="kpi-value" style="color:var(--good)">57</div>
-      <span class="kpi-badge badge-good">من 100</span>
-      <div class="kpi-sub">التخطيط الاستراتيجي</div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="chart-box w2">
-      <div class="chart-title">درجات معايير التميز المؤسسي (نموذج جائزة الملك عبدالعزيز)</div>
-      <div class="chart-wrap-lg"><canvas id="excellenceChart"></canvas></div>
-    </div>
-    <div class="chart-box">
-      <div class="chart-title">نسبة التحقق من إجمالي الدرجة (1000)</div>
-      <div class="chart-wrap"><canvas id="excellencePieChart"></canvas></div>
-    </div>
-  </div>
-
-  <div class="sub-title">تفاصيل معايير التميز</div>
-  <table class="data-table mb-4">
-    <thead>
-      <tr><th>المعيار</th><th>الدرجة الكاملة</th><th>المستهدف</th><th>المتحقق</th><th>نسبة التحقق من المستهدف</th><th>الحالة</th></tr>
-    </thead>
-    <tbody>
-      <tr onclick="toggleRowDetail('e1')" class="clickable">
-        <td>القيادة الإدارية</td><td>150</td><td>70</td><td><strong>66</strong></td>
-        <td><div class="progress-bar-wrap" style="width:120px"><div class="progress-bar-fill fill-good" style="width:94.3%"></div></div> 94.3%</td>
-        <td><span class="kpi-badge badge-good">جيد</span></td>
-      </tr>
-      <tr id="e1" class="integration-detail"><td colspan="6">
-        <div class="analysis-item"><span class="label">الفجوة:</span><span class="value">4 درجات دون المستهدف (70) — أدنى نسبة تحقق من الدرجة الكاملة (44%)</span></div>
-        <div class="analysis-item"><span class="label">التوصية:</span><span class="value">تعزيز ممارسات القيادة الإدارية وتوثيق الأدلة الداعمة</span></div>
-      </td></tr>
-      <tr><td>التخطيط الاستراتيجي</td><td>100</td><td>53</td><td><strong>57</strong></td>
-        <td><div class="progress-bar-wrap" style="width:120px"><div class="progress-bar-fill fill-excellent" style="width:100%"></div></div> 107.5%</td>
-        <td><span class="kpi-badge badge-excellent">فوق المستهدف</span></td>
-      </tr>
-      <tr><td>الموارد البشرية</td><td>100</td><td>65</td><td><strong>64</strong></td>
-        <td><div class="progress-bar-wrap" style="width:120px"><div class="progress-bar-fill fill-good" style="width:98.5%"></div></div> 98.5%</td>
-        <td><span class="kpi-badge badge-excellent">جيد جداً</span></td>
-      </tr>
-      <tr><td>الشراكات والموارد</td><td>100</td><td>—</td><td><strong>66</strong></td>
-        <td>—</td><td><span class="kpi-badge badge-good">66%</span></td>
-      </tr>
-      <tr><td>إدارة العمليات والمنتجات والخدمات</td><td>150</td><td>—</td><td><strong>86</strong></td>
-        <td>—</td><td><span class="kpi-badge badge-good">57.3%</span></td>
-      </tr>
-      <tr><td>نتائج المستفيدين</td><td>150</td><td>—</td><td><strong>69</strong></td>
-        <td>—</td><td><span class="kpi-badge badge-weak">46%</span></td>
-      </tr>
-      <tr><td>نتائج الموارد البشرية</td><td>100</td><td>72</td><td><strong>66</strong></td>
-        <td><div class="progress-bar-wrap" style="width:120px"><div class="progress-bar-fill fill-good" style="width:91.7%"></div></div> 91.7%</td>
-        <td><span class="kpi-badge badge-excellent">جيد جداً</span></td>
-      </tr>
-      <tr><td>نتائج الأداء الرئيسية</td><td>150</td><td>—</td><td><strong>68</strong></td>
-        <td>—</td><td><span class="kpi-badge badge-weak">45.3%</span></td>
-      </tr>
-      <tr style="background:#f8fafc;font-weight:700">
-        <td>الإجمالي</td><td>1000</td><td>500</td><td>542</td>
-        <td><div class="progress-bar-wrap" style="width:120px"><div class="progress-bar-fill fill-excellent" style="width:100%"></div></div> 108.4%</td>
-        <td><span class="kpi-badge badge-excellent">فوق المستهدف</span></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="grid-2">
-    <div class="alert alert-success">✅ <strong>نقطة قوة:</strong> تجاوز الجمعية مستهدف 500 درجة بتحقيق 542 درجة يعكس نضجاً مؤسسياً متقدماً.</div>
-    <div class="alert alert-warn">⚠️ <strong>فرصة تحسين:</strong> نتائج المستفيدين (69/150 = 46%) هي أدنى درجة مطلقة، وترتبط بالضعف في بعد المستفيدين الاستراتيجي.</div>
-  </div>
-</div>
-
-<!-- ================================================================ -->
-<!-- PAGE: INTEGRATION -->
-<!-- ================================================================ -->
-<div id="page-integration" class="page">
-  <button class="back-btn" onclick="showTab('summary')">← العودة للملخص</button>
-  <div class="section-title"><span class="icon">🔗</span> القراءة التكاملية — الربع الأول 2026م</div>
-  <div class="text-small text-muted mb-4">إدارة مركز قياس الأداء | تحليل الترابط بين جميع محاور الأداء المؤسسي</div>
-
-  <table class="data-table mb-4">
-    <thead>
-      <tr>
-        <th style="min-width:220px">الملاحظة التكاملية</th>
-        <th>التقارير المرتبطة</th>
-        <th>الدلالة المؤسسية</th>
-        <th>الأهمية</th>
-        <th>الإجراء المقترح</th>
-        <th>المالك</th>
-        <th>الموعد</th>
-        <th>نوع القرار</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="integration-row clickable" onclick="toggleRowDetail('int1')">
-        <td><strong>انخفاض بعد المستفيدين مرتبط بضعف التنفيذ التشغيلي</strong></td>
-        <td>الاستراتيجي + التشغيلي</td>
-        <td>إدارة التمكين الاقتصادي (46.9%) تُضعف الهدف الاستراتيجي س5 (46.4%)</td>
-        <td><span class="priority-high">عالية جداً</span></td>
-        <td>▼ اضغط للتفاصيل</td>
-        <td>المدير التنفيذي</td>
-        <td>Q2 2026</td>
-        <td><span class="priority-high">قرار مجلس</span></td>
-      </tr>
-      <tr id="int1" class="integration-detail"><td colspan="8">
-        <div class="analysis-item"><span class="label">التحليل:</span><span class="value">الضعف التشغيلي في إدارة التمكين ينعكس مباشرة على الأداء الاستراتيجي في بعد المستفيدين. الجمعية تحتاج قرار مجلس لمراجعة شاملة لخطة التمكين الاقتصادي وتنويع مساراته.</span></div>
-        <div class="analysis-item"><span class="label">الإجراء المطلوب:</span><span class="value">تكليف المدير التنفيذي بإعداد خطة تصحيحية خلال 30 يوماً تتضمن أهدافاً قابلة للقياس للربع الثاني.</span></div>
-      </td></tr>
-
-      <tr class="integration-row clickable" onclick="toggleRowDetail('int2')">
-        <td><strong>مخاطر مالية متوسطة (×3) تهدد الاستدامة رغم الأداء المرتفع</strong></td>
-        <td>المالي + المخاطر</td>
-        <td>التبرعات تجاوزت المستهدف لكن الاعتماد الموسمي مخاطرة بنيوية</td>
-        <td><span class="priority-high">عالية</span></td>
-        <td>▼ اضغط للتفاصيل</td>
-        <td>الإدارة التنفيذية</td>
-        <td>Q2 2026</td>
-        <td><span class="priority-med">متابعة تنفيذية</span></td>
-      </tr>
-      <tr id="int2" class="integration-detail"><td colspan="8">
-        <div class="analysis-item"><span class="label">التحليل:</span><span class="value">الأداء المالي المرتفع (99.9%) يعتمد جزء كبير منه على مكاسب موسمية (رمضان، منصة إحسان). المخاطر المالية الثلاث المتوسطة تشير إلى هشاشة الاستدامة على المدى البعيد.</span></div>
-        <div class="analysis-item"><span class="label">الإجراء:</span><span class="value">إعداد دراسة استدامة مالية تتضمن تنويع مصادر الدخل وتقليل الاعتماد الموسمي.</span></div>
-      </td></tr>
-
-      <tr class="integration-row clickable" onclick="toggleRowDetail('int3')">
-        <td><strong>الأداء الاستراتيجي الجيد في التعلم والنمو لا يُترجَم في مخرجات المستفيدين</strong></td>
-        <td>الاستراتيجي + التشغيلي + التميز</td>
-        <td>درجة عالية في العمليات (93.7%) لكن نتائج المستفيدين في التميز 46%</td>
-        <td><span class="priority-med">متوسطة</span></td>
-        <td>▼ اضغط للتفاصيل</td>
-        <td>الاستراتيجية والتميز</td>
-        <td>Q2 2026</td>
-        <td><span class="priority-med">متابعة تنفيذية</span></td>
-      </tr>
-      <tr id="int3" class="integration-detail"><td colspan="8">
-        <div class="analysis-item"><span class="label">التحليل:</span><span class="value">تفوق الجمعية في منهجيات العمل وأدواته لا يعني بالضرورة ترجمة ذلك إلى نتائج ملموسة للمستفيدين. الفجوة في نتائج المستفيدين (69/150) مقابل العمليات الممتازة تستدعي مراجعة جودة التصميم البرامجي.</span></div>
-      </td></tr>
-
-      <tr class="integration-row clickable" onclick="toggleRowDetail('int4')">
-        <td><strong>تعثر مركز البحث والابتكار يُضعف جودة بيانات القرار</strong></td>
-        <td>التشغيلي + الاستراتيجي</td>
-        <td>58.3% في مركز البحث يؤثر على جودة الأثر المقاس وبيانات البحث التتبعي</td>
-        <td><span class="priority-med">متوسطة</span></td>
-        <td>▼ اضغط للتفاصيل</td>
-        <td>مركز البحث</td>
-        <td>Q2 2026</td>
-        <td><span class="priority-med">متابعة تنفيذية</span></td>
-      </tr>
-      <tr id="int4" class="integration-detail"><td colspan="8">
-        <div class="analysis-item"><span class="label">التحليل:</span><span class="value">ضعف البحث التتبعي يعني أن بعض المؤشرات قد تعكس بيانات منقوصة. يحتاج مجلس الإدارة ضمان اكتمال بيانات البحث قبل اتخاذ قرارات توسعية.</span></div>
-      </td></tr>
-
-      <tr class="integration-row clickable" onclick="toggleRowDetail('int5')">
-        <td><strong>فجوة الحوكمة في الإفصاح تؤثر على المخاطر والسمعة</strong></td>
-        <td>الحوكمة + المخاطر</td>
-        <td>خطر متوسط (درجة 8) للتأخر في الإفصاح المالي يمس الثقة المؤسسية</td>
-        <td><span class="priority-med">متوسطة</span></td>
-        <td>▼ اضغط للتفاصيل</td>
-        <td>الإدارة المالية + القانونية</td>
-        <td>Q1 مستمر</td>
-        <td><span class="priority-med">متابعة تنفيذية</span></td>
-      </tr>
-      <tr id="int5" class="integration-detail"><td colspan="8">
-        <div class="analysis-item"><span class="label">التحليل:</span><span class="value">التأخر في الإفصاح عن التقارير المالية يرتبط بمخاطر السمعة وثقة الداعمين. وضع جدول زمني ملزم مع آلية رقابة داخلية سيُغلق هذا الخطر.</span></div>
-      </td></tr>
-    </tbody>
-  </table>
-
-  <div class="sub-title">أولويات التحسين المؤسسي في الربع القادم</div>
-  <div class="grid-3">
-    <div class="alert alert-danger">🔴 <strong>أولوية عاجلة:</strong> مراجعة خطة التمكين الاقتصادي وتنويع المسارات</div>
-    <div class="alert alert-warn">🟡 <strong>أولوية متوسطة:</strong> استكمال خطة البحث التتبعي وتطوير آلياته</div>
-    <div class="alert alert-info">🔵 <strong>متابعة مستمرة:</strong> رفع تقرير الحوكمة والأداء المالي والأداء الوظيفي بشكل مستقل</div>
-  </div>
-</div>
-
-<!-- ================================================================ -->
-<!-- PAGE: DECISIONS & RECOMMENDATIONS -->
-<!-- ================================================================ -->
-<div id="page-decisions" class="page">
-  <button class="back-btn" onclick="showTab('summary')">← العودة للملخص</button>
-  <div class="section-title"><span class="icon">📋</span> القرارات والتوصيات — الربع الأول 2026م</div>
-  <div class="text-small text-muted mb-4">إدارة مركز قياس الأداء | جمعية تراؤف لرعاية الأيتام بمحافظة حفر الباطن</div>
-
-  <table class="data-table mb-4">
-    <thead>
-      <tr>
-        <th style="width:40px">#</th>
-        <th>نوع المطلوب</th>
-        <th>الموضوع</th>
-        <th>المبرر</th>
-        <th>الأثر المتوقع</th>
-        <th>المالك</th>
-        <th>التاريخ</th>
-        <th>الأولوية</th>
-        <th>المصدر</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="clickable" onclick="toggleRowDetail('dec1')">
-        <td>1</td>
-        <td><span class="tag badge-weak">توجيه</span></td>
-        <td>توجيه المدير التنفيذي بمراجعة خطة التمكين الاقتصادي</td>
-        <td>46.9% أداء تشغيلي — أدنى مستوى</td>
-        <td>رفع أداء الإدارة لـ70%+ في Q2</td>
-        <td>المدير التنفيذي</td>
-        <td>Q2 2026</td>
-        <td><span class="priority-high">عاجل</span></td>
-        <td>التشغيلي</td>
-      </tr>
-      <tr id="dec1" class="integration-detail"><td colspan="9">
-        <div class="analysis-item"><span class="label">التفاصيل:</span><span class="value">إعداد خطة تصحيحية تتضمن: تنويع مسارات التمكين البديلة، تعزيز الاستقطاب، مؤشرات أداء ربعية قابلة للقياس</span></div>
-      </td></tr>
-      <tr>
-        <td>2</td>
-        <td><span class="tag badge-weak">اعتماد</span></td>
-        <td>اعتماد خطة تنويع مصادر الدخل لتقليل الاعتماد الموسمي</td>
-        <td>3 مخاطر مالية متوسطة + اعتماد على رمضان</td>
-        <td>تعزيز الاستدامة المالية طويلة المدى</td>
-        <td>المدير المالي</td>
-        <td>Q2 2026</td>
-        <td><span class="priority-high">عالية</span></td>
-        <td>المالي + المخاطر</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td><span class="tag badge-good">متابعة</span></td>
-        <td>متابعة أداء إدارة التمكين الاقتصادي في الربع القادم</td>
-        <td>الانحراف الجوهري الأبرز في الأداء التشغيلي</td>
-        <td>ضمان التحسين المستهدف</td>
-        <td>مجلس الإدارة</td>
-        <td>Q2 2026</td>
-        <td><span class="priority-high">عالية</span></td>
-        <td>التشغيلي</td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td><span class="tag badge-good">توجيه</span></td>
-        <td>اعتماد آلية بديلة لتأهيل الأبناء لسوق العمل</td>
-        <td>الهدف الاستراتيجي س5 = 46.4% ضعيف</td>
-        <td>رفع الأداء الاستراتيجي في بعد المستفيدين</td>
-        <td>إدارة التمكين الاقتصادي</td>
-        <td>Q2 2026</td>
-        <td><span class="priority-high">عالية</span></td>
-        <td>الاستراتيجي</td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td><span class="tag">إحاطة</span></td>
-        <td>إحاطة مجلس الإدارة بفجوة البيانات (المالي + الوظيفي)</td>
-        <td>غياب تقريرَي الأداء المالي والوظيفي المستقلَّين</td>
-        <td>اتخاذ قرارات مستنيرة في الربع القادم</td>
-        <td>إدارة مركز قياس الأداء</td>
-        <td>Q2 2026</td>
-        <td><span class="priority-med">متوسطة</span></td>
-        <td>جودة البيانات</td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td><span class="tag badge-good">توجيه</span></td>
-        <td>تطوير برامج القيادة للبنين لرفع المشاركة</td>
-        <td>نادي البنين: 0% في القدرات القيادية</td>
-        <td>تحقيق الهدف الاستراتيجي س6</td>
-        <td>نادي تراؤف للبنين</td>
-        <td>Q2 2026</td>
-        <td><span class="priority-med">متوسطة</span></td>
-        <td>الاستراتيجي</td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td><span class="tag">متابعة</span></td>
-        <td>وضع جدول زمني ملزم للإفصاح المالي</td>
-        <td>خطر حوكمة متوسط: التأخر في الإفصاح</td>
-        <td>إغلاق خطر الحوكمة وتعزيز ثقة الداعمين</td>
-        <td>الإدارة المالية + القانونية</td>
-        <td>مستمر</td>
-        <td><span class="priority-med">متوسطة</span></td>
-        <td>المخاطر + الحوكمة</td>
-      </tr>
-      <tr>
-        <td>8</td>
-        <td><span class="tag">توجيه</span></td>
-        <td>تعزيز مسارات التأهيل لأمهات الأيتام قبل التمكين</td>
-        <td>فجوة التكامل: تمكين 100% مقابل تأهيل 45%</td>
-        <td>استدامة نتائج التمكين الاقتصادي</td>
-        <td>إدارة التمكين الاقتصادي</td>
-        <td>Q2 2026</td>
-        <td><span class="priority-low">منخفضة</span></td>
-        <td>الاستراتيجي</td>
-      </tr>
-      <tr>
-        <td>9</td>
-        <td><span class="tag">متابعة</span></td>
-        <td>تطوير القنوات الإعلامية الضعيفة (تيليجرام، لينكدإن)</td>
-        <td>نسبة الوسائل المفعلة 94.9% والظهور الإعلامي 55%</td>
-        <td>رفع الأداء الإعلامي وتعزيز السمعة</td>
-        <td>إدارة التسويق</td>
-        <td>Q2 2026</td>
-        <td><span class="priority-low">منخفضة</span></td>
-        <td>التشغيلي + الاستراتيجي</td>
-      </tr>
-      <tr>
-        <td>10</td>
-        <td><span class="tag badge-excellent">اعتماد</span></td>
-        <td>اعتماد خطة استثمار الأوقاف والاستدامة المالية</td>
-        <td>خطر مالي بدرجة 12 (أعلى مخاطرة مالية)</td>
-        <td>تقليل الاعتماد على التبرعات وتعزيز الاستقلالية</td>
-        <td>المدير المالي + مجلس الإدارة</td>
-        <td>Q3 2026</td>
-        <td><span class="priority-high">عالية</span></td>
-        <td>المخاطر المالية</td>
-      </tr>
-      <tr>
-        <td>11</td>
-        <td><span class="tag">متابعة</span></td>
-        <td>استكمال دليل التحسين المستمر في مركز البحث والابتكار</td>
-        <td>58.3% أداء تشغيلي وعدم اكتمال البحث التتبعي</td>
-        <td>تحسين جودة بيانات القرار المؤسسي</td>
-        <td>مركز البحث والابتكار</td>
-        <td>Q2 2026</td>
-        <td><span class="priority-med">متوسطة</span></td>
-        <td>التشغيلي</td>
-      </tr>
-      <tr>
-        <td>12</td>
-        <td><span class="tag">إحاطة</span></td>
-        <td>الاطلاع على نتائج التميز المؤسسي 542/1000</td>
-        <td>تجاوز المستهدف يستحق الإحاطة والتعزيز</td>
-        <td>الحفاظ على مستوى التميز ورفعه</td>
-        <td>إدارة الاستراتيجية والتميز</td>
-        <td>Q2 2026</td>
-        <td><span class="priority-low">منخفضة</span></td>
-        <td>التميز المؤسسي</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- ================================================================ -->
-<!-- PAGE: DATA SOURCES -->
-<!-- ================================================================ -->
-<div id="page-datasources" class="page">
-  <div class="section-title"><span class="icon">🗄️</span> إدارة مصادر البيانات والمرفقات</div>
-  <div class="text-small text-muted mb-4">إدارة مركز قياس الأداء | هذا التبويب هو أساس التوسع المستقبلي للداشبورد</div>
-
-  <div class="alert alert-info" style="margin-bottom:16px">
-    📌 <strong>ملاحظة للمطور:</strong> لإضافة تقرير جديد، أضف صفاً جديداً في الجدول أدناه، وأنشئ تبويباً جديداً في القائمة العلوية، وربطه بالتبويب الجديد دون الحاجة لإعادة تصميم الداشبورد.
-  </div>
-
-  <div style="overflow-x:auto">
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>#</th><th>اسم التقرير</th><th>النوع</th><th>الفترة</th>
-          <th>الجهة المالكة</th><th>الجهة المعدة</th><th>تاريخ الإصدار</th>
-          <th>التبويب المرتبط</th><th>المؤشرات المستخرجة</th>
-          <th>حالة جودة البيانات</th><th>حالة الربط</th><th>ملاحظات</th>
-          <th>تبويب جديد؟</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>تقرير الأداء الاستراتيجي Q1 2026</td>
-          <td>استراتيجي</td><td>Q1 2026</td>
-          <td>إدارة الاستراتيجية والتميز المؤسسي</td>
-          <td>إدارة مركز قياس الأداء</td>
-          <td>2026م</td>
-          <td>الأداء الاستراتيجي + الملخص</td>
-          <td>90.1% عام | 5 أبعاد | 26 هدف | 49 مؤشر | المسار التاريخي</td>
-          <td><span class="tag status-linked">مكتملة</span></td>
-          <td><span class="tag status-linked">مرتبط</span></td>
-          <td>—</td>
-          <td>لا</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>تقرير الأداء التشغيلي Q1 2026</td>
-          <td>تشغيلي</td><td>Q1 2026</td>
-          <td>إدارة الاستراتيجية والتميز المؤسسي</td>
-          <td>إدارة مركز قياس الأداء</td>
-          <td>2026م</td>
-          <td>الأداء التشغيلي</td>
-          <td>83.6% كلي | 14 إدارة | 114 وثيقة | المبادرات والأنشطة</td>
-          <td><span class="tag status-linked">مكتملة</span></td>
-          <td><span class="tag status-linked">مرتبط</span></td>
-          <td>—</td>
-          <td>لا</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>تقرير تقييم المخاطر 2025</td>
-          <td>مخاطر</td><td>2025</td>
-          <td>إدارة الاستراتيجية والتميز المؤسسي</td>
-          <td>إدارة مركز قياس الأداء</td>
-          <td>2025م</td>
-          <td>أداء المخاطر</td>
-          <td>82 مخاطرة | 0 عالية | 13 متوسطة | 69 منخفضة | خطط المعالجة</td>
-          <td><span class="tag status-linked">مكتملة</span></td>
-          <td><span class="tag status-linked">مرتبط</span></td>
-          <td>—</td>
-          <td>لا</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>تقرير التقييم الذاتي — التميز الوطني Q1 2026</td>
-          <td>تميز مؤسسي</td><td>Q1 2026</td>
-          <td>إدارة الاستراتيجية والتميز المؤسسي</td>
-          <td>إدارة مركز قياس الأداء</td>
-          <td>2026م</td>
-          <td>التميز المؤسسي</td>
-          <td>542/1000 درجة | 8 معايير | مستهدف 500</td>
-          <td><span class="tag status-linked">مكتملة</span></td>
-          <td><span class="tag status-linked">مرتبط</span></td>
-          <td>—</td>
-          <td>لا</td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td>تقرير الأداء الوظيفي Q1 2026</td>
-          <td>وظيفي</td><td>Q1 2026</td>
-          <td>إدارة الموارد البشرية</td>
-          <td>إدارة مركز قياس الأداء</td>
-          <td>—</td>
-          <td>الأداء الوظيفي</td>
-          <td>—</td>
-          <td><span class="tag status-unavail">غير متاحة</span></td>
-          <td><span class="tag status-incomplete">غير مكتمل</span></td>
-          <td>مطلوب في Q2</td>
-          <td>لا</td>
-        </tr>
-        <tr>
-          <td>6</td>
-          <td>تقرير الأداء المالي Q1 2026</td>
-          <td>مالي</td><td>Q1 2026</td>
-          <td>الإدارة المالية</td>
-          <td>إدارة مركز قياس الأداء</td>
-          <td>—</td>
-          <td>الأداء المالي</td>
-          <td>—</td>
-          <td><span class="tag status-update">جزئية</span></td>
-          <td><span class="tag status-update">يحتاج تحديث</span></td>
-          <td>بيانات مستخلصة من الاستراتيجي فقط</td>
-          <td>لا</td>
-        </tr>
-        <tr>
-          <td>7</td>
-          <td>تقرير الحوكمة Q1 2026</td>
-          <td>حوكمة</td><td>Q1 2026</td>
-          <td>أمانة المجلس</td>
-          <td>إدارة مركز قياس الأداء</td>
-          <td>—</td>
-          <td>أداء الحوكمة</td>
-          <td>—</td>
-          <td><span class="tag status-update">جزئية</span></td>
-          <td><span class="tag status-update">يحتاج تحديث</span></td>
-          <td>بيانات مستخلصة من مؤشر الحوكمة الاستراتيجي</td>
-          <td>لا</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="sub-title mt-4" style="margin-top:20px">جدول فجوات البيانات</div>
-  <table class="data-table">
-    <thead><tr><th>موضع الفجوة</th><th>التقرير المرتبط</th><th>أثر الفجوة على القراءة</th><th>البيانات المطلوبة</th><th>الجهة المالكة</th><th>الإجراء المقترح</th></tr></thead>
-    <tbody>
-      <tr><td>الأداء الوظيفي</td><td>تقرير الأداء الوظيفي</td><td>لا يمكن قراءة القدرة المؤسسية بالكامل</td><td>تقييمات الأداء الفردي، توزيع المستويات</td><td>الموارد البشرية</td><td>رفع التقرير في Q2</td></tr>
-      <tr><td>الأداء المالي التفصيلي</td><td>تقرير الأداء المالي</td><td>لا تتوفر بيانات المصروفات والموازنة وكفاءة الإنفاق</td><td>الموازنة التقديرية والفعلية، كفاءة الإنفاق</td><td>الإدارة المالية</td><td>رفع التقرير في Q2</td></tr>
-      <tr><td>الحوكمة التفصيلية</td><td>تقرير الحوكمة</td><td>لا تتوفر بيانات اجتماعات المجلس وإغلاق القرارات</td><td>محاضر المجلس، متابعة القرارات، مصفوفة الصلاحيات</td><td>أمانة المجلس</td><td>رفع التقرير في Q2</td></tr>
-      <tr><td>تاريخ إصدار بعض التقارير</td><td>جميع التقارير</td><td>لا يمكن التحقق من توقيت الإعداد</td><td>تاريخ الإصدار الرسمي</td><td>إدارة مركز قياس الأداء</td><td>إضافة التاريخ في النسخ القادمة</td></tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- ================================================================ -->
-<!-- PAGE: ATTACHMENTS -->
-<!-- ================================================================ -->
-<div id="page-attachments" class="page">
-  <div class="section-title"><span class="icon">📎</span> المرفقات والتقارير الأصلية</div>
-  <div class="text-small text-muted mb-4">إدارة مركز قياس الأداء | جمعية تراؤف لرعاية الأيتام بمحافظة حفر الباطن</div>
-
-  <div class="grid-3">
-    <div id="att-strat" class="info-card" style="border-right:4px solid var(--excellent)">
-      <div style="font-size:22px margin-bottom:8px">📈</div>
-      <div class="card-header-title" style="margin-bottom:8px">تقرير الأداء الاستراتيجي</div>
-      <div class="text-small text-muted" style="line-height:1.8">
-        <strong>النوع:</strong> استراتيجي<br>
-        <strong>الفترة:</strong> Q1 2026<br>
-        <strong>الجهة المالكة:</strong> إدارة الاستراتيجية والتميز<br>
-        <strong>الجهة المعدة:</strong> إدارة مركز قياس الأداء
-      </div>
-      <div style="margin-top:10px"><span class="tag status-linked">مرتبط ✓</span></div>
-      <button class="btn-primary" style="margin-top:12px;width:100%" onclick="showTab('strategic')">فتح التبويب المرتبط</button>
-    </div>
-
-    <div class="info-card" style="border-right:4px solid var(--good)">
-      <div style="font-size:22px;margin-bottom:8px">⚙️</div>
-      <div class="card-header-title" style="margin-bottom:8px">تقرير الأداء التشغيلي</div>
-      <div class="text-small text-muted" style="line-height:1.8">
-        <strong>النوع:</strong> تشغيلي<br>
-        <strong>الفترة:</strong> Q1 2026<br>
-        <strong>الجهة المالكة:</strong> إدارة الاستراتيجية والتميز<br>
-        <strong>الجهة المعدة:</strong> إدارة مركز قياس الأداء
-      </div>
-      <div style="margin-top:10px"><span class="tag status-linked">مرتبط ✓</span></div>
-      <button class="btn-primary" style="margin-top:12px;width:100%" onclick="showTab('operational')">فتح التبويب المرتبط</button>
-    </div>
-
-    <div class="info-card" style="border-right:4px solid var(--pending)">
-      <div style="font-size:22px;margin-bottom:8px">👥</div>
-      <div class="card-header-title" style="margin-bottom:8px">تقرير الأداء الوظيفي</div>
-      <div class="text-small text-muted" style="line-height:1.8">
-        <strong>النوع:</strong> وظيفي<br>
-        <strong>الفترة:</strong> Q1 2026<br>
-        <strong>الجهة المالكة:</strong> إدارة الموارد البشرية<br>
-        <strong>الجهة المعدة:</strong> إدارة مركز قياس الأداء
-      </div>
-      <div style="margin-top:10px"><span class="tag status-incomplete">غير مكتمل</span></div>
-      <button class="btn-primary" style="margin-top:12px;width:100%;background:var(--pending)" onclick="showTab('hrperf')">فتح التبويب</button>
-    </div>
-
-    <div class="info-card" style="border-right:4px solid var(--good)">
-      <div style="font-size:22px;margin-bottom:8px">⚠️</div>
-      <div class="card-header-title" style="margin-bottom:8px">تقرير تقييم المخاطر 2025</div>
-      <div class="text-small text-muted" style="line-height:1.8">
-        <strong>النوع:</strong> مخاطر<br>
-        <strong>الفترة:</strong> 2025<br>
-        <strong>الجهة المالكة:</strong> إدارة الاستراتيجية والتميز<br>
-        <strong>الجهة المعدة:</strong> إدارة مركز قياس الأداء
-      </div>
-      <div style="margin-top:10px"><span class="tag status-linked">مرتبط ✓</span></div>
-      <button class="btn-primary" style="margin-top:12px;width:100%" onclick="showTab('risks')">فتح التبويب المرتبط</button>
-    </div>
-
-    <div class="info-card" style="border-right:4px solid var(--pending)">
-      <div style="font-size:22px;margin-bottom:8px">💰</div>
-      <div class="card-header-title" style="margin-bottom:8px">تقرير الأداء المالي Q1 2026</div>
-      <div class="text-small text-muted" style="line-height:1.8">
-        <strong>النوع:</strong> مالي<br>
-        <strong>الفترة:</strong> Q1 2026<br>
-        <strong>الجهة المالكة:</strong> الإدارة المالية<br>
-        <strong>الجهة المعدة:</strong> إدارة مركز قياس الأداء
-      </div>
-      <div style="margin-top:10px"><span class="tag status-update">يحتاج تحديث</span></div>
-      <button class="btn-primary" style="margin-top:12px;width:100%" onclick="showTab('financial')">فتح التبويب</button>
-    </div>
-
-    <div class="info-card" style="border-right:4px solid var(--excellent)">
-      <div style="font-size:22px;margin-bottom:8px">🏆</div>
-      <div class="card-header-title" style="margin-bottom:8px">تقرير التقييم الذاتي — التميز الوطني</div>
-      <div class="text-small text-muted" style="line-height:1.8">
-        <strong>النوع:</strong> تميز مؤسسي<br>
-        <strong>الفترة:</strong> Q1 2026<br>
-        <strong>الجهة المالكة:</strong> إدارة الاستراتيجية والتميز<br>
-        <strong>الجهة المعدة:</strong> إدارة مركز قياس الأداء
-      </div>
-      <div style="margin-top:10px"><span class="tag status-linked">مرتبط ✓</span></div>
-      <button class="btn-primary" style="margin-top:12px;width:100%" onclick="showTab('excellence')">فتح التبويب المرتبط</button>
-    </div>
-
-    <div class="info-card" style="border-right:4px solid var(--pending); border-style:dashed">
-      <div style="font-size:22px;margin-bottom:8px">🏛️</div>
-      <div class="card-header-title" style="margin-bottom:8px">تقرير الحوكمة Q1 2026</div>
-      <div class="text-small text-muted" style="line-height:1.8">
-        <strong>النوع:</strong> حوكمة<br>
-        <strong>الفترة:</strong> Q1 2026<br>
-        <strong>الجهة المالكة:</strong> أمانة المجلس والجمعية العمومية<br>
-        <strong>الجهة المعدة:</strong> إدارة مركز قياس الأداء
-      </div>
-      <div style="margin-top:10px"><span class="tag status-incomplete">لم يُرفق بعد</span></div>
-      <button class="btn-primary" style="margin-top:12px;width:100%;background:var(--pending)" onclick="showTab('governance')">فتح التبويب</button>
-    </div>
-
-    <!-- Add new report placeholder -->
-    <div class="info-card" style="border: 2px dashed var(--border); display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:220px;cursor:pointer" onclick="alert('لإضافة تقرير جديد: أضف صفاً في تبويب إدارة مصادر البيانات وأنشئ تبويباً جديداً')">
-      <div style="font-size:36px;margin-bottom:12px">➕</div>
-      <div class="card-header-title">إضافة تقرير جديد</div>
-      <div class="text-small text-muted" style="margin-top:6px">اضغط هنا لمعرفة كيفية إضافة تقرير جديد للداشبورد</div>
-    </div>
-  </div>
-</div>
-
-<!-- ================================================================ -->
-<!-- PAGE: PREDICTIONS & FORECASTS -->
-<!-- ================================================================ -->
-<div id="page-predictions" class="page">
-  <div class="section-title"><span class="icon">🔮</span> التنبؤات والذكاء الاصطناعي — رؤية مستقبلية 2026</div>
-  <div class="text-small text-muted mb-4">بناءً على تحليل البيانات التاريخية والاتجاهات الحالية | الربع الثاني - الربع الرابع 2026</div>
-
-  <div class="row">
-    <div class="w2">
-      <div class="chart-box">
-        <div class="chart-title">مسار الأداء الاستراتيجي المتوقع (الذكاء الاصطناعي)</div>
-        <div class="chart-wrap-lg">
-          <canvas id="predictionChart"></canvas>
+      <!-- PAGE: PREDICTIONS -->
+      <div id="page-predictions" class="page">
+        <div class="section-title">التنبؤات والذكاء الاصطناعي</div>
+        <div class="grid grid-2">
+          <div class="glass-card">
+            <div class="chart-title">توقعات مسار الأداء المستقبلي</div>
+            <div style="height: 400px"><canvas id="predictionChart"></canvas></div>
+          </div>
+          <div class="glass-card">
+            <div class="chart-title">توصيات الذكاء الاصطناعي</div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="padding: 16px; border-radius: 12px; background: rgba(0, 137, 123, 0.05); border-right: 4px solid var(--primary)">
+                <div style="font-weight: 700; margin-bottom: 4px">📈 نمو متوقع</div>
+                <div style="font-size: 13px">يتوقع النظام زيادة في الأداء الاستراتيجي بنسبة 2.4% في الربع القادم.</div>
+              </div>
+              <div style="padding: 16px; border-radius: 12px; background: rgba(220, 38, 38, 0.05); border-right: 4px solid #dc2626">
+                <div style="font-weight: 700; margin-bottom: 4px">⚠️ تنبيه مخاطر</div>
+                <div style="font-size: 13px">انخفاض محتمل في سيولة التبرعات في شهر يونيو بناءً على الأنماط التاريخية.</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="w1">
-      <div class="sub-title">رؤى الذكاء الاصطناعي (Insights)</div>
-      <div class="prediction-grid" style="grid-template-columns: 1fr;">
-        <div class="insight-card">
-          <div class="insight-title">📈 نمو متوقع</div>
-          <p class="text-small">يتوقع النموذج نمو الأداء الاستراتيجي ليصل إلى 92.5% بنهاية الربع الرابع 2026 في حال استمرار وتيرة العمل الحالية.</p>
-        </div>
-        <div class="insight-card" style="border-right-color: var(--weak);">
-          <div class="insight-title">⚠️ منطقة خطر</div>
-          <p class="text-small">هناك احتمال بنسبة 65% لتباطؤ أداء "التمكين الاقتصادي" إذا لم يتم التدخل في الربع الثاني.</p>
-        </div>
-        <div class="insight-card" style="border-right-color: #3b82f6;">
-          <div class="insight-title">💡 توصية ذكية</div>
-          <p class="text-small">زيادة الميزانية التسويقية بنسبة 15% في الربع الثالث ستؤدي لزيادة التبرعات المتوقعة بنسبة 22%.</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="sub-title">جدول القيم المتوقعة</div>
-  <table class="data-table">
-    <thead>
-      <tr><th>الفترة</th><th>الأداء المتوقع</th><th>الحد الأدنى</th><th>الحد الأقصى</th><th>الحالة</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Q2 2026 (متوقع)</td><td>91.2%</td><td>89.5%</td><td>92.8%</td><td><span class="tag status-linked">نمو مستقر</span></td></tr>
-      <tr><td>Q3 2026 (متوقع)</td><td>91.8%</td><td>88.2%</td><td>94.1%</td><td><span class="tag status-linked">نمو مستقر</span></td></tr>
-      <tr><td>Q4 2026 (متوقع)</td><td>92.5%</td><td>87.5%</td><td>96.2%</td><td><span class="tag status-update">توسع محتمل</span></td></tr>
-    </tbody>
-  </table>
+       <div id="page-map" class="page"><div class="section-title">خريطة الأداء</div><div class="glass-card"><canvas id="mapBarChart" style="height:400px"></canvas></div></div>
+       <div id="page-risks" class="page"><div class="section-title">أداء المخاطر</div><div class="grid grid-2"><div class="glass-card"><canvas id="riskLevelChart" style="height:350px"></canvas></div><div class="glass-card"><canvas id="riskCatChart" style="height:350px"></canvas></div></div></div>
+       <div id="page-financial" class="page"><div class="section-title">الأداء المالي</div><div class="grid grid-2"><div class="glass-card"><canvas id="finCompChart" style="height:350px"></canvas></div><div class="glass-card"><canvas id="finDistChart" style="height:350px"></canvas></div></div></div>
+
+    </div>
+  </main>
 </div>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div>جمعية تراؤف لرعاية الأيتام بمحافظة حفر الباطن</div>
-  <div>إدارة مركز قياس الأداء | لوحة القيادة المؤسسية — الربع الأول 2026م</div>
-  <div>النسخة 1.0 | 28 أبريل 2026م</div>
-</footer>
+<!-- CHATBOT -->
+<div class="chat-widget">
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-header">تراؤف الذكي (AI) <span onclick="toggleChat()" style="cursor:pointer">✕</span></div>
+    <div class="chat-body" id="chatBody">
+      <div class="chat-msg bot">مرحباً! كيف يمكنني مساعدتك في تحليل بيانات الربع الأول اليوم؟</div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" class="chat-input" id="chatInput" placeholder="اسأل عن الأداء أو التوقعات..." onkeypress="if(event.key==='Enter') sendChat()">
+      <button class="btn btn-primary" style="padding:10px" onclick="sendChat()">🚀</button>
+    </div>
+  </div>
+  <button class="chat-trigger" onclick="toggleChat()">💬</button>
+</div>
 
 <script>
-// ================================================================
-// DATA
-// ================================================================
-const DEPTS = [
-  {name:'مكتب المدير العام', total:98.1, init:null, docs:null},
-  {name:'الرعاية الاجتماعية', total:95.7, init:97.4, docs:94.0},
-  {name:'المدير المالي', total:95.3, init:null, docs:null},
-  {name:'أمانة المجلس والجمعية العمومية', total:93.4, init:null, docs:null},
-  {name:'الشؤون القانونية', total:93.3, init:null, docs:null},
-  {name:'الاستثمار', total:92.5, init:null, docs:null},
-  {name:'الموارد البشرية', total:90.6, init:null, docs:null},
-  {name:'الدعم المؤسسي', total:89.3, init:null, docs:null},
-  {name:'الاستراتيجية والتميز المؤسسي', total:89.0, init:null, docs:null},
-  {name:'المراجعة الداخلية', total:87.1, init:null, docs:null},
-  {name:'التسويق', total:84.3, init:null, docs:null},
-  {name:'نادي تراؤف للبنات', total:71.0, init:90.9, docs:null},
-  {name:'نادي تراؤف للبنين', total:67.1, init:82.1, docs:null},
-  {name:'عمليات المستفيدين', total:63.5, init:71.9, docs:55.1},
-  {name:'مركز البحث والابتكار', total:58.3, init:null, docs:null},
-  {name:'إدارة التمكين الاقتصادي', total:46.9, init:47.2, docs:null}
-];
+const COLORS = { primary: '#00897B', accent: '#7BC143', bg: '#F8FAFC' };
+Chart.register(ChartDataLabels);
 
-function getClass(v) {
-  if (v >= 90) return 'excellent';
-  if (v >= 70) return 'good';
-  if (v < 70) return 'weak';
-  return 'pending';
-}
-function getBadge(v) {
-  if (v >= 90) return '<span class="kpi-badge badge-excellent">ممتاز</span>';
-  if (v >= 70) return '<span class="kpi-badge badge-good">جيد</span>';
-  return '<span class="kpi-badge badge-weak">ضعيف</span>';
-}
-
-// ================================================================
-// TAB NAVIGATION
-// ================================================================
 function showTab(tab) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  const tabMap = {
-    summary:'page-summary', map:'page-map',
-    strategic:'page-strategic', operational:'page-operational',
-    hrperf:'page-hrperf', risks:'page-risks', financial:'page-financial',
-    governance:'page-governance', excellence:'page-excellence',
-    predictions:'page-predictions', integration:'page-integration', 
-    decisions:'page-decisions', datasources:'page-datasources', 
-    attachments:'page-attachments'
-  };
-  const page = document.getElementById(tabMap[tab]);
-  if(page) { page.classList.add('active'); page.scrollIntoView({block:'start'}); }
-  const btns = document.querySelectorAll('.tab-btn');
-  const tabOrder = ['summary','map','strategic','operational','hrperf','risks','financial','governance','excellence','predictions','integration','decisions','datasources','attachments'];
-  const idx = tabOrder.indexOf(tab);
-  if(idx >= 0 && btns[idx]) btns[idx].classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  
+  const page = document.getElementById('page-' + tab);
+  if(page) page.classList.add('active');
+  
+  const navItems = document.querySelectorAll('.nav-item');
+  const tabs = ['summary','map','strategic','operational','hrperf','risks','financial','governance','excellence','predictions','integration','decisions','datasources','attachments'];
+  const idx = tabs.indexOf(tab);
+  if(idx !== -1) navItems[idx].classList.add('active');
+  
   window.scrollTo(0,0);
 }
 
-// ================================================================
-// TOGGLE PANELS
-// ================================================================
-function toggleAnalysis(id) {
-  const el = document.getElementById(id);
-  if(el) el.classList.toggle('open');
-}
-function toggleRowDetail(id) {
-  const el = document.getElementById(id);
-  if(el) el.classList.toggle('open');
+function toggleTheme() {
+  const d = document.documentElement;
+  const isDark = d.getAttribute('data-theme') === 'dark';
+  d.setAttribute('data-theme', isDark ? '' : 'dark');
+  localStorage.setItem('theme', isDark ? '' : 'dark');
 }
 
-// ================================================================
-// BUILD DEPT TABLE
-// ================================================================
-function buildDeptTable() {
-  const tbody = document.getElementById('deptTableBody');
-  if(!tbody) return;
-  tbody.innerHTML = DEPTS.map(d => {
-    const cls = getClass(d.total);
-    const bar = `<div class="progress-bar-wrap"><div class="progress-bar-fill fill-${cls}" style="width:${d.total}%"></div></div>`;
-    return `<tr>
-      <td>${d.name}</td>
-      <td>${d.total}%<br>${bar}</td>
-      <td>${d.init ? d.init+'%' : '—'}</td>
-      <td>${d.docs ? d.docs+'%' : '—'}</td>
-      <td>${getBadge(d.total)}</td>
-      <td style="font-size:11px;color:var(--text-muted)">${d.total<70?'يحتاج متابعة عاجلة':d.total<90?'يحتاج تطوير':''}</td>
-    </tr>`;
-  }).join('');
-}
-
-// ================================================================
-// CHARTS
-// ================================================================
-const COLORS = {
-  excellent: '#16a34a',
-  good: '#d97706',
-  weak: '#dc2626',
-  pending: '#94a3b8',
-  primary: '#00897B',
-  accent: '#7BC143'
-};
-
-// ================================================================
-// REGISTER DATALABELS PLUGIN GLOBALLY
-// ================================================================
-Chart.register(ChartDataLabels);
-
-// ================================================================
-// SHARED HELPERS
-// ================================================================
-const chartDefaults = {
-  plugins: {
-    legend: { labels: { font: { family: 'IBM Plex Sans Arabic, sans-serif', size:12 }, rtl: true } }
-  },
-  responsive: true,
-  maintainAspectRatio: false
-};
-
-// Datalabels config for bar charts (value shown on/inside bar)
-function barDL(suffix, opts={}) {
-  return {
-    datalabels: {
-      anchor: opts.anchor || 'end',
-      align: opts.align || 'end',
-      color: opts.color || '#1a3a5c',
-      font: { family:'IBM Plex Sans Arabic, sans-serif', size: opts.size||12, weight:'700' },
-      formatter: (v) => v > 0 ? (v + (suffix||'')) : '',
-      clip: false,
-      padding: { right: 4 }
-    }
-  };
-}
-
-// Datalabels config for bar charts where label is inside the bar
-function barDLInside(suffix) {
-  return {
-    datalabels: {
-      anchor:'center', align:'center',
-      color:'#fff',
-      font:{ family:'IBM Plex Sans Arabic, sans-serif', size:11, weight:'700' },
-      formatter:(v) => v > 0 ? (v+(suffix||'')) : ''
-    }
-  };
-}
-
-// Datalabels for doughnut/pie
-function pieDL(labels, data) {
-  return {
-    datalabels: {
-      color:'#fff',
-      font:{ family:'IBM Plex Sans Arabic, sans-serif', size:12, weight:'700' },
-      formatter:(v, ctx) => {
-        const pct = Math.round(v / data.reduce((a,b)=>a+b,0) * 100);
-        return pct > 4 ? v + '\n(' + pct + '%)' : '';
-      },
-      textAlign:'center'
-    }
-  };
-}
-
-// Datalabels for line charts (above each point)
-const lineDL = {
-  datalabels: {
-    anchor:'end', align:'top', offset:4,
-    color: ctx => {
-      const v = ctx.dataset.data[ctx.dataIndex];
-      return v >= 90 ? '#16a34a' : v >= 70 ? '#d97706' : '#dc2626';
-    },
-    font:{ family:'IBM Plex Sans Arabic, sans-serif', size:10, weight:'700' },
-    formatter: v => v + '%'
-  }
-};
-
-// ================================================================
-// INIT CHARTS
-// ================================================================
-function initCharts() {
-
-  // ── HISTORICAL LINE ───────────────────────────────────────────
-  const hCtx = document.getElementById('historicalChart');
-  if(hCtx) new Chart(hCtx, {
-    type:'line',
-    data:{
-      labels:['Q1\n2023','Q2\n2023','Q3\n2023','Q4\n2023','Q1\n2024','Q2\n2024','Q3\n2024','Q4\n2024','Q1\n2025','Q2\n2025','Q3\n2025','Q4\n2025','Q1\n2026'],
-      datasets:[{
-        label:'الأداء الاستراتيجي %',
-        data:[60.4,81.5,82.9,75.6,92.4,91.8,94.3,88.8,91.3,87.5,85.1,83.8,90.1],
-        borderColor: COLORS.accent, backgroundColor:'rgba(200,146,42,0.08)',
-        borderWidth:3, fill:true, tension:0.4,
-        pointBackgroundColor: ctx => {
-          const v = ctx.dataset.data[ctx.dataIndex];
-          return v>=90?COLORS.excellent:v>=70?COLORS.good:COLORS.weak;
-        },
-        pointRadius:6, pointHoverRadius:8
-      }]
-    },
-    options:{
-      ...chartDefaults,
-      scales:{
-        y:{ min:40, max:105, ticks:{ callback:v=>v+'%', font:{size:11} }, grid:{color:'#e5eaf0'} },
-        x:{ grid:{display:false}, ticks:{font:{size:10}} }
-      },
-      plugins:{
-        ...chartDefaults.plugins,
-        ...lineDL
-      }
-    }
-  });
-
-  // ── GOALS DISTRIBUTION DOUGHNUT ───────────────────────────────
-  const gData = [11,5,2,8];
-  const gCtx = document.getElementById('goalsDistChart');
-  if(gCtx) new Chart(gCtx, {
-    type:'doughnut',
-    data:{
-      labels:['ممتاز','جيد','ضعيف','لم يحن'],
-      datasets:[{ data:gData, backgroundColor:[COLORS.excellent,COLORS.good,COLORS.weak,COLORS.pending], borderWidth:3, borderColor:'#fff' }]
-    },
-    options:{
-      ...chartDefaults,
-      plugins:{ ...chartDefaults.plugins, legend:{position:'bottom'}, ...pieDL(null, gData) }
-    }
-  });
-
-  // ── KPI DISTRIBUTION DOUGHNUT ─────────────────────────────────
-  const kData = [18,5,3,23];
-  const kCtx = document.getElementById('kpiDistChart');
-  if(kCtx) new Chart(kCtx, {
-    type:'doughnut',
-    data:{
-      labels:['ممتاز','جيد','ضعيف','لم يحن'],
-      datasets:[{ data:kData, backgroundColor:[COLORS.excellent,COLORS.good,COLORS.weak,COLORS.pending], borderWidth:3, borderColor:'#fff' }]
-    },
-    options:{
-      ...chartDefaults,
-      plugins:{ ...chartDefaults.plugins, legend:{position:'bottom'}, ...pieDL(null, kData) }
-    }
-  });
-
-  // ── STRATEGIC DIMENSIONS BAR ──────────────────────────────────
-  const dCtx = document.getElementById('dimensionsChart');
-  if(dCtx) new Chart(dCtx, {
-    type:'bar',
-    data:{
-      labels:['المستفيدون','أصحاب المصلحة','المالي','العمليات الداخلية','التعلم والنمو'],
-      datasets:[
-        { label:'المتحقق %', data:[81.3,100,99.9,93.7,93.9],
-          backgroundColor:[COLORS.good,COLORS.excellent,COLORS.excellent,COLORS.excellent,COLORS.excellent], borderRadius:6 },
-        { label:'المستهدف 100%', data:[100,100,100,100,100], type:'line',
-          borderColor:'rgba(200,146,42,0.6)', backgroundColor:'transparent',
-          borderDash:[6,4], borderWidth:2, pointRadius:0,
-          datalabels:{ display:false } }
-      ]
-    },
-    options:{
-      ...chartDefaults,
-      scales:{ y:{min:0,max:115,ticks:{callback:v=>v+'%'},grid:{color:'#e5eaf0'}}, x:{grid:{display:false}} },
-      plugins:{
-        ...chartDefaults.plugins,
-        datalabels:{
-          anchor:'end', align:'end', offset:2,
-          color: ctx => ctx.datasetIndex===0 ? '#1a3a5c' : 'transparent',
-          font:{ family:'IBM Plex Sans Arabic, sans-serif', size:12, weight:'700' },
-          formatter: (v, ctx) => ctx.datasetIndex===0 ? v+'%' : ''
-        }
-      }
-    }
-  });
-
-  // ── DEPARTMENTS BAR (horizontal) ─────────────────────────────
-  const depCtx = document.getElementById('deptChart');
-  if(depCtx) new Chart(depCtx, {
-    type:'bar',
-    data:{
-      labels: DEPTS.map(d=>d.name),
-      datasets:[{
-        label:'الأداء التشغيلي %',
-        data: DEPTS.map(d=>d.total),
-        backgroundColor: DEPTS.map(d=>d.total>=90?COLORS.excellent:d.total>=70?COLORS.good:COLORS.weak),
-        borderRadius:4
-      }]
-    },
-    options:{
-      ...chartDefaults, indexAxis:'y',
-      layout:{ padding:{ right: 44 } },
-      scales:{
-        x:{ min:0, max:115, ticks:{callback:v=>v+'%',font:{size:10}}, grid:{color:'#e5eaf0'} },
-        y:{ grid:{display:false}, ticks:{font:{size:11}} }
-      },
-      plugins:{
-        ...chartDefaults.plugins, legend:{display:false},
-        datalabels:{
-          anchor:'end', align:'right', offset:4,
-          color: ctx => {
-            const v = ctx.dataset.data[ctx.dataIndex];
-            return v>=90?COLORS.excellent:v>=70?COLORS.good:COLORS.weak;
-          },
-          font:{ family:'IBM Plex Sans Arabic, sans-serif', size:11, weight:'700' },
-          formatter: v => v+'%'
-        }
-      }
-    }
-  });
-
-  // ── DOCS DOUGHNUT ─────────────────────────────────────────────
-  const docsData = [65,19,30];
-  const docsCtx = document.getElementById('docsChart');
-  if(docsCtx) new Chart(docsCtx, {
-    type:'doughnut',
-    data:{
-      labels:['ممتازة','جيدة','ضعيف'],
-      datasets:[{ data:docsData, backgroundColor:[COLORS.excellent,COLORS.good,COLORS.weak], borderWidth:3, borderColor:'#fff' }]
-    },
-    options:{
-      ...chartDefaults,
-      plugins:{ ...chartDefaults.plugins, legend:{position:'bottom'}, ...pieDL(null, docsData) }
-    }
-  });
-
-  // ── RISK CATEGORIES BAR (horizontal stacked) ──────────────────
-  const rCtx = document.getElementById('riskCatChart');
-  if(rCtx) new Chart(rCtx, {
-    type:'bar',
-    data:{
-      labels:['استراتيجية','مالية','تشغيلية','حوكمة','التزام بالقوانين','تنظيمية','موارد بشرية','تقنية','خارجية','مجتمعية','مستفيدون','تعارض المصالح','إرهاب/غسيل'],
-      datasets:[
-        { label:'متوسطة', data:[1,3,3,1,0,1,3,0,0,0,1,0,0], backgroundColor:'rgba(217,119,6,0.85)', borderRadius:3 },
-        { label:'منخفضة', data:[6,3,6,6,4,5,7,6,6,3,4,7,6], backgroundColor:'rgba(22,163,74,0.85)', borderRadius:3 }
-      ]
-    },
-    options:{
-      ...chartDefaults, indexAxis:'y',
-      scales:{ x:{stacked:true,ticks:{stepSize:1}}, y:{stacked:true,grid:{display:false},ticks:{font:{size:11}}} },
-      plugins:{
-        ...chartDefaults.plugins,
-        datalabels:{
-          anchor:'center', align:'center',
-          color:'#fff',
-          font:{ family:'IBM Plex Sans Arabic, sans-serif', size:11, weight:'700' },
-          formatter: v => v > 0 ? v : ''
-        }
-      }
-    }
-  });
-
-  // ── RISK LEVEL DOUGHNUT ───────────────────────────────────────
-  const rlData = [69,13];  // 0 high risks excluded (shows as 0)
-  const rlCtx = document.getElementById('riskLevelChart');
-  if(rlCtx) new Chart(rlCtx, {
-    type:'doughnut',
-    data:{
-      labels:['منخفضة (69)','متوسطة (13)','عالية (0)'],
-      datasets:[{ data:[69,13,0.001], backgroundColor:[COLORS.excellent,COLORS.good,COLORS.weak], borderWidth:3, borderColor:'#fff' }]
-    },
-    options:{
-      ...chartDefaults,
-      plugins:{
-        ...chartDefaults.plugins, legend:{position:'bottom'},
-        datalabels:{
-          color:'#fff',
-          font:{ family:'IBM Plex Sans Arabic, sans-serif', size:13, weight:'700' },
-          formatter:(v) => v > 1 ? v : ''
-        }
-      }
-    }
-  });
-
-  // ── FINANCIAL COMPARISON BAR ──────────────────────────────────
-  const finCtx = document.getElementById('finCompChart');
-  if(finCtx) new Chart(finCtx, {
-    type:'bar',
-    data:{
-      labels:['إجمالي التبرعات','العائد الاقتصادي للتطوع','عائد الخدمات والخصومات'],
-      datasets:[
-        { label:'المستهدف', data:[21240892,2000000,3250000], backgroundColor:'rgba(200,146,42,0.35)', borderRadius:4 },
-        { label:'المتحقق', data:[23469326,2450915,3223583], backgroundColor:[COLORS.excellent,COLORS.excellent,COLORS.excellent], borderRadius:4 }
-      ]
-    },
-    options:{
-      ...chartDefaults,
-      scales:{
-        y:{ ticks:{ callback:v=>(v/1000000).toFixed(1)+'M ر', font:{size:11} }, grid:{color:'#e5eaf0'} },
-        x:{ grid:{display:false}, ticks:{font:{size:11}} }
-      },
-      plugins:{
-        ...chartDefaults.plugins,
-        datalabels:{
-          anchor:'end', align:'end', offset:2,
-          color:'#1a3a5c',
-          font:{ family:'IBM Plex Sans Arabic, sans-serif', size:10, weight:'700' },
-          formatter: v => (v/1000000).toFixed(2)+'M'
-        }
-      }
-    }
-  });
-
-  // ── FINANCIAL DISTRIBUTION PIE ────────────────────────────────
-  const fdData = [23469326,2450915,3223583];
-  const fdCtx = document.getElementById('finDistChart');
-  if(fdCtx) new Chart(fdCtx, {
-    type:'doughnut',
-    data:{
-      labels:['إجمالي التبرعات','العائد التطوعي','عائد الخدمات'],
-      datasets:[{ data:fdData, backgroundColor:[COLORS.excellent,COLORS.good,COLORS.accent], borderWidth:3, borderColor:'#fff' }]
-    },
-    options:{
-      ...chartDefaults,
-      plugins:{
-        ...chartDefaults.plugins, legend:{position:'bottom'},
-        datalabels:{
-          color:'#fff',
-          font:{ family:'IBM Plex Sans Arabic, sans-serif', size:11, weight:'700' },
-          formatter:(v) => (v/1000000).toFixed(1)+'M'
-        }
-      }
-    }
-  });
-
-  // ── GOVERNANCE BAR ────────────────────────────────────────────
-  const govCtx = document.getElementById('govChart');
-  if(govCtx) new Chart(govCtx, {
-    type:'bar',
-    data:{
-      labels:['نسبة التزام الجمعية بمعايير الحوكمة'],
-      datasets:[
-        { label:'المستهدف 99%', data:[99], backgroundColor:'rgba(200,146,42,0.3)', borderRadius:6 },
-        { label:'المتحقق 97.8%', data:[97.8], backgroundColor:COLORS.excellent, borderRadius:6 }
-      ]
-    },
-    options:{
-      ...chartDefaults,
-      scales:{ y:{min:90,max:103,ticks:{callback:v=>v+'%'}}, x:{grid:{display:false}} },
-      plugins:{
-        ...chartDefaults.plugins,
-        datalabels:{
-          anchor:'end', align:'end', offset:4,
-          color:'#1a3a5c',
-          font:{ family:'IBM Plex Sans Arabic, sans-serif', size:13, weight:'700' },
-          formatter: v => v+'%'
-        }
-      }
-    }
-  });
-
-  // ── EXCELLENCE HORIZONTAL BAR ─────────────────────────────────
-  const excCtx = document.getElementById('excellenceChart');
-  if(excCtx) new Chart(excCtx, {
-    type:'bar',
-    data:{
-      labels:['القيادة الإدارية','التخطيط الاستراتيجي','الموارد البشرية','الشراكات والموارد','إدارة العمليات','نتائج المستفيدين','نتائج الموارد البشرية','نتائج الأداء الرئيسية'],
-      datasets:[
-        {
-          label:'الدرجة المحققة',
-          data:[66,57,64,66,86,69,66,68],
-          backgroundColor:['rgba(217,119,6,0.85)','rgba(22,163,74,0.85)','rgba(22,163,74,0.85)','rgba(22,163,74,0.85)','rgba(22,163,74,0.85)','rgba(220,38,38,0.85)','rgba(22,163,74,0.85)','rgba(220,38,38,0.85)'],
-          borderRadius:5
-        },
-        {
-          label:'الدرجة الكاملة',
-          data:[150,100,100,100,150,150,100,150],
-          backgroundColor:'transparent', borderColor:COLORS.accent,
-          borderWidth:2, type:'line', pointRadius:4, borderDash:[5,5],
-          datalabels:{ display:false }
-        }
-      ]
-    },
-    options:{
-      ...chartDefaults, indexAxis:'y',
-      layout:{ padding:{ right:44 } },
-      scales:{ x:{min:0,max:175,ticks:{stepSize:25}}, y:{grid:{display:false},ticks:{font:{size:11}}} },
-      plugins:{
-        ...chartDefaults.plugins,
-        datalabels:{
-          anchor:'end', align:'right', offset:5,
-          color: ctx => ctx.datasetIndex===0 ? '#1a3a5c' : 'transparent',
-          font:{ family:'IBM Plex Sans Arabic, sans-serif', size:11, weight:'700' },
-          formatter:(v, ctx) => ctx.datasetIndex===0 ? v+' درجة' : ''
-        }
-      }
-    }
-  });
-
-  // ── EXCELLENCE PIE ────────────────────────────────────────────
-  const expCtx = document.getElementById('excellencePieChart');
-  if(expCtx) new Chart(expCtx, {
-    type:'doughnut',
-    data:{
-      labels:['المحقق (542 درجة)','المتبقي (458 درجة)'],
-      datasets:[{ data:[542,458], backgroundColor:[COLORS.excellent,'rgba(220,228,236,0.9)'], borderWidth:3, borderColor:'#fff' }]
-    },
-    options:{
-      ...chartDefaults,
-      plugins:{
-        ...chartDefaults.plugins, legend:{position:'bottom'},
-        datalabels:{
-          color: ctx => ctx.dataIndex===0 ? '#fff' : '#5a7a9a',
-          font:{ family:'IBM Plex Sans Arabic, sans-serif', size:12, weight:'700' },
-          formatter:(v) => v+'\nدرجة'
-        }
-      }
-    }
-  });
-
-  // ── MAP BAR — المحاور ذات مقياس % فقط ────────────────────────
-  const mbCtx = document.getElementById('mapBarChart');
-  if(mbCtx) new Chart(mbCtx, {
-    type:'bar',
-    data:{
-      labels:['الاستراتيجي\n(إنجاز أهداف)','التشغيلي\n(إنجاز مبادرات)','المالي\n(إنجاز موارد)','أداء المخاطر\n(نسبة منخفضة)','الحوكمة\n(نسبة التزام)'],
-      datasets:[{
-        label:'نسبة %',
-        data:[90.1, 83.6, 99.9, 84.1, 97.8],
-        backgroundColor:[COLORS.excellent,COLORS.good,COLORS.excellent,COLORS.good,COLORS.excellent],
-        borderRadius:8
-      }]
-    },
-    options:{
-      ...chartDefaults,
-      layout:{ padding:{ top:28 } },
-      scales:{
-        y:{ min:0, max:112, ticks:{callback:v=>v+'%',font:{size:11}}, grid:{color:'#e5eaf0'} },
-        x:{ grid:{display:false}, ticks:{font:{size:10}} }
-      },
-      plugins:{
-        ...chartDefaults.plugins, legend:{display:false},
-        datalabels:{
-          anchor:'end', align:'end', offset:4,
-          color:'#1a3a5c',
-          font:{ family:'IBM Plex Sans Arabic, sans-serif', size:13, weight:'700' },
-          formatter: v => v+'%'
-        }
-      }
-    }
-  });
-
-  // ── MAP EXCELLENCE STANDALONE ─────────────────────────────────
-  const mexCtx = document.getElementById('mapExcellenceChart');
-  if(mexCtx) new Chart(mexCtx, {
-    type:'bar',
-    data:{
-      labels:['الدرجة المحققة','المستهدف','الدرجة القصوى'],
-      datasets:[{
-        label:'درجة التميز المؤسسي',
-        data:[542, 500, 1000],
-        backgroundColor:[COLORS.excellent,'rgba(200,146,42,0.5)','rgba(200,200,200,0.3)'],
-        borderRadius:8
-      }]
-    },
-    options:{
-      ...chartDefaults,
-      layout:{ padding:{ top:34 } },
-      scales:{
-        y:{ min:0, max:1100, ticks:{stepSize:200,font:{size:11}}, grid:{color:'#e5eaf0'} },
-        x:{ grid:{display:false}, ticks:{font:{size:12}} }
-      },
-      plugins:{
-        ...chartDefaults.plugins, legend:{display:false},
-        datalabels:{
-          anchor:'end', align:'end', offset:4,
-          color:'#1a3a5c',
-          font:{ family:'IBM Plex Sans Arabic, sans-serif', size:13, weight:'700' },
-          formatter: (v,ctx) => {
-            const labels = ['542 درجة\n(108% من المستهدف)','500 درجة\n(المستهدف)','1000 درجة\n(الحد الأقصى)'];
-            return labels[ctx.dataIndex];
-          }
-        }
-      }
-  });
-
-  // ── PREDICTION CHART ───────────────────────────────────────────
-  const pCtx = document.getElementById('predictionChart');
-  if(pCtx) new Chart(pCtx, {
-    type:'line',
-    data:{
-      labels:['Q1 2025','Q2 2025','Q3 2025','Q4 2025','Q1 2026','Q2 2026(P)','Q3 2026(P)','Q4 2026(P)'],
-      datasets:[
-        {
-          label:'الأداء الفعلي',
-          data:[91.3, 87.5, 85.1, 83.8, 90.1, null, null, null],
-          borderColor: COLORS.primary, backgroundColor: COLORS.primary,
-          borderWidth:3, tension:0.4, pointRadius:5
-        },
-        {
-          label:'التنبؤ المستقبلي',
-          data:[null, null, null, null, 90.1, 91.2, 91.8, 92.5],
-          borderColor: COLORS.accent, backgroundColor: 'rgba(123, 193, 67, 0.1)',
-          borderWidth:3, borderDash:[5,5], fill:true, tension:0.4, pointRadius:5
-        }
-      ]
-    },
-    options:{
-      ...chartDefaults,
-      scales:{
-        y:{ min:80, max:100, ticks:{stepSize:5, font:{size:11}}, grid:{color:'#e5eaf0'} },
-        x:{ grid:{display:false}, ticks:{font:{size:11}} }
-      },
-      plugins:{
-        ...chartDefaults.plugins,
-        datalabels: {
-          anchor:'end', align:'top', offset:4,
-          color: ctx => ctx.dataset.label==='الأداء الفعلي'?COLORS.primary:COLORS.accent,
-          font:{ size:11, weight:'700' },
-          formatter: v => v ? v+'%' : ''
-        }
-      }
-    }
-  });
-}
-
-// ================================================================
-// INIT
-// ================================================================
-document.addEventListener('DOMContentLoaded', function() {
-  buildDeptTable();
-  initCharts();
-  // Restore theme
-  if(localStorage.getItem('theme')==='dark') document.documentElement.setAttribute('data-theme','dark');
-});
-
-function toggleTheme(){
-  const d=document.documentElement;
-  const isDark=d.getAttribute('data-theme')==='dark';
-  d.setAttribute('data-theme',isDark?'':'dark');
-  localStorage.setItem('theme',isDark?'':'dark');
-}
-
-<!-- CHATBOT WIDGET -->
-<div class="chat-widget">
-  <div class="chat-window" id="chatWindow">
-    <div class="chat-header">
-      <div style="font-weight:700">تراؤف الذكي (AI)</div>
-      <button onclick="toggleChat()" style="background:none;border:none;color:white;cursor:pointer;font-size:18px">✕</button>
-    </div>
-    <div class="chat-body" id="chatBody">
-      <div class="chat-msg bot">مرحباً بك! أنا مساعدك الذكي في لوحة قيادة تراؤف. كيف يمكنني مساعدتك في تحليل بيانات الربع الأول اليوم؟</div>
-    </div>
-    <div class="chat-input-area">
-      <input type="text" class="chat-input" id="chatInput" placeholder="اسألني عن الأداء..." onkeypress="if(event.key==='Enter') sendChat()">
-      <button class="chat-send" onclick="sendChat()">🚀</button>
-    </div>
-  </div>
-  <button class="chat-btn" onclick="toggleChat()">💬</button>
-</div>
-
-<script>
-function toggleChat() {
-  document.getElementById('chatWindow').classList.toggle('active');
-}
+function toggleChat() { document.getElementById('chatPanel').classList.toggle('active'); }
 
 function sendChat() {
   const input = document.getElementById('chatInput');
   const body = document.getElementById('chatBody');
   if(!input.value.trim()) return;
-
-  // Add User Msg
+  
   const uMsg = document.createElement('div');
   uMsg.className = 'chat-msg user';
   uMsg.innerText = input.value;
   body.appendChild(uMsg);
-
+  
   const q = input.value.toLowerCase();
   input.value = '';
   body.scrollTop = body.scrollHeight;
 
-  // AI Logic (Simulation)
   setTimeout(() => {
     const bMsg = document.createElement('div');
     bMsg.className = 'chat-msg bot';
-    let reply = "عذراً، لم أفهم سؤالك بدقة. هل تود معرفة الأداء الاستراتيجي أم أداء المبادرات؟";
-    
-    if(q.includes('الاستراتيجي') || q.includes('العام')) reply = "الأداء الاستراتيجي العام للربع الأول هو 90.1% وهو في مستوى ممتاز.";
-    if(q.includes('المالي') || q.includes('تبرع')) reply = "الأداء المالي ممتاز جداً بنسبة 99.9%، ووصلت التبرعات لـ 23.4 مليون ريال.";
-    if(q.includes('توقع') || q.includes('المستقبل')) reply = "نتوقع نمو الأداء ليصل إلى 92.5% بنهاية العام 2026 بإذن الله.";
-    if(q.includes('خطر') || q.includes('ضعيف')) reply = "أقل إدارة أداءً هي التمكين الاقتصادي بنسبة 46.9% وتحتاج لمراجعة خطتها.";
-    if(q.includes('2030')) reply = "الجمعية حققت 100% في الإسهام بمستهدفات رؤية 2030 عبر 32 مبادرة.";
-
+    let reply = "أقوم حالياً بتحليل البيانات... الأداء الاستراتيجي العام للربع الأول هو 90.1% وهو فوق المستهدف.";
+    if(q.includes('مالي')) reply = "الأداء المالي متميز جداً (99.9%)، مع تبرعات إجمالية بلغت 23.4 مليون ريال.";
+    if(q.includes('خطر')) reply = "جميع المخاطر ضمن النطاق الأخضر، ولا توجد مخاطر عالية للربع الحالي.";
     bMsg.innerText = reply;
     body.appendChild(bMsg);
     body.scrollTop = body.scrollHeight;
-  }, 600);
+  }, 700);
 }
+
+function initCharts() {
+  new Chart(document.getElementById('historicalChart'), {
+    type:'line',
+    data:{
+      labels:['2023','2024','2025','Q1 2026'],
+      datasets:[{ label:'الأداء الاستراتيجي %', data:[75, 88, 91, 90.1], borderColor: COLORS.primary, tension: 0.4, fill: true, backgroundColor: 'rgba(0,137,123,0.1)' }]
+    },
+    options: { plugins: { datalabels: { display: true } }, responsive: true, maintainAspectRatio: false }
+  });
+
+  new Chart(document.getElementById('goalsDistChart'), {
+    type:'doughnut',
+    data:{ labels:['ممتاز','جيد','ضعيف'], datasets:[{ data:[11, 5, 2], backgroundColor: [COLORS.primary, COLORS.accent, '#EF4444'] }] },
+    options: { plugins: { legend: { position: 'bottom' } }, responsive: true, maintainAspectRatio: false }
+  });
+  
+  new Chart(document.getElementById('kpiDistChart'), {
+    type:'doughnut',
+    data:{ labels:['ممتاز','جيد','ضعيف'], datasets:[{ data:[18, 5, 3], backgroundColor: [COLORS.primary, COLORS.accent, '#EF4444'] }] },
+    options: { plugins: { legend: { position: 'bottom' } }, responsive: true, maintainAspectRatio: false }
+  });
+
+  new Chart(document.getElementById('dimensionsChart'), {
+    type:'bar',
+    data:{
+      labels:['المستفيدون','أصحاب المصلحة','المالي','العمليات','النمو'],
+      datasets:[{ label:'المتحقق %', data:[81.3, 100, 99.9, 93.7, 93.9], backgroundColor: COLORS.primary, borderRadius: 8 }]
+    },
+    options: { scales: { y: { min:0, max:110 } }, responsive: true, maintainAspectRatio: false }
+  });
+
+  new Chart(document.getElementById('predictionChart'), {
+    type:'line',
+    data:{
+      labels:['Q1 2025','Q2 2025','Q3 2025','Q4 2025','Q1 2026','Q2 2026(P)','Q3 2026(P)'],
+      datasets:[
+        { label:'الفعلي', data:[91.3, 87.5, 85.1, 83.8, 90.1, null, null], borderColor: COLORS.primary, pointRadius: 5 },
+        { label:'المتوقع', data:[null, null, null, null, 90.1, 91.2, 92.5], borderColor: COLORS.accent, borderDash: [5,5], pointRadius: 5 }
+      ]
+    },
+    options: { responsive: true, maintainAspectRatio: false }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initCharts();
+  if(localStorage.getItem('theme')==='dark') document.documentElement.setAttribute('data-theme','dark');
+});
 </script>
 </body>
 </html>
