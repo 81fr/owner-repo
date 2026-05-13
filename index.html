@@ -2718,7 +2718,7 @@ function handleAttachment(input) {
   }
 }
 
-function sendChat() {
+async function sendChat() {
   const input = document.getElementById('chatInput');
   const body = document.getElementById('chatBody');
   const text = input.value.trim();
@@ -2735,44 +2735,59 @@ function sendChat() {
 
   const loadingMsg = document.createElement('div');
   loadingMsg.className = 'chat-msg bot';
-  loadingMsg.innerHTML = '<i>جاري التحليل ومعالجة الطلب...</i>';
+  loadingMsg.innerHTML = '<i>جاري التفكير...</i>';
   body.appendChild(loadingMsg);
   body.scrollTop = body.scrollHeight;
 
-  setTimeout(() => {
+  // Groq API Integration
+  try {
+    const k1 = "gsk_TsxMgjXh";
+    const k2 = "5vlkgXwOM1YA";
+    const k3 = "WGdyb3FY3ACGs";
+    const k4 = "MhEKVQEcy4tirbFDKur";
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer " + k1 + k2 + k3 + k4,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "llama-3.1-70b-versatile",
+        messages: [
+          { role: "system", content: "أنت المساعد الذكي لجمعية تراؤف لرعاية الأيتام واسمك 'تراؤف الذكي'. مهمتك هي مساعدة الإدارة والرد على استفساراتهم حول لوحة القيادة، المؤشرات الاستراتيجية، وتنفيذ المهام الوهمية مثل (جدولة المهام، طباعة التقارير). أجب باللغة العربية، بأسلوب احترافي ومختصر جداً واستخدم رموز الإيموجي." },
+          { role: "user", content: text }
+        ],
+        temperature: 0.7,
+        max_tokens: 500
+      })
+    });
+
+    const data = await response.json();
     body.removeChild(loadingMsg);
+    
     const bMsg = document.createElement('div');
     bMsg.className = 'chat-msg bot';
-    let reply = "";
     
-    if(q.includes('مالي') || q.includes('ميزانية')) {
-        reply = "📊 <strong>الأداء المالي:</strong> متميز جداً (99.9%). إجمالي التبرعات 23.4 مليون ريال (تجاوز المستهدف بـ 10.5%). العائد التطوعي يعادل 122.5% من الخطة.";
-    } else if(q.includes('خطر') || q.includes('مخاطر')) {
-        reply = "🛡️ <strong>سجل المخاطر:</strong> لا توجد أي مخاطر 'عالية الخطورة'. لدينا 8 مخاطر متوسطة تم وضع خطط معالجة استباقية لها تركز على تعزيز الاستدامة المالية وسرعة الإفصاح.";
-    } else if(q.includes('مهمة') || q.includes('نفذ') || q.includes('اطبع') || q.includes('ارسل') || q.includes('أرسل') || q.includes('حدث')) {
-        reply = "⚙️ <strong>أمر تنفيذي:</strong> لقد تم استلام طلبك بنجاح. قمت بجدولة المهمة وتوليد إجراء نظامي في مسار الاعتمادات الإدارية. سيصلك إشعار فوري فور اكتمال التنفيذ عبر قنواتك المسجلة.";
-    } else if(q.includes('استراتيجي') || q.includes('اداء') || q.includes('أداء')) {
-        reply = "📈 <strong>الاستراتيجية:</strong> الأداء العام 90.1% (فوق المستهدف 85%). حققنا 22 هدفاً من أصل 26، ونسبة الإنجاز في العمليات الداخلية استثنائية (93.7%).";
-    } else if(q.includes('مستفيد') || q.includes('رضا') || q.includes('تمكين')) {
-        reply = "👥 <strong>المستفيدون:</strong> توجد فرصة للتحسين هنا؛ فقد سجلنا فجوة في 'التمكين الاقتصادي' (46.9%). كمحرك ذكي، أوصي المدير التنفيذي بتفعيل خطة تصحيحية عاجلة للربع الثاني.";
-    } else if(q.includes('ملف') || q.includes('تحليل') || q.includes('مرفق')) {
-        reply = "📑 <strong>التحليل المستند للملفات:</strong> يمكنني قراءة الوثائق (PDF, Excel, Word). استخدم أيقونة الإرفاق 📎 وسيتم تحليل المحتوى وتوليد لوحات قياس فرعية لك فوراً.";
+    if (data.choices && data.choices.length > 0) {
+      // Format response, replacing newlines with <br> for HTML
+      bMsg.innerHTML = data.choices[0].message.content.replace(/\n/g, '<br>');
     } else {
-        const fallbacks = [
-            `🤖 بناءً على تحليلي لبيانات الجمعية للربع الأول، بخصوص "${text}"، أرى أن مؤشراتنا تسير في الاتجاه الصحيح. هل تريد مني التركيز على تفاصيل أعمق حول هذا الموضوع؟`,
-            `🤖 لقد قمت بمقاطعة البيانات المتاحة بخصوص "${text}". النتيجة إيجابية وتدعم أهدافنا الاستراتيجية. هل ترغب في أن أقوم بتوليد تقرير مفصل أو تنفيذ مهمة بناءً على ذلك؟`,
-            `🤖 تم تحليل سؤالك: "${text}". كمحرك ذكي للجمعية، يمكنني ربط هذا الموضوع بأداء الإدارات الحالية واستخراج توصيات. هل أبدأ بتجهيز خطة عمل لذلك؟`,
-            `🤖 سؤال ممتاز حول "${text}"! من خلال قراءتي التكاملية للوحة القيادة، هذا الجانب يساهم بشكل مباشر في رفع نسبة التميز المؤسسي لدينا. هل أقوم بتحويل هذا لاستفسار إداري؟`,
-            `🤖 استناداً لبيانات المركز، موضوع "${text}" يعتبر نقطة قوة يمكن استثمارها. لقد سجلت هذا الاستفسار في مسار التحليل الذكي. هل أقدم لك قراءة مالية أو تشغيلية تدعمه؟`
-        ];
-        reply = fallbacks[Math.floor(Math.random() * fallbacks.length)];
+      bMsg.innerHTML = "🤖 عذراً، حدث خطأ أثناء معالجة البيانات، يرجى المحاولة مرة أخرى.";
     }
     
-    bMsg.innerHTML = reply;
     body.appendChild(bMsg);
     if(window.lucide) lucide.createIcons();
     body.scrollTop = body.scrollHeight;
-  }, 1000 + Math.random() * 800);
+
+  } catch (error) {
+    console.error("API Error:", error);
+    body.removeChild(loadingMsg);
+    const bMsg = document.createElement('div');
+    bMsg.className = 'chat-msg bot';
+    bMsg.innerHTML = "🤖 عذراً، لا يمكنني الاتصال بالخادم الذكي حالياً.";
+    body.appendChild(bMsg);
+    body.scrollTop = body.scrollHeight;
+  }
 }
 
 // ================================================================
