@@ -2632,14 +2632,20 @@
   <div class="chat-panel" id="chatPanel">
     <div class="chat-header">تراؤف الذكي (AI) <span onclick="toggleChat()" style="cursor:pointer">✕</span></div>
     <div class="chat-body" id="chatBody">
-      <div class="chat-msg bot">مرحباً! أنا "تراؤف الذكي". كيف يمكنني مساعدتك في تحليل بيانات الربع الأول اليوم؟</div>
+      <div class="chat-msg bot">مرحباً! أنا "تراؤف الذكي". أنا هنا لمساعدتك في قراءة المؤشرات، تنفيذ المهام، أو تحليل الملفات. كيف يمكنني خدمتك اليوم؟</div>
     </div>
-    <div class="chat-input-area">
-      <input type="text" class="chat-input" id="chatInput" placeholder="اسأل عن الأداء أو التوقعات..." onkeypress="if(event.key==='Enter') sendChat()">
-      <button class="btn btn-primary" style="padding:10px" onclick="sendChat()">➤</button>
+    <div class="chat-input-area" style="align-items: center; gap: 8px;">
+      <button style="background:none; border:none; color:var(--text-muted); cursor:pointer; padding:6px; flex-shrink:0" onclick="document.getElementById('ai-attachment').click()" title="إرفاق ملف">
+        <i data-lucide="paperclip" size="20"></i>
+      </button>
+      <input type="file" id="ai-attachment" style="display: none" onchange="handleAttachment(this)">
+      <input type="text" class="chat-input" id="chatInput" placeholder="اسأل، اطلب مهمة، أو أرفق..." onkeypress="if(event.key==='Enter') sendChat()" style="min-width: 0;">
+      <button class="btn btn-primary" style="padding:10px; border-radius:12px; display:flex; flex-shrink:0" onclick="sendChat()">
+        <i data-lucide="send" size="18"></i>
+      </button>
     </div>
   </div>
-  <button class="chat-trigger" onclick="toggleChat()"><i data-lucide="message-square-more" size="28"></i></button>
+  <button class="chat-trigger" onclick="toggleChat()"><i data-lucide="bot" size="28"></i></button>
 </div>
 
 <script>
@@ -2675,34 +2681,91 @@ function showTab(tabId) {
   }
 
   window.scrollTo(0, 0);
+
+  // Resize charts to fix display issues in hidden tabs
+  if (window.chartInstances) {
+    setTimeout(() => {
+      window.chartInstances.forEach(c => {
+        if (c && typeof c.resize === 'function') {
+          c.resize();
+        }
+      });
+    }, 50);
+  }
 }
 
 function toggleChat() { document.getElementById('chatPanel').classList.toggle('active'); }
 
+function handleAttachment(input) {
+  if (input.files && input.files[0]) {
+    const file = input.files[0];
+    const body = document.getElementById('chatBody');
+    
+    const uMsg = document.createElement('div');
+    uMsg.className = 'chat-msg user';
+    uMsg.innerHTML = `<i data-lucide="file-text" size="14"></i> تم إرفاق: ${file.name}`;
+    body.appendChild(uMsg);
+    if(window.lucide) lucide.createIcons();
+    body.scrollTop = body.scrollHeight;
+
+    setTimeout(() => {
+      const bMsg = document.createElement('div');
+      bMsg.className = 'chat-msg bot';
+      bMsg.innerHTML = `✅ استلمت الملف <strong>${file.name}</strong> وقمت بقراءته. هل تود أن أقوم بتحليل بياناته واستخراج التوصيات أو دمجه مع تقرير الإدارة الحالي؟`;
+      body.appendChild(bMsg);
+      body.scrollTop = body.scrollHeight;
+    }, 1200);
+  }
+}
+
 function sendChat() {
   const input = document.getElementById('chatInput');
   const body = document.getElementById('chatBody');
-  if(!input.value.trim()) return;
+  const text = input.value.trim();
+  if(!text) return;
   
   const uMsg = document.createElement('div');
   uMsg.className = 'chat-msg user';
-  uMsg.innerText = input.value;
+  uMsg.innerText = text;
   body.appendChild(uMsg);
   
-  const q = input.value.toLowerCase();
+  const q = text.toLowerCase();
   input.value = '';
   body.scrollTop = body.scrollHeight;
 
+  const loadingMsg = document.createElement('div');
+  loadingMsg.className = 'chat-msg bot';
+  loadingMsg.innerHTML = '<i>جاري التحليل ومعالجة الطلب...</i>';
+  body.appendChild(loadingMsg);
+  body.scrollTop = body.scrollHeight;
+
   setTimeout(() => {
+    body.removeChild(loadingMsg);
     const bMsg = document.createElement('div');
     bMsg.className = 'chat-msg bot';
-    let reply = "أقوم حالياً بتحليل البيانات... الأداء الاستراتيجي العام للربع الأول هو 90.1% وهو فوق المستهدف.";
-    if(q.includes('مالي')) reply = "الأداء المالي متميز جداً (99.9%)، مع تبرعات إجمالية بلغت 23.4 مليون ريال.";
-    if(q.includes('خطر')) reply = "جميع المخاطر ضمن النطاق الأخضر، ولا توجد مخاطر عالية للربع الحالي.";
-    bMsg.innerText = reply;
+    let reply = "";
+    
+    if(q.includes('مالي') || q.includes('ميزانية')) {
+        reply = "📊 <strong>الأداء المالي:</strong> متميز جداً (99.9%). إجمالي التبرعات 23.4 مليون ريال (تجاوز المستهدف بـ 10.5%). العائد التطوعي يعادل 122.5% من الخطة.";
+    } else if(q.includes('خطر') || q.includes('مخاطر')) {
+        reply = "🛡️ <strong>سجل المخاطر:</strong> لا توجد أي مخاطر 'عالية الخطورة'. لدينا 8 مخاطر متوسطة تم وضع خطط معالجة استباقية لها تركز على تعزيز الاستدامة المالية وسرعة الإفصاح.";
+    } else if(q.includes('مهمة') || q.includes('نفذ') || q.includes('اطبع') || q.includes('ارسل') || q.includes('أرسل') || q.includes('حدث')) {
+        reply = "⚙️ <strong>أمر تنفيذي:</strong> لقد تم استلام طلبك بنجاح. قمت بجدولة المهمة وتوليد إجراء نظامي في مسار الاعتمادات الإدارية. سيصلك إشعار فوري فور اكتمال التنفيذ عبر قنواتك المسجلة.";
+    } else if(q.includes('استراتيجي') || q.includes('اداء') || q.includes('أداء')) {
+        reply = "📈 <strong>الاستراتيجية:</strong> الأداء العام 90.1% (فوق المستهدف 85%). حققنا 22 هدفاً من أصل 26، ونسبة الإنجاز في العمليات الداخلية استثنائية (93.7%).";
+    } else if(q.includes('مستفيد') || q.includes('رضا') || q.includes('تمكين')) {
+        reply = "👥 <strong>المستفيدون:</strong> توجد فرصة للتحسين هنا؛ فقد سجلنا فجوة في 'التمكين الاقتصادي' (46.9%). كمحرك ذكي، أوصي المدير التنفيذي بتفعيل خطة تصحيحية عاجلة للربع الثاني.";
+    } else if(q.includes('ملف') || q.includes('تحليل') || q.includes('مرفق')) {
+        reply = "📑 <strong>التحليل المستند للملفات:</strong> يمكنني قراءة الوثائق (PDF, Excel, Word). استخدم أيقونة الإرفاق 📎 وسيتم تحليل المحتوى وتوليد لوحات قياس فرعية لك فوراً.";
+    } else {
+        reply = "🤖 <strong>تحليل ذكي:</strong> قرأت استفسارك. استناداً لبيانات المركز وقراءات الربع الأول، أرى أننا نحقق تقدماً هائلاً في مؤشر التميز (542/1000). هل ترغب في أن أقوم بتوليد تقرير مفصل أو تنفيذ مهمة محددة بخصوص هذه البيانات؟";
+    }
+    
+    bMsg.innerHTML = reply;
     body.appendChild(bMsg);
+    if(window.lucide) lucide.createIcons();
     body.scrollTop = body.scrollHeight;
-  }, 700);
+  }, 1000 + Math.random() * 800);
 }
 
 // ================================================================
@@ -2861,11 +2924,14 @@ const lineDL = {
 // ================================================================
 // INIT CHARTS
 // ================================================================
+window.chartInstances = [];
 function safeCreateChart(id, config) {
   try {
     const el = document.getElementById(id);
     if (!el) { console.warn('Canvas not found:', id); return null; }
-    return new Chart(el, config);
+    const chart = new Chart(el, config);
+    window.chartInstances.push(chart);
+    return chart;
   } catch(e) {
     console.error('Error creating chart', id, e);
     return null;
