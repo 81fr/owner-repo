@@ -2733,7 +2733,7 @@ function handleAttachment(input) {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            model: "llama-3.1-70b-versatile",
+            model: "llama-3.3-70b-versatile",
             messages: [
               { role: "system", content: "أنت المساعد الذكي لجمعية تراؤف. قام المستخدم للتو برفع ملف إليك. أخبره أنك استلمت الملف وأنك ستقوم بتحليل بياناته أو دمجه مع اللوحة. أجب بإيجاز واحترافية عالية باللغة العربية مع إيموجي مناسب." },
               { role: "user", content: `اسم الملف المرفق هو: ${fileName}` }
@@ -2804,7 +2804,7 @@ async function sendChat() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "llama-3.1-70b-versatile",
+        model: "llama-3.3-70b-versatile",
         messages: [
           { role: "system", content: "أنت المساعد الذكي لجمعية تراؤف لرعاية الأيتام واسمك 'تراؤف الذكي'. مهمتك هي مساعدة الإدارة والرد على استفساراتهم حول لوحة القيادة، المؤشرات الاستراتيجية، وتنفيذ المهام الوهمية مثل (جدولة المهام، طباعة التقارير). أجب باللغة العربية، بأسلوب احترافي ومختصر جداً واستخدم رموز الإيموجي." },
           { role: "user", content: text }
