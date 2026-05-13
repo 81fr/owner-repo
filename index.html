@@ -6,31 +6,36 @@
   <title>لوحة القيادة المؤسسية</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .nav-item i { color: #00e5ff; font-size: 1.5rem; transition: color 0.3s; }
+    .nav-item:hover i { color: #fff; }
+    .nav-item { display: flex; align-items: center; justify-content: center; padding: 12px; margin: 8px 0; border-radius: 8px; }
+  </style>
 </head>
 <body>
   <div class="sidebar">
     <div class="logo">🔷</div>
     <nav>
-      <a href="#" class="nav-item" id="nav-dashboard"><img src="icons/icon_dashboard_1778605746117.png" alt="لوحة التحكم"/></a>
-      <a href="#" class="nav-item" id="nav-map"><img src="icons/icon_performance_map_1778605762745.png" alt="خريطة الأداء"/></a>
-      <a href="#" class="nav-item" id="nav-strategic"><img src="icons/icon_strategic_performance_1778605777733.png" alt="الأداء الاستراتيجي"/></a>
-      <a href="#" class="nav-item" id="nav-operational"><img src="icons/icon_operational_performance_1778605794421.png" alt="الأداء التشغيلي"/></a>
-      <a href="#" class="nav-item" id="nav-functional"><img src="icons/icon_functional_performance_1778605810754.png" alt="الأداء الوظيفي"/></a>
-      <a href="#" class="nav-item" id="nav-risk"><img src="icons/icon_risk_performance_1778605826370.png" alt="أداء المخاطر"/></a>
-      <a href="#" class="nav-item" id="nav-financial"><img src="icons/icon_financial_performance_1778605842074.png" alt="الأداء المالي"/></a>
-      <a href="#" class="nav-item" id="nav-governance"><img src="icons/icon_governance_performance_1778605858066.png" alt="أداء الحوكمة"/></a>
-      <a href="#" class="nav-item" id="nav-excellence"><img src="icons/icon_excellence_1778605882423.png" alt="التميز المؤسسي"/></a>
-      <a href="#" class="nav-item" id="nav-ai"><img src="icons/icon_predictions_ai_1778605899023.png" alt="التنبؤات والذكاء"/></a>
-      <a href="#" class="nav-item" id="nav-reading"><img src="icons/icon_integrated_reading_1778605914511.png" alt="القراءة التكاملية"/></a>
-      <a href="#" class="nav-item" id="nav-decisions"><img src="icons/icon_decisions_1778605930730.png" alt="القرارات"/></a>
-      <a href="#" class="nav-item" id="nav-data"><img src="icons/icon_data_1778605952034.png" alt="البيانات"/></a>
-      <a href="#" class="nav-item" id="nav-attachments"><img src="icons/icon_attachments_1778605970801.png" alt="المرفقات"/></a>
+      <a href="#" class="nav-item" id="nav-dashboard" title="لوحة التحكم"><i data-lucide="layout-dashboard"></i></a>
+      <a href="#" class="nav-item" id="nav-map" title="خريطة الأداء"><i data-lucide="map"></i></a>
+      <a href="#" class="nav-item" id="nav-strategic" title="الأداء الاستراتيجي"><i data-lucide="target"></i></a>
+      <a href="#" class="nav-item" id="nav-operational" title="الأداء التشغيلي"><i data-lucide="settings-2"></i></a>
+      <a href="#" class="nav-item" id="nav-functional" title="الأداء الوظيفي"><i data-lucide="users"></i></a>
+      <a href="#" class="nav-item" id="nav-risk" title="أداء المخاطر"><i data-lucide="shield-alert"></i></a>
+      <a href="#" class="nav-item" id="nav-financial" title="الأداء المالي"><i data-lucide="banknote"></i></a>
+      <a href="#" class="nav-item" id="nav-governance" title="أداء الحوكمة"><i data-lucide="landmark"></i></a>
+      <a href="#" class="nav-item" id="nav-excellence" title="التميز المؤسسي"><i data-lucide="award"></i></a>
+      <a href="#" class="nav-item" id="nav-ai" title="التنبؤات والذكاء"><i data-lucide="bot"></i></a>
+      <a href="#" class="nav-item" id="nav-reading" title="القراءة التكاملية"><i data-lucide="book-open"></i></a>
+      <a href="#" class="nav-item" id="nav-decisions" title="القرارات"><i data-lucide="check-square"></i></a>
+      <a href="#" class="nav-item" id="nav-data" title="البيانات"><i data-lucide="database"></i></a>
+      <a href="#" class="nav-item" id="nav-attachments" title="المرفقات"><i data-lucide="paperclip"></i></a>
     </nav>
   </div>
   <main class="content">
-    <header>
-      <h1>لوحة القيادة المؤسسية</h1>
-    </header>
+    <header><h1>لوحة القيادة المؤسسية</h1></header>
     <section class="filters">
       <label for="timeRange">نطاق الوقت:</label>
       <select id="timeRange">
@@ -47,23 +52,14 @@
       </select>
     </section>
     <section class="kpi-cards">
-      <div class="card glass">
-        <h3>مؤشر الأداء الاستراتيجي</h3>
-        <canvas id="chartStrategic"></canvas>
-      </div>
-      <div class="card glass">
-        <h3>مؤشر الأداء التشغيلي</h3>
-        <canvas id="chartOperational"></canvas>
-      </div>
+      <div class="card glass"><h3>مؤشر الأداء الاستراتيجي</h3><canvas id="chartStrategic"></canvas></div>
+      <div class="card glass"><h3>مؤشر الأداء التشغيلي</h3><canvas id="chartOperational"></canvas></div>
       <section class="risk-analysis">
         <h2>تحليل المخاطر</h2>
         <button id="updateRiskBtn">تحديث تحليل المخاطر</button>
         <canvas id="chartRisk" width="400" height="400"></canvas>
       </section>
-      <div class="card glass">
-        <h3>مؤشر الأداء المالي</h3>
-        <canvas id="chartFinancial"></canvas>
-      </div>
+      <div class="card glass"><h3>مؤشر الأداء المالي</h3><canvas id="chartFinancial"></canvas></div>
     </section>
     <section class="chatbot">
       <div class="chat-window glass" id="chatWindow">
@@ -75,5 +71,6 @@
   </main>
   <script src="env.js"></script>
   <script src="script.js"></script>
+  <script>lucide.createIcons();</script>
 </body>
 </html>
