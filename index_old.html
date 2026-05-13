@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة القيادة المؤسسية</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .nav-item i { color: #00e5ff; font-size: 1.5rem; transition: color 0.3s; }
+    .nav-item:hover i { color: #fff; }
+    .nav-item { display: flex; align-items: center; justify-content: center; padding: 12px; margin: 8px 0; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">🔷</div>
+    <nav>
+      <a href="#" class="nav-item" id="nav-dashboard" title="لوحة التحكم"><i data-lucide="layout-dashboard"></i></a>
+      <a href="#" class="nav-item" id="nav-map" title="خريطة الأداء"><i data-lucide="map"></i></a>
+      <a href="#" class="nav-item" id="nav-strategic" title="الأداء الاستراتيجي"><i data-lucide="target"></i></a>
+      <a href="#" class="nav-item" id="nav-operational" title="الأداء التشغيلي"><i data-lucide="settings-2"></i></a>
+      <a href="#" class="nav-item" id="nav-functional" title="الأداء الوظيفي"><i data-lucide="users"></i></a>
+      <a href="#" class="nav-item" id="nav-risk" title="أداء المخاطر"><i data-lucide="shield-alert"></i></a>
+      <a href="#" class="nav-item" id="nav-financial" title="الأداء المالي"><i data-lucide="banknote"></i></a>
+      <a href="#" class="nav-item" id="nav-governance" title="أداء الحوكمة"><i data-lucide="landmark"></i></a>
+      <a href="#" class="nav-item" id="nav-excellence" title="التميز المؤسسي"><i data-lucide="award"></i></a>
+      <a href="#" class="nav-item" id="nav-ai" title="التنبؤات والذكاء"><i data-lucide="bot"></i></a>
+      <a href="#" class="nav-item" id="nav-reading" title="القراءة التكاملية"><i data-lucide="book-open"></i></a>
+      <a href="#" class="nav-item" id="nav-decisions" title="القرارات"><i data-lucide="check-square"></i></a>
+      <a href="#" class="nav-item" id="nav-data" title="البيانات"><i data-lucide="database"></i></a>
+      <a href="#" class="nav-item" id="nav-attachments" title="المرفقات"><i data-lucide="paperclip"></i></a>
+    </nav>
+  </div>
+  <main class="content">
+    <header><h1>لوحة القيادة المؤسسية</h1></header>
+    <section class="filters">
+      <label for="timeRange">نطاق الوقت:</label>
+      <select id="timeRange">
+        <option value="month">الشهر الحالي</option>
+        <option value="quarter">الربع الحالي</option>
+        <option value="year">السنة الحالية</option>
+      </select>
+      <label for="department">القسم:</label>
+      <select id="department">
+        <option value="all">الكل</option>
+        <option value="hr">الموارد البشرية</option>
+        <option value="finance">المالية</option>
+        <option value="operations">العمليات</option>
+      </select>
+    </section>
+    <section class="kpi-cards">
+      <div class="card glass"><h3>مؤشر الأداء الاستراتيجي</h3><canvas id="chartStrategic"></canvas></div>
+      <div class="card glass"><h3>مؤشر الأداء التشغيلي</h3><canvas id="chartOperational"></canvas></div>
+      <section class="risk-analysis">
+        <h2>تحليل المخاطر</h2>
+        <button id="updateRiskBtn">تحديث تحليل المخاطر</button>
+        <canvas id="chartRisk" width="400" height="400"></canvas>
+      </section>
+      <div class="card glass"><h3>مؤشر الأداء المالي</h3><canvas id="chartFinancial"></canvas></div>
+    </section>
+    <section class="chatbot">
+      <div class="chat-window glass" id="chatWindow">
+        <div class="messages" id="messages"></div>
+        <input type="text" id="userInput" placeholder="اكتب سؤالك..." />
+        <button id="sendBtn">أرسل</button>
+      </div>
+    </section>
+  </main>
+  <script src="env.js"></script>
+  <script src="script.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>
