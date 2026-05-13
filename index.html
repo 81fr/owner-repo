@@ -2752,7 +2752,8 @@ function handleAttachment(input) {
         if (data.choices && data.choices.length > 0) {
           bMsg.innerHTML = data.choices[0].message.content.replace(/\n/g, '<br>');
         } else {
-          bMsg.innerHTML = `✅ استلمت الملف <strong>${fileName}</strong> وقمت بقراءته مبدئياً.`;
+          let errDetail = (data.error && data.error.message) ? data.error.message : "حدث خطأ غير معروف";
+          bMsg.innerHTML = `❌ عذراً، خطأ من الخادم الذكي: ${errDetail}`;
         }
         
         body.appendChild(bMsg);
@@ -2824,7 +2825,8 @@ async function sendChat() {
       // Format response, replacing newlines with <br> for HTML
       bMsg.innerHTML = data.choices[0].message.content.replace(/\n/g, '<br>');
     } else {
-      bMsg.innerHTML = "🤖 عذراً، حدث خطأ أثناء معالجة البيانات، يرجى المحاولة مرة أخرى.";
+      let errDetail = (data.error && data.error.message) ? data.error.message : "حدث خطأ غير معروف";
+      bMsg.innerHTML = `🤖 عذراً، لم أتمكن من معالجة البيانات. تفاصيل الخطأ: ${errDetail}`;
     }
     
     body.appendChild(bMsg);
